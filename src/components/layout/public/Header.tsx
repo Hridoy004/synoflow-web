@@ -10,7 +10,9 @@ export default function Header() {
   return (
     <header className="w-full h-16 boarder border-b">
       <div className="flex justify-between items-center h-full max-w-7xl mx-auto">
-        <div>Synoflow</div>
+        <div className="flex items-center gap-2">
+          <span>Synoflow</span>
+        </div>
         <nav className="flex gap-5">
           {routes.map((route) => (
             <Link key={route.url} href={route.url}>
