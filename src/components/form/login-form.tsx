@@ -1,15 +1,23 @@
 "use client";
 
+import { useLogin } from "@/hooks";
 import { LoginZodSchema } from "@/validation";
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeClosed } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
+import { Spinner } from "../ui/spinner";
+import { toast } from "../ui/toast";
 
 export default function LoginPage() {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const { mutate: login, isPending: loginPending } = useLogin();
 
   const form = useForm({
     defaultValues: {
@@ -19,8 +27,29 @@ export default function LoginPage() {
     validators: {
       onSubmit: LoginZodSchema,
     },
-    onSubmit: (data) => {
-      console.log(data);
+    onSubmit: ({ value }) => {
+      const loginData = {
+        email: value.email,
+        password: value.password,
+      };
+      login(loginData, {
+        onSuccess: (res) => {
+          toast.add({
+            title: "Login Success",
+            description: "Welcome Back",
+            type: "Success",
+          });
+          router.push("/");
+        },
+        onError: (err) => {
+          toast.add({
+            title: "Authorization failure",
+            description:
+              err.message || "Something went wrong. Please try again",
+            type: "error",
+          });
+        },
+      });
     },
   });
   return (
@@ -70,8 +99,6 @@ export default function LoginPage() {
                       value={field.state.value}
                       autoComplete="off"
                     />
-
-                    {/** biome-ignore lint/a11y/useButtonType: <explanation> */}
                     <button
                       className="absolute right-3 top-1/2 -translate-y-1/2"
                       type="button"
@@ -89,7 +116,15 @@ export default function LoginPage() {
               );
             }}
           </form.Field>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            {loginPending ? (
+              <>
+                <Spinner /> submitting
+              </>
+            ) : (
+              "Submit"
+            )}
+          </Button>
         </FieldGroup>
       </form>
     </div>
