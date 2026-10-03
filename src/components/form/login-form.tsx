@@ -1,7 +1,7 @@
 "use client";
 
 import { useLogin } from "@/hooks";
-import { LoginSchema } from "@/validation";
+import { loginSchema } from "@/validation";
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeClosed } from "lucide-react";
 import Link from "next/link";
@@ -32,7 +32,7 @@ export default function LoginForm() {
       password: "Super@admin12345",
     },
     validators: {
-      onSubmit: LoginSchema,
+      onSubmit: loginSchema,
     },
     onSubmit: ({ value }) => {
       const loginData = {

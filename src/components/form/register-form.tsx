@@ -1,11 +1,13 @@
 "use client";
 
-import { useGoogleOAuth, useLogin } from "@/hooks";
+import { useLogin, useRegistration } from "@/hooks";
+import { userRegistrationSchema } from "@/validation";
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeClosed } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import z from "zod";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import { Button } from "../ui/button";
 import {
@@ -21,34 +23,55 @@ import { toast } from "../ui/toast";
 
 export default function RegisterPage() {
   const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
-
   const { mutate: login, isPending: loginPending } = useLogin();
-  const { mutate: googleLogin } = useGoogleOAuth();
+
+  type userDefaultValues = z.infer<typeof userRegistrationSchema>;
+
+  const defaultValues: userDefaultValues = {
+    name: "Ali",
+    email: "ali@yopmail.com",
+    contactNumber: "",
+    password: "1qazZAQ!@12",
+    confirmPassword: "1qazZAQ!@12",
+  };
+
+  const { mutate: registration } = useRegistration();
 
   const form = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      contactNumber: "",
-      password: "",
-      confirmPassword: "",
+    defaultValues,
+    validators: {
+      onSubmit: userRegistrationSchema,
     },
 
     onSubmit: ({ value }) => {
-      const loginData = {
+      const registrationData = {
+        name: value.name,
         email: value.email,
         password: value.password,
+        user: {
+          contactNumber: value.contactNumber,
+        },
       };
-      login(loginData, {
+
+      registration(registrationData, {
         onSuccess: (res) => {
+          if (!res.success) {
+            toast.add({
+              title: "Server failure",
+              description: "Something went wrong. Please try again",
+              type: "error",
+            });
+          }
+
           toast.add({
-            title: "Login Success",
-            description: "Welcome Back",
+            title: "Registration Successful",
+            description: "Please verify your account",
             type: "Success",
           });
-          router.push("/");
+
+          const params = new URLSearchParams({ email: registrationData.email });
+          router.push(`/register/verify-account?${params.toString()}`);
         },
         onError: (err) => {
           toast.add({

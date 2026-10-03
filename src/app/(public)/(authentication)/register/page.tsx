@@ -10,7 +10,7 @@ export default function RegisterPage() {
           <Link href="/" className="flex items-center gap-2 font-medium">
             <div className="flex items-center gap-2">
               <Logo />
-              <span>Synoflow</span>
+              <span>Synoflow System</span>
             </div>
           </Link>
         </div>
