@@ -1,11 +1,12 @@
 "use client";
 
 import { useGoogleOAuth, useLogin } from "@/hooks";
-import { GoogleLogin } from "@react-oauth/google";
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeClosed } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import { Button } from "../ui/button";
 import {
   Field,
@@ -60,49 +61,6 @@ export default function RegisterPage() {
       });
     },
   });
-
-  const handleGoogleSuccess = (credentialResponse: { credential?: string }) => {
-    const idToken = credentialResponse.credential;
-
-    if (!idToken) {
-      toast.add({
-        title: "Google OAuth Failed",
-        description: "Something went wrong. Please try again",
-        type: "error",
-      });
-      return;
-    }
-
-    googleLogin(
-      { idToken },
-      {
-        onSuccess: () => {
-          toast.add({
-            title: "Logged in Successfully",
-            description: "Welcome back",
-            type: "success",
-          });
-          router.push("/");
-        },
-        onError: (error) => {
-          toast.add({
-            title: "Google OAuth Failed",
-            description:
-              error.message || "Something went wrong. Please try again",
-            type: "error",
-          });
-        },
-      },
-    );
-  };
-
-  const handleGoogleError = () => {
-    toast.add({
-      title: "Google OAuth Failed",
-      description: "Something went wrong. Please try again",
-      type: "error",
-    });
-  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -277,13 +235,17 @@ export default function RegisterPage() {
       </form>
       <FieldSeparator>Or</FieldSeparator>
 
-      <GoogleLogin
-        theme="outline"
-        shape="pill"
-        text="continue_with"
-        onSuccess={handleGoogleSuccess}
-        onError={handleGoogleError}
-      />
+      <GoogleLoginComponent />
+
+      <div className="text-center text-sm text-muted-foreground">
+        Already have an account?{" "}
+        <Link
+          href="/login"
+          className="font-medium underline underline-offset-4 hover:text-primary"
+        >
+          Login
+        </Link>
+      </div>
     </div>
   );
 }

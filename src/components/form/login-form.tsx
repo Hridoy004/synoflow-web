@@ -1,12 +1,13 @@
 "use client";
 
-import { useGoogleOAuth, useLogin } from "@/hooks";
-import { LoginZodSchema } from "@/validation";
-import { GoogleLogin } from "@react-oauth/google";
+import { useLogin } from "@/hooks";
+import { LoginSchema } from "@/validation";
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeClosed } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import { Button } from "../ui/button";
 import {
   Field,
@@ -19,33 +20,32 @@ import { Input } from "../ui/input";
 import { Spinner } from "../ui/spinner";
 import { toast } from "../ui/toast";
 
-export default function LoginPage() {
+export default function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const [showPassword, setShowPassword] = useState(false);
-
   const { mutate: login, isPending: loginPending } = useLogin();
-  const { mutate: googleLogin } = useGoogleOAuth();
 
   const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "superadmin@gmail.com",
+      password: "Super@admin12345",
     },
     validators: {
-      onSubmit: LoginZodSchema,
+      onSubmit: LoginSchema,
     },
     onSubmit: ({ value }) => {
       const loginData = {
         email: value.email,
         password: value.password,
       };
+
       login(loginData, {
         onSuccess: (res) => {
           toast.add({
             title: "Login Success",
-            description: "Welcome Back",
-            type: "Success",
+            description: "Welcome back",
+            type: "success",
           });
           router.push("/");
         },
@@ -61,52 +61,17 @@ export default function LoginPage() {
     },
   });
 
-  const handleGoogleSuccess = (credentialResponse: { credential?: string }) => {
-    const idToken = credentialResponse.credential;
-
-    if (!idToken) {
-      toast.add({
-        title: "Google OAuth Failed",
-        description: "Something went wrong. Please try again",
-        type: "error",
-      });
-      return;
-    }
-
-    googleLogin(
-      { idToken },
-      {
-        onSuccess: () => {
-          toast.add({
-            title: "Logged in Successfully",
-            description: "Welcome back",
-            type: "success",
-          });
-          router.push("/");
-        },
-        onError: (error) => {
-          toast.add({
-            title: "Google OAuth Failed",
-            description:
-              error.message || "Something went wrong. Please try again",
-            type: "error",
-          });
-        },
-      },
-    );
-  };
-
-  const handleGoogleError = () => {
-    toast.add({
-      title: "Google OAuth Failed",
-      description: "Something went wrong. Please try again",
-      type: "error",
-    });
-  };
-
   return (
-    <div>
-      <p>Login</p>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col items-center gap-2 text-center">
+        <h1 className="text-2xl font-bold tracking-tight">
+          Login to your account
+        </h1>
+        <p className="text-balance text-sm text-muted-foreground">
+          Enter your email below to login to your account
+        </p>
+      </div>
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -118,6 +83,7 @@ export default function LoginPage() {
             {(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
+
               return (
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor={field.name}>Email</FieldLabel>
@@ -128,16 +94,19 @@ export default function LoginPage() {
                     onBlur={field.handleBlur}
                     value={field.state.value}
                     autoComplete="off"
+                    aria-invalid={isInvalid}
                   />
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
               );
             }}
           </form.Field>
+
           <form.Field name="password">
             {(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
+
               return (
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor={field.name}>Password</FieldLabel>
@@ -150,6 +119,7 @@ export default function LoginPage() {
                       onBlur={field.handleBlur}
                       value={field.state.value}
                       autoComplete="off"
+                      aria-invalid={isInvalid}
                     />
                     <button
                       className="absolute right-3 top-1/2 -translate-y-1/2"
@@ -168,7 +138,8 @@ export default function LoginPage() {
               );
             }}
           </form.Field>
-          <Button type="submit">
+
+          <Button disabled={loginPending} type="submit">
             {loginPending ? (
               <>
                 <Spinner /> submitting
@@ -179,15 +150,20 @@ export default function LoginPage() {
           </Button>
         </FieldGroup>
       </form>
-      <FieldSeparator>Or</FieldSeparator>
 
-      <GoogleLogin
-        theme="outline"
-        shape="pill"
-        text="continue_with"
-        onSuccess={handleGoogleSuccess}
-        onError={handleGoogleError}
-      />
+      <FieldSeparator>Or continue with</FieldSeparator>
+
+      <GoogleLoginComponent />
+
+      <div className="text-center text-sm text-muted-foreground">
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/register"
+          className="font-medium underline underline-offset-4 hover:text-primary"
+        >
+          Register
+        </Link>
+      </div>
     </div>
   );
 }
