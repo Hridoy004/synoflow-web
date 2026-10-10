@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetMe } from "@/hooks";
-import { UserRole } from "@/types";
+import { SystemRole } from "@/types";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import AccessDenied from "./access-denied";
@@ -9,7 +9,7 @@ import AuthLoading from "./auth-loading";
 
 interface IProps {
   children: ReactNode;
-  roles: UserRole[];
+  roles: SystemRole[];
 }
 
 export default function RoleGuard({ children, roles }: IProps) {

@@ -1,8 +1,9 @@
 "use client";
-
+import Logo from "@/assets/svg/Logo";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
 import { useGetMe, useLogout } from "@/hooks";
+import { SystemRole } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
@@ -12,9 +13,19 @@ export default function Header() {
     { name: "About us", url: "/about-us" },
   ];
 
+  const dashboardRoute: Record<SystemRole, string> = {
+    SUPER_ADMIN: "/admin",
+    ADMIN: "/admin",
+    USER: "/user",
+  };
+
   const { data, isLoading } = useGetMe();
   const { mutate: logout } = useLogout();
   const queryClient = useQueryClient();
+
+  console.log("user t", data);
+
+  const role: SystemRole = !!data?.data && data?.data.systemRole;
 
   const handleLogout = () => {
     logout(undefined, {
@@ -37,23 +48,27 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full h-16 boarder border-b">
+    <header className="w-full h-16 border border-b">
       <div className="flex justify-between items-center h-full max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
+          <Logo />
           <span>Synoflow</span>
         </div>
+
         <nav className="flex gap-5">
           {routes.map((route) => (
             <Link key={route.url} href={route.url}>
               {route.name}
             </Link>
           ))}
+
+          {role && <Link href={dashboardRoute[role]}>Dashboard</Link>}
         </nav>
         <div>
           {!isLoading && !data && (
             <Button
               variant="outline"
-              render={<Link href="/login"></Link>}
+              render={<Link href="/login">Login</Link>}
               nativeButton={false}
             >
               Login
