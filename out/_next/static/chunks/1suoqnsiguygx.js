@@ -1,1 +1,905 @@
-(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,22016,(e,t,r)=>{"use strict";e.i(47167),Object.defineProperty(r,"__esModule",{value:!0});var n={default:function(){return y},useLinkStatus:function(){return x}};for(var a in n)Object.defineProperty(r,a,{enumerable:!0,get:n[a]});let o=e.r(90809),i=e.r(43476),l=o._(e.r(71645)),s=e.r(95057),u=e.r(8372),c=e.r(18581),d=e.r(18967),f=e.r(5550),m=e.r(88540),p=e.r(91949),h=e.r(73668),g=e.r(9396);function y(t){var r;let n,a,o,[y,x]=(0,l.useOptimistic)(p.IDLE_LINK_STATUS),b=(0,l.useRef)(null),{href:j,as:S,children:P,prefetch:C=null,passHref:E,replace:F,shallow:_,scroll:N,onClick:w,onMouseEnter:O,onTouchStart:T,legacyBehavior:R=!1,onNavigate:L,transitionTypes:A,ref:B,unstable_dynamicOnHover:I,...U}=t;n=P,R&&("string"==typeof n||"number"==typeof n)&&(n=(0,i.jsx)("a",{children:n}));let k=l.default.useContext(u.AppRouterContext),$=!1!==C,M=!1===C?"none":!0===C?"full":"auto",z="none"!==M?"auto"===M?g.FetchStrategy.PPR:g.FetchStrategy.Full:g.FetchStrategy.PPR,D="string"==typeof(r=S||j)?r:(0,s.formatUrl)(r);if(R){if(n?.$$typeof===Symbol.for("react.lazy"))throw Object.defineProperty(Error("`<Link legacyBehavior>` received a direct child that is either a Server Component, or JSX that was loaded with React.lazy(). This is not supported. Either remove legacyBehavior, or make the direct child a Client Component that renders the Link's `<a>` tag."),"__NEXT_ERROR_CODE",{value:"E863",enumerable:!1,configurable:!0});a=l.default.Children.only(n)}let K=R?a&&"object"==typeof a&&a.ref:B,V,Q=l.default.useCallback(e=>(null!==k&&(b.current=(0,p.mountLinkInstance)(e,D,k,z,$,x,V)),()=>{b.current&&((0,p.unmountLinkForCurrentNavigation)(b.current),b.current=null),(0,p.unmountPrefetchableInstance)(e)}),[$,D,k,z,x,V]),q={ref:(0,c.useMergedRef)(Q,K),onClick(t){R||"function"!=typeof w||w(t),R&&a.props&&"function"==typeof a.props.onClick&&a.props.onClick(t),!k||t.defaultPrevented||function(t,r,n,a,o,i,s,u="none"){if("u">typeof window){let c,{nodeName:d}=t.currentTarget;if("A"===d.toUpperCase()&&((c=t.currentTarget.getAttribute("target"))&&"_self"!==c||t.metaKey||t.ctrlKey||t.shiftKey||t.altKey||t.nativeEvent&&2===t.nativeEvent.which)||t.currentTarget.hasAttribute("download"))return;if(!(0,h.isLocalURL)(r)){a&&(t.preventDefault(),location.replace(r));return}if(t.preventDefault(),i){let e=!1;if(i({preventDefault:()=>{e=!0}}),e)return}let{dispatchNavigateAction:f}=e.r(99781);l.default.startTransition(()=>{f(r,a?"replace":"push",!1===o?m.ScrollBehavior.NoScroll:m.ScrollBehavior.Default,n.current,s,u)})}}(t,D,b,F,N,L,A,M)},onMouseEnter(e){R||"function"!=typeof O||O(e),R&&a.props&&"function"==typeof a.props.onMouseEnter&&a.props.onMouseEnter(e),k&&$&&(0,p.onNavigationIntent)(e.currentTarget,!0===I)},onTouchStart:function(e){R||"function"!=typeof T||T(e),R&&a.props&&"function"==typeof a.props.onTouchStart&&a.props.onTouchStart(e),k&&$&&(0,p.onNavigationIntent)(e.currentTarget,!0===I)}};return(0,d.isAbsoluteUrl)(D)?q.href=D:R&&!E&&("a"!==a.type||"href"in a.props)||(q.href=(0,f.addBasePath)(D)),o=R?l.default.cloneElement(a,q):(0,i.jsx)("a",{...U,...q,children:n}),(0,i.jsx)(v.Provider,{value:y,children:o})}let v=(0,l.createContext)(p.IDLE_LINK_STATUS),x=()=>(0,l.useContext)(v);("function"==typeof r.default||"object"==typeof r.default&&null!==r.default)&&void 0===r.default.__esModule&&(Object.defineProperty(r.default,"__esModule",{value:!0}),Object.assign(r.default,r),t.exports=r.default)},18581,(e,t,r)=>{"use strict";Object.defineProperty(r,"__esModule",{value:!0}),Object.defineProperty(r,"useMergedRef",{enumerable:!0,get:function(){return a}});let n=e.r(71645);function a(e,t){let r=(0,n.useRef)(null),a=(0,n.useRef)(null);return(0,n.useCallback)(n=>{if(null===n){let e=r.current;e&&(r.current=null,e());let t=a.current;t&&(a.current=null,t())}else e&&(r.current=o(e,n)),t&&(a.current=o(t,n))},[e,t])}function o(e,t){if("function"!=typeof e)return e.current=t,()=>{e.current=null};{let r=e(t);return"function"==typeof r?r:()=>e(null)}}("function"==typeof r.default||"object"==typeof r.default&&null!==r.default)&&void 0===r.default.__esModule&&(Object.defineProperty(r.default,"__esModule",{value:!0}),Object.assign(r.default,r),t.exports=r.default)},18967,(e,t,r)=>{"use strict";e.i(47167),Object.defineProperty(r,"__esModule",{value:!0});var n={DecodeError:function(){return y},MiddlewareNotFoundError:function(){return j},MissingStaticPage:function(){return b},NormalizeError:function(){return v},PageNotFoundError:function(){return x},SP:function(){return h},ST:function(){return g},WEB_VITALS:function(){return o},execOnce:function(){return i},getDisplayName:function(){return d},getLocationOrigin:function(){return u},getURL:function(){return c},isAbsoluteUrl:function(){return s},isResSent:function(){return f},loadGetInitialProps:function(){return p},normalizeRepeatedSlashes:function(){return m},stringifyError:function(){return S}};for(var a in n)Object.defineProperty(r,a,{enumerable:!0,get:n[a]});let o=["CLS","FCP","FID","INP","LCP","TTFB"];function i(e){let t,r=!1;return(...n)=>(r||(r=!0,t=e(...n)),t)}let l=/^[a-zA-Z][a-zA-Z\d+\-.]*?:/,s=e=>{let t=e.charCodeAt(0);return!!(t>=65&&t<=90||t>=97&&t<=122)&&l.test(e)};function u(){let{protocol:e,hostname:t,port:r}=window.location;return`${e}//${t}${r?":"+r:""}`}function c(){let{href:e}=window.location,t=u();return e.substring(t.length)}function d(e){return"string"==typeof e?e:e.displayName||e.name||"Unknown"}function f(e){return e.finished||e.headersSent}function m(e){let t=e.split("?");return t[0].replace(/\\/g,"/").replace(/\/\/+/g,"/")+(t[1]?`?${t.slice(1).join("?")}`:"")}async function p(e,t){let r=t.res||t.ctx&&t.ctx.res;if(!e.getInitialProps)return t.ctx&&t.Component?{pageProps:await p(t.Component,t.ctx)}:{};let n=await e.getInitialProps(t);if(r&&f(r))return n;if(!n)throw Object.defineProperty(Error(`"${d(e)}.getInitialProps()" should resolve to an object. But found "${n}" instead.`),"__NEXT_ERROR_CODE",{value:"E1025",enumerable:!1,configurable:!0});return n}let h="u">typeof performance,g=h&&["mark","measure","getEntriesByName"].every(e=>"function"==typeof performance[e]);class y extends Error{}class v extends Error{}class x extends Error{constructor(e){super(),this.code="ENOENT",this.name="PageNotFoundError",this.message=`Cannot find module for page: ${e}`}}class b extends Error{constructor(e,t){super(),this.message=`Failed to load static file for page: ${e} ${t}`}}class j extends Error{constructor(){super(),this.code="ENOENT",this.message="Cannot find the middleware module"}}function S(e){return JSON.stringify({message:e.message,stack:e.stack})}},73668,(e,t,r)=>{"use strict";Object.defineProperty(r,"__esModule",{value:!0}),Object.defineProperty(r,"isLocalURL",{enumerable:!0,get:function(){return o}});let n=e.r(18967),a=e.r(52817);function o(e){if(!(0,n.isAbsoluteUrl)(e))return!0;try{let t=(0,n.getLocationOrigin)(),r=new URL(e,t);return r.origin===t&&(0,a.hasBasePath)(r.pathname)}catch(e){return!1}}},98183,(e,t,r)=>{"use strict";Object.defineProperty(r,"__esModule",{value:!0});var n={assign:function(){return s},searchParamsToUrlQuery:function(){return o},urlQueryToSearchParams:function(){return l}};for(var a in n)Object.defineProperty(r,a,{enumerable:!0,get:n[a]});function o(e){let t={};for(let[r,n]of e.entries()){let e=t[r];void 0===e?t[r]=n:Array.isArray(e)?e.push(n):t[r]=[e,n]}return t}function i(e){return"string"==typeof e?e:("number"!=typeof e||isNaN(e))&&"boolean"!=typeof e?"":String(e)}function l(e){let t=new URLSearchParams;for(let[r,n]of Object.entries(e))if(Array.isArray(n))for(let e of n)t.append(r,i(e));else t.set(r,i(n));return t}function s(e,...t){for(let r of t){for(let t of r.keys())e.delete(t);for(let[t,n]of r.entries())e.append(t,n)}return e}},95057,(e,t,r)=>{"use strict";e.i(47167),Object.defineProperty(r,"__esModule",{value:!0});var n={formatUrl:function(){return l},formatWithValidation:function(){return u},urlObjectKeys:function(){return s}};for(var a in n)Object.defineProperty(r,a,{enumerable:!0,get:n[a]});let o=e.r(90809)._(e.r(98183)),i=/https?|ftp|gopher|file/;function l(e){let{auth:t,hostname:r}=e,n=e.protocol||"",a=e.pathname||"",l=e.hash||"",s=e.query||"",u=!1;t=t?encodeURIComponent(t).replace(/%3A/i,":")+"@":"",e.host?u=t+e.host:r&&(u=t+(~r.indexOf(":")?`[${r}]`:r),e.port&&(u+=":"+e.port)),s&&"object"==typeof s&&(s=String(o.urlQueryToSearchParams(s)));let c=e.search||s&&`?${s}`||"";return n&&!n.endsWith(":")&&(n+=":"),e.slashes||(!n||i.test(n))&&!1!==u?(u="//"+(u||""),a&&"/"!==a[0]&&(a="/"+a)):u||(u=""),l&&"#"!==l[0]&&(l="#"+l),c&&"?"!==c[0]&&(c="?"+c),a=a.replace(/[?#]/g,encodeURIComponent),c=c.replace("#","%23"),`${n}${u}${a}${c}${l}`}let s=["auth","hash","host","hostname","href","path","pathname","port","protocol","query","search","slashes"];function u(e){return l(e)}},18566,(e,t,r)=>{t.exports=e.r(76562)},63892,e=>{"use strict";var t=e.i(43476),r=e.i(932);e.i(64485);var n=e.i(31121);e.i(53132);var a=e.i(33032),o=e.i(41452),i=e.i(72382),l=e.i(13279),s=e.i(22016),u=e.i(18566),c=e.i(71645),d=e.i(94614),f=e.i(19455),m=e.i(42450),p=e.i(93479),h=e.i(87968),g=e.i(73635);function y(e){return!e}function v(e){return!e}function x(e){let r=e.state.meta.isTouched&&!e.state.meta.isValid;return(0,t.jsxs)(m.Field,{"data-invalid":r,children:[(0,t.jsx)(m.FieldLabel,{htmlFor:e.name,children:"Phone Number"}),(0,t.jsx)(p.Input,{id:e.name,name:e.name,type:"tel",placeholder:"+880 1413 453455",value:e.state.value,onBlur:e.handleBlur,onChange:t=>e.handleChange(t.target.value),"aria-invalid":r,autoComplete:"off"}),r&&(0,t.jsx)(m.FieldError,{errors:e.state.meta.errors})]})}function b(e){let r=e.state.meta.isTouched&&!e.state.meta.isValid;return(0,t.jsxs)(m.Field,{"data-invalid":r,children:[(0,t.jsx)(m.FieldLabel,{htmlFor:e.name,children:"Email"}),(0,t.jsx)(p.Input,{id:e.name,name:e.name,type:"email",placeholder:"ali.hasan@example.com",value:e.state.value,onBlur:e.handleBlur,onChange:t=>e.handleChange(t.target.value),"aria-invalid":r,autoComplete:"off"}),r&&(0,t.jsx)(m.FieldError,{errors:e.state.meta.errors})]})}function j(e){let r=e.state.meta.isTouched&&!e.state.meta.isValid;return(0,t.jsxs)(m.Field,{"data-invalid":r,children:[(0,t.jsx)(m.FieldLabel,{htmlFor:e.name,children:"Full Name"}),(0,t.jsx)(p.Input,{id:e.name,name:e.name,type:"text",placeholder:"Ali Hasan",value:e.state.value,onBlur:e.handleBlur,onChange:t=>e.handleChange(t.target.value),"aria-invalid":r,autoComplete:"name"}),r&&(0,t.jsx)(m.FieldError,{errors:e.state.meta.errors})]})}function S(e){g.toast.add({title:"Authorization failure",description:e.message||"Something went wrong. Please try again",type:"error"})}e.s(["default",0,function(){let e,P,C,E,F,_,N,w,O,T,R,L,A,B,I,U,k,$,M,z,D=(0,r.c)(41),K=(0,u.useRouter)(),[V,Q]=(0,c.useState)(!1),{isPending:q}=(0,n.useLogin)();D[0]===Symbol.for("react.memo_cache_sentinel")?(e={name:"Ali",email:"ali@yopmail.com",contactNumber:"",password:"1qazZAQ!@12",confirmPassword:"1qazZAQ!@12"},D[0]=e):e=D[0];let Z=e,{mutate:W}=(0,n.useRegistration)();D[1]===Symbol.for("react.memo_cache_sentinel")?(P={onSubmit:a.userRegistrationSchema},D[1]=P):P=D[1],D[2]!==W||D[3]!==K?(C={defaultValues:Z,validators:P,onSubmit:e=>{let{value:t}=e,r={name:t.name,email:t.email,password:t.password,user:{contactNumber:t.contactNumber}};W(r,{onSuccess:e=>{e.success||g.toast.add({title:"Server failure",description:"Something went wrong. Please try again",type:"error"}),g.toast.add({title:"Registration Successful",description:"Please verify your account",type:"Success"});let t=new URLSearchParams({email:r.email});K.push(`/register/verify-account?${t.toString()}`)},onError:S})}},D[2]=W,D[3]=K,D[4]=C):C=D[4];let X=(0,o.useForm)(C);return D[5]===Symbol.for("react.memo_cache_sentinel")?(E=(0,t.jsxs)("div",{className:"flex flex-col items-center gap-2 text-center",children:[(0,t.jsx)("h1",{className:"text-2xl font-bold tracking-tight",children:"Create an account"}),(0,t.jsx)("p",{className:"text-sm text-muted-foreground",children:"Enter your details below to create your account"})]}),D[5]=E):E=D[5],D[6]!==X?(F=e=>{e.preventDefault(),X.handleSubmit()},D[6]=X,D[7]=F):F=D[7],D[8]!==X.Field?(_=(0,t.jsx)(X.Field,{name:"name",children:j}),N=(0,t.jsx)(X.Field,{name:"email",children:b}),w=(0,t.jsx)(X.Field,{name:"contactNumber",children:x}),D[8]=X.Field,D[9]=_,D[10]=N,D[11]=w):(_=D[9],N=D[10],w=D[11]),D[12]!==V?(O=e=>{let r=e.state.meta.isTouched&&!e.state.meta.isValid;return(0,t.jsxs)(m.Field,{"data-invalid":r,children:[(0,t.jsx)(m.FieldLabel,{htmlFor:e.name,children:"Password"}),(0,t.jsxs)("div",{className:"relative",children:[(0,t.jsx)(p.Input,{id:e.name,name:e.name,type:V?"text":"password",placeholder:"************",value:e.state.value,onBlur:e.handleBlur,onChange:t=>e.handleChange(t.target.value),"aria-invalid":r,className:"pr-10",autoComplete:"off"}),(0,t.jsx)("button",{className:"absolute right-3 top-1/2 -translate-y-1/2",type:"button",onClick:()=>Q(v),children:V?(0,t.jsx)(l.EyeClosed,{className:"size-4"}):(0,t.jsx)(i.Eye,{className:"size-4"})})]}),r&&(0,t.jsx)(m.FieldError,{errors:e.state.meta.errors})]})},D[12]=V,D[13]=O):O=D[13],D[14]!==X.Field||D[15]!==O?(T=(0,t.jsx)(X.Field,{name:"password",children:O}),D[14]=X.Field,D[15]=O,D[16]=T):T=D[16],D[17]!==V?(R=e=>{let r=e.state.meta.isTouched&&!e.state.meta.isValid;return(0,t.jsxs)(m.Field,{"data-invalid":r,children:[(0,t.jsx)(m.FieldLabel,{htmlFor:e.name,children:"Confirm Password"}),(0,t.jsxs)("div",{className:"relative",children:[(0,t.jsx)(p.Input,{id:e.name,name:e.name,type:V?"text":"password",placeholder:"************",value:e.state.value,onBlur:e.handleBlur,onChange:t=>e.handleChange(t.target.value),"aria-invalid":r,className:"pr-10",autoComplete:"off"}),(0,t.jsx)("button",{className:"absolute right-3 top-1/2 -translate-y-1/2",type:"button",onClick:()=>Q(y),children:V?(0,t.jsx)(l.EyeClosed,{className:"size-4"}):(0,t.jsx)(i.Eye,{className:"size-4"})})]}),r&&(0,t.jsx)(m.FieldError,{errors:e.state.meta.errors})]})},D[17]=V,D[18]=R):R=D[18],D[19]!==X.Field||D[20]!==R?(L=(0,t.jsx)(X.Field,{name:"confirmPassword",children:R}),D[19]=X.Field,D[20]=R,D[21]=L):L=D[21],D[22]!==q?(A=q?(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(h.Spinner,{})," submitting"]}):"Submit",D[22]=q,D[23]=A):A=D[23],D[24]!==A?(B=(0,t.jsx)(f.Button,{type:"submit",children:A}),D[24]=A,D[25]=B):B=D[25],D[26]!==L||D[27]!==B||D[28]!==_||D[29]!==N||D[30]!==w||D[31]!==T?(I=(0,t.jsxs)(m.FieldGroup,{children:[_,N,w,T,L,B]}),D[26]=L,D[27]=B,D[28]=_,D[29]=N,D[30]=w,D[31]=T,D[32]=I):I=D[32],D[33]!==I||D[34]!==F?(U=(0,t.jsx)("form",{onSubmit:F,children:I}),D[33]=I,D[34]=F,D[35]=U):U=D[35],D[36]===Symbol.for("react.memo_cache_sentinel")?(k=(0,t.jsx)(m.FieldSeparator,{children:"Or"}),$=(0,t.jsx)(d.default,{}),D[36]=k,D[37]=$):(k=D[36],$=D[37]),D[38]===Symbol.for("react.memo_cache_sentinel")?(M=(0,t.jsxs)("div",{className:"text-center text-sm text-muted-foreground",children:["Already have an account?"," ",(0,t.jsx)(s.default,{href:"/login",className:"font-medium underline underline-offset-4 hover:text-primary",children:"Login"})]}),D[38]=M):M=D[38],D[39]!==U?(z=(0,t.jsxs)("div",{className:"flex flex-col gap-6",children:[E,U,k,$,M]}),D[39]=U,D[40]=z):z=D[40],z}])}]);
+(globalThis.TURBOPACK || (globalThis.TURBOPACK = [])).push([
+  "object" == typeof document ? document.currentScript : void 0,
+  22016,
+  (e, t, r) => {
+    "use strict";
+    e.i(47167), Object.defineProperty(r, "__esModule", { value: !0 });
+    var n = {
+      default: function () {
+        return y;
+      },
+      useLinkStatus: function () {
+        return x;
+      },
+    };
+    for (var a in n) Object.defineProperty(r, a, { enumerable: !0, get: n[a] });
+    let o = e.r(90809),
+      i = e.r(43476),
+      l = o._(e.r(71645)),
+      s = e.r(95057),
+      u = e.r(8372),
+      c = e.r(18581),
+      d = e.r(18967),
+      f = e.r(5550),
+      m = e.r(88540),
+      p = e.r(91949),
+      h = e.r(73668),
+      g = e.r(9396);
+    function y(t) {
+      var r;
+      let n,
+        a,
+        o,
+        [y, x] = (0, l.useOptimistic)(p.IDLE_LINK_STATUS),
+        b = (0, l.useRef)(null),
+        {
+          href: j,
+          as: S,
+          children: P,
+          prefetch: C = null,
+          passHref: E,
+          replace: F,
+          shallow: _,
+          scroll: N,
+          onClick: w,
+          onMouseEnter: O,
+          onTouchStart: T,
+          legacyBehavior: R = !1,
+          onNavigate: L,
+          transitionTypes: A,
+          ref: B,
+          unstable_dynamicOnHover: I,
+          ...U
+        } = t;
+      (n = P),
+        R &&
+          ("string" == typeof n || "number" == typeof n) &&
+          (n = (0, i.jsx)("a", { children: n }));
+      let k = l.default.useContext(u.AppRouterContext),
+        $ = !1 !== C,
+        M = !1 === C ? "none" : !0 === C ? "full" : "auto",
+        z =
+          "none" !== M
+            ? "auto" === M
+              ? g.FetchStrategy.PPR
+              : g.FetchStrategy.Full
+            : g.FetchStrategy.PPR,
+        D = "string" == typeof (r = S || j) ? r : (0, s.formatUrl)(r);
+      if (R) {
+        if (n?.$$typeof === Symbol.for("react.lazy"))
+          throw Object.defineProperty(
+            Error(
+              "`<Link legacyBehavior>` received a direct child that is either a Server Component, or JSX that was loaded with React.lazy(). This is not supported. Either remove legacyBehavior, or make the direct child a Client Component that renders the Link's `<a>` tag.",
+            ),
+            "__NEXT_ERROR_CODE",
+            { value: "E863", enumerable: !1, configurable: !0 },
+          );
+        a = l.default.Children.only(n);
+      }
+      let K = R ? a && "object" == typeof a && a.ref : B,
+        V,
+        Q = l.default.useCallback(
+          (e) => (
+            null !== k &&
+              (b.current = (0, p.mountLinkInstance)(e, D, k, z, $, x, V)),
+            () => {
+              b.current &&
+                ((0, p.unmountLinkForCurrentNavigation)(b.current),
+                (b.current = null)),
+                (0, p.unmountPrefetchableInstance)(e);
+            }
+          ),
+          [$, D, k, z, x, V],
+        ),
+        q = {
+          ref: (0, c.useMergedRef)(Q, K),
+          onClick(t) {
+            R || "function" != typeof w || w(t),
+              R &&
+                a.props &&
+                "function" == typeof a.props.onClick &&
+                a.props.onClick(t),
+              !k ||
+                t.defaultPrevented ||
+                (function (t, r, n, a, o, i, s, u = "none") {
+                  if ("u" > typeof window) {
+                    let c,
+                      { nodeName: d } = t.currentTarget;
+                    if (
+                      ("A" === d.toUpperCase() &&
+                        (((c = t.currentTarget.getAttribute("target")) &&
+                          "_self" !== c) ||
+                          t.metaKey ||
+                          t.ctrlKey ||
+                          t.shiftKey ||
+                          t.altKey ||
+                          (t.nativeEvent && 2 === t.nativeEvent.which))) ||
+                      t.currentTarget.hasAttribute("download")
+                    )
+                      return;
+                    if (!(0, h.isLocalURL)(r)) {
+                      a && (t.preventDefault(), location.replace(r));
+                      return;
+                    }
+                    if ((t.preventDefault(), i)) {
+                      let e = !1;
+                      if (
+                        (i({
+                          preventDefault: () => {
+                            e = !0;
+                          },
+                        }),
+                        e)
+                      )
+                        return;
+                    }
+                    let { dispatchNavigateAction: f } = e.r(99781);
+                    l.default.startTransition(() => {
+                      f(
+                        r,
+                        a ? "replace" : "push",
+                        !1 === o
+                          ? m.ScrollBehavior.NoScroll
+                          : m.ScrollBehavior.Default,
+                        n.current,
+                        s,
+                        u,
+                      );
+                    });
+                  }
+                })(t, D, b, F, N, L, A, M);
+          },
+          onMouseEnter(e) {
+            R || "function" != typeof O || O(e),
+              R &&
+                a.props &&
+                "function" == typeof a.props.onMouseEnter &&
+                a.props.onMouseEnter(e),
+              k && $ && (0, p.onNavigationIntent)(e.currentTarget, !0 === I);
+          },
+          onTouchStart: function (e) {
+            R || "function" != typeof T || T(e),
+              R &&
+                a.props &&
+                "function" == typeof a.props.onTouchStart &&
+                a.props.onTouchStart(e),
+              k && $ && (0, p.onNavigationIntent)(e.currentTarget, !0 === I);
+          },
+        };
+      return (
+        (0, d.isAbsoluteUrl)(D)
+          ? (q.href = D)
+          : (R && !E && ("a" !== a.type || "href" in a.props)) ||
+            (q.href = (0, f.addBasePath)(D)),
+        (o = R
+          ? l.default.cloneElement(a, q)
+          : (0, i.jsx)("a", { ...U, ...q, children: n })),
+        (0, i.jsx)(v.Provider, { value: y, children: o })
+      );
+    }
+    let v = (0, l.createContext)(p.IDLE_LINK_STATUS),
+      x = () => (0, l.useContext)(v);
+    ("function" == typeof r.default ||
+      ("object" == typeof r.default && null !== r.default)) &&
+      void 0 === r.default.__esModule &&
+      (Object.defineProperty(r.default, "__esModule", { value: !0 }),
+      Object.assign(r.default, r),
+      (t.exports = r.default));
+  },
+  18581,
+  (e, t, r) => {
+    "use strict";
+    Object.defineProperty(r, "__esModule", { value: !0 }),
+      Object.defineProperty(r, "useMergedRef", {
+        enumerable: !0,
+        get: function () {
+          return a;
+        },
+      });
+    let n = e.r(71645);
+    function a(e, t) {
+      let r = (0, n.useRef)(null),
+        a = (0, n.useRef)(null);
+      return (0, n.useCallback)(
+        (n) => {
+          if (null === n) {
+            let e = r.current;
+            e && ((r.current = null), e());
+            let t = a.current;
+            t && ((a.current = null), t());
+          } else e && (r.current = o(e, n)), t && (a.current = o(t, n));
+        },
+        [e, t],
+      );
+    }
+    function o(e, t) {
+      if ("function" != typeof e)
+        return (
+          (e.current = t),
+          () => {
+            e.current = null;
+          }
+        );
+      {
+        let r = e(t);
+        return "function" == typeof r ? r : () => e(null);
+      }
+    }
+    ("function" == typeof r.default ||
+      ("object" == typeof r.default && null !== r.default)) &&
+      void 0 === r.default.__esModule &&
+      (Object.defineProperty(r.default, "__esModule", { value: !0 }),
+      Object.assign(r.default, r),
+      (t.exports = r.default));
+  },
+  18967,
+  (e, t, r) => {
+    "use strict";
+    e.i(47167), Object.defineProperty(r, "__esModule", { value: !0 });
+    var n = {
+      DecodeError: function () {
+        return y;
+      },
+      MiddlewareNotFoundError: function () {
+        return j;
+      },
+      MissingStaticPage: function () {
+        return b;
+      },
+      NormalizeError: function () {
+        return v;
+      },
+      PageNotFoundError: function () {
+        return x;
+      },
+      SP: function () {
+        return h;
+      },
+      ST: function () {
+        return g;
+      },
+      WEB_VITALS: function () {
+        return o;
+      },
+      execOnce: function () {
+        return i;
+      },
+      getDisplayName: function () {
+        return d;
+      },
+      getLocationOrigin: function () {
+        return u;
+      },
+      getURL: function () {
+        return c;
+      },
+      isAbsoluteUrl: function () {
+        return s;
+      },
+      isResSent: function () {
+        return f;
+      },
+      loadGetInitialProps: function () {
+        return p;
+      },
+      normalizeRepeatedSlashes: function () {
+        return m;
+      },
+      stringifyError: function () {
+        return S;
+      },
+    };
+    for (var a in n) Object.defineProperty(r, a, { enumerable: !0, get: n[a] });
+    let o = ["CLS", "FCP", "FID", "INP", "LCP", "TTFB"];
+    function i(e) {
+      let t,
+        r = !1;
+      return (...n) => (r || ((r = !0), (t = e(...n))), t);
+    }
+    let l = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/,
+      s = (e) => {
+        let t = e.charCodeAt(0);
+        return !!((t >= 65 && t <= 90) || (t >= 97 && t <= 122)) && l.test(e);
+      };
+    function u() {
+      let { protocol: e, hostname: t, port: r } = window.location;
+      return `${e}//${t}${r ? ":" + r : ""}`;
+    }
+    function c() {
+      let { href: e } = window.location,
+        t = u();
+      return e.substring(t.length);
+    }
+    function d(e) {
+      return "string" == typeof e ? e : e.displayName || e.name || "Unknown";
+    }
+    function f(e) {
+      return e.finished || e.headersSent;
+    }
+    function m(e) {
+      let t = e.split("?");
+      return (
+        t[0].replace(/\\/g, "/").replace(/\/\/+/g, "/") +
+        (t[1] ? `?${t.slice(1).join("?")}` : "")
+      );
+    }
+    async function p(e, t) {
+      let r = t.res || (t.ctx && t.ctx.res);
+      if (!e.getInitialProps)
+        return t.ctx && t.Component
+          ? { pageProps: await p(t.Component, t.ctx) }
+          : {};
+      let n = await e.getInitialProps(t);
+      if (r && f(r)) return n;
+      if (!n)
+        throw Object.defineProperty(
+          Error(
+            `"${d(e)}.getInitialProps()" should resolve to an object. But found "${n}" instead.`,
+          ),
+          "__NEXT_ERROR_CODE",
+          { value: "E1025", enumerable: !1, configurable: !0 },
+        );
+      return n;
+    }
+    let h = "u" > typeof performance,
+      g =
+        h &&
+        ["mark", "measure", "getEntriesByName"].every(
+          (e) => "function" == typeof performance[e],
+        );
+    class y extends Error {}
+    class v extends Error {}
+    class x extends Error {
+      constructor(e) {
+        super(),
+          (this.code = "ENOENT"),
+          (this.name = "PageNotFoundError"),
+          (this.message = `Cannot find module for page: ${e}`);
+      }
+    }
+    class b extends Error {
+      constructor(e, t) {
+        super(),
+          (this.message = `Failed to load static file for page: ${e} ${t}`);
+      }
+    }
+    class j extends Error {
+      constructor() {
+        super(),
+          (this.code = "ENOENT"),
+          (this.message = "Cannot find the middleware module");
+      }
+    }
+    function S(e) {
+      return JSON.stringify({ message: e.message, stack: e.stack });
+    }
+  },
+  73668,
+  (e, t, r) => {
+    "use strict";
+    Object.defineProperty(r, "__esModule", { value: !0 }),
+      Object.defineProperty(r, "isLocalURL", {
+        enumerable: !0,
+        get: function () {
+          return o;
+        },
+      });
+    let n = e.r(18967),
+      a = e.r(52817);
+    function o(e) {
+      if (!(0, n.isAbsoluteUrl)(e)) return !0;
+      try {
+        let t = (0, n.getLocationOrigin)(),
+          r = new URL(e, t);
+        return r.origin === t && (0, a.hasBasePath)(r.pathname);
+      } catch (e) {
+        return !1;
+      }
+    }
+  },
+  98183,
+  (e, t, r) => {
+    "use strict";
+    Object.defineProperty(r, "__esModule", { value: !0 });
+    var n = {
+      assign: function () {
+        return s;
+      },
+      searchParamsToUrlQuery: function () {
+        return o;
+      },
+      urlQueryToSearchParams: function () {
+        return l;
+      },
+    };
+    for (var a in n) Object.defineProperty(r, a, { enumerable: !0, get: n[a] });
+    function o(e) {
+      let t = {};
+      for (let [r, n] of e.entries()) {
+        let e = t[r];
+        void 0 === e
+          ? (t[r] = n)
+          : Array.isArray(e)
+            ? e.push(n)
+            : (t[r] = [e, n]);
+      }
+      return t;
+    }
+    function i(e) {
+      return "string" == typeof e
+        ? e
+        : ("number" != typeof e || isNaN(e)) && "boolean" != typeof e
+          ? ""
+          : String(e);
+    }
+    function l(e) {
+      let t = new URLSearchParams();
+      for (let [r, n] of Object.entries(e))
+        if (Array.isArray(n)) for (let e of n) t.append(r, i(e));
+        else t.set(r, i(n));
+      return t;
+    }
+    function s(e, ...t) {
+      for (let r of t) {
+        for (let t of r.keys()) e.delete(t);
+        for (let [t, n] of r.entries()) e.append(t, n);
+      }
+      return e;
+    }
+  },
+  95057,
+  (e, t, r) => {
+    "use strict";
+    e.i(47167), Object.defineProperty(r, "__esModule", { value: !0 });
+    var n = {
+      formatUrl: function () {
+        return l;
+      },
+      formatWithValidation: function () {
+        return u;
+      },
+      urlObjectKeys: function () {
+        return s;
+      },
+    };
+    for (var a in n) Object.defineProperty(r, a, { enumerable: !0, get: n[a] });
+    let o = e.r(90809)._(e.r(98183)),
+      i = /https?|ftp|gopher|file/;
+    function l(e) {
+      let { auth: t, hostname: r } = e,
+        n = e.protocol || "",
+        a = e.pathname || "",
+        l = e.hash || "",
+        s = e.query || "",
+        u = !1;
+      (t = t ? encodeURIComponent(t).replace(/%3A/i, ":") + "@" : ""),
+        e.host
+          ? (u = t + e.host)
+          : r &&
+            ((u = t + (~r.indexOf(":") ? `[${r}]` : r)),
+            e.port && (u += ":" + e.port)),
+        s && "object" == typeof s && (s = String(o.urlQueryToSearchParams(s)));
+      let c = e.search || (s && `?${s}`) || "";
+      return (
+        n && !n.endsWith(":") && (n += ":"),
+        e.slashes || ((!n || i.test(n)) && !1 !== u)
+          ? ((u = "//" + (u || "")), a && "/" !== a[0] && (a = "/" + a))
+          : u || (u = ""),
+        l && "#" !== l[0] && (l = "#" + l),
+        c && "?" !== c[0] && (c = "?" + c),
+        (a = a.replace(/[?#]/g, encodeURIComponent)),
+        (c = c.replace("#", "%23")),
+        `${n}${u}${a}${c}${l}`
+      );
+    }
+    let s = [
+      "auth",
+      "hash",
+      "host",
+      "hostname",
+      "href",
+      "path",
+      "pathname",
+      "port",
+      "protocol",
+      "query",
+      "search",
+      "slashes",
+    ];
+    function u(e) {
+      return l(e);
+    }
+  },
+  18566,
+  (e, t, r) => {
+    t.exports = e.r(76562);
+  },
+  63892,
+  (e) => {
+    "use strict";
+    var t = e.i(43476),
+      r = e.i(932);
+    e.i(64485);
+    var n = e.i(31121);
+    e.i(53132);
+    var a = e.i(33032),
+      o = e.i(41452),
+      i = e.i(72382),
+      l = e.i(13279),
+      s = e.i(22016),
+      u = e.i(18566),
+      c = e.i(71645),
+      d = e.i(94614),
+      f = e.i(19455),
+      m = e.i(42450),
+      p = e.i(93479),
+      h = e.i(87968),
+      g = e.i(73635);
+    function y(e) {
+      return !e;
+    }
+    function v(e) {
+      return !e;
+    }
+    function x(e) {
+      let r = e.state.meta.isTouched && !e.state.meta.isValid;
+      return (0, t.jsxs)(m.Field, {
+        "data-invalid": r,
+        children: [
+          (0, t.jsx)(m.FieldLabel, {
+            htmlFor: e.name,
+            children: "Phone Number",
+          }),
+          (0, t.jsx)(p.Input, {
+            id: e.name,
+            name: e.name,
+            type: "tel",
+            placeholder: "+880 1413 453455",
+            value: e.state.value,
+            onBlur: e.handleBlur,
+            onChange: (t) => e.handleChange(t.target.value),
+            "aria-invalid": r,
+            autoComplete: "off",
+          }),
+          r && (0, t.jsx)(m.FieldError, { errors: e.state.meta.errors }),
+        ],
+      });
+    }
+    function b(e) {
+      let r = e.state.meta.isTouched && !e.state.meta.isValid;
+      return (0, t.jsxs)(m.Field, {
+        "data-invalid": r,
+        children: [
+          (0, t.jsx)(m.FieldLabel, { htmlFor: e.name, children: "Email" }),
+          (0, t.jsx)(p.Input, {
+            id: e.name,
+            name: e.name,
+            type: "email",
+            placeholder: "ali.hasan@example.com",
+            value: e.state.value,
+            onBlur: e.handleBlur,
+            onChange: (t) => e.handleChange(t.target.value),
+            "aria-invalid": r,
+            autoComplete: "off",
+          }),
+          r && (0, t.jsx)(m.FieldError, { errors: e.state.meta.errors }),
+        ],
+      });
+    }
+    function j(e) {
+      let r = e.state.meta.isTouched && !e.state.meta.isValid;
+      return (0, t.jsxs)(m.Field, {
+        "data-invalid": r,
+        children: [
+          (0, t.jsx)(m.FieldLabel, { htmlFor: e.name, children: "Full Name" }),
+          (0, t.jsx)(p.Input, {
+            id: e.name,
+            name: e.name,
+            type: "text",
+            placeholder: "Ali Hasan",
+            value: e.state.value,
+            onBlur: e.handleBlur,
+            onChange: (t) => e.handleChange(t.target.value),
+            "aria-invalid": r,
+            autoComplete: "name",
+          }),
+          r && (0, t.jsx)(m.FieldError, { errors: e.state.meta.errors }),
+        ],
+      });
+    }
+    function S(e) {
+      g.toast.add({
+        title: "Authorization failure",
+        description: e.message || "Something went wrong. Please try again",
+        type: "error",
+      });
+    }
+    e.s([
+      "default",
+      0,
+      function () {
+        let e,
+          P,
+          C,
+          E,
+          F,
+          _,
+          N,
+          w,
+          O,
+          T,
+          R,
+          L,
+          A,
+          B,
+          I,
+          U,
+          k,
+          $,
+          M,
+          z,
+          D = (0, r.c)(41),
+          K = (0, u.useRouter)(),
+          [V, Q] = (0, c.useState)(!1),
+          { isPending: q } = (0, n.useLogin)();
+        D[0] === Symbol.for("react.memo_cache_sentinel")
+          ? ((e = {
+              name: "Ali",
+              email: "ali@yopmail.com",
+              contactNumber: "",
+              password: "1qazZAQ!@12",
+              confirmPassword: "1qazZAQ!@12",
+            }),
+            (D[0] = e))
+          : (e = D[0]);
+        let Z = e,
+          { mutate: W } = (0, n.useRegistration)();
+        D[1] === Symbol.for("react.memo_cache_sentinel")
+          ? ((P = { onSubmit: a.userRegistrationSchema }), (D[1] = P))
+          : (P = D[1]),
+          D[2] !== W || D[3] !== K
+            ? ((C = {
+                defaultValues: Z,
+                validators: P,
+                onSubmit: (e) => {
+                  let { value: t } = e,
+                    r = {
+                      name: t.name,
+                      email: t.email,
+                      password: t.password,
+                      user: { contactNumber: t.contactNumber },
+                    };
+                  W(r, {
+                    onSuccess: (e) => {
+                      e.success ||
+                        g.toast.add({
+                          title: "Server failure",
+                          description: "Something went wrong. Please try again",
+                          type: "error",
+                        }),
+                        g.toast.add({
+                          title: "Registration Successful",
+                          description: "Please verify your account",
+                          type: "Success",
+                        });
+                      let t = new URLSearchParams({ email: r.email });
+                      K.push(`/register/verify-account?${t.toString()}`);
+                    },
+                    onError: S,
+                  });
+                },
+              }),
+              (D[2] = W),
+              (D[3] = K),
+              (D[4] = C))
+            : (C = D[4]);
+        let X = (0, o.useForm)(C);
+        return (
+          D[5] === Symbol.for("react.memo_cache_sentinel")
+            ? ((E = (0, t.jsxs)("div", {
+                className: "flex flex-col items-center gap-2 text-center",
+                children: [
+                  (0, t.jsx)("h1", {
+                    className: "text-2xl font-bold tracking-tight",
+                    children: "Create an account",
+                  }),
+                  (0, t.jsx)("p", {
+                    className: "text-sm text-muted-foreground",
+                    children: "Enter your details below to create your account",
+                  }),
+                ],
+              })),
+              (D[5] = E))
+            : (E = D[5]),
+          D[6] !== X
+            ? ((F = (e) => {
+                e.preventDefault(), X.handleSubmit();
+              }),
+              (D[6] = X),
+              (D[7] = F))
+            : (F = D[7]),
+          D[8] !== X.Field
+            ? ((_ = (0, t.jsx)(X.Field, { name: "name", children: j })),
+              (N = (0, t.jsx)(X.Field, { name: "email", children: b })),
+              (w = (0, t.jsx)(X.Field, { name: "contactNumber", children: x })),
+              (D[8] = X.Field),
+              (D[9] = _),
+              (D[10] = N),
+              (D[11] = w))
+            : ((_ = D[9]), (N = D[10]), (w = D[11])),
+          D[12] !== V
+            ? ((O = (e) => {
+                let r = e.state.meta.isTouched && !e.state.meta.isValid;
+                return (0, t.jsxs)(m.Field, {
+                  "data-invalid": r,
+                  children: [
+                    (0, t.jsx)(m.FieldLabel, {
+                      htmlFor: e.name,
+                      children: "Password",
+                    }),
+                    (0, t.jsxs)("div", {
+                      className: "relative",
+                      children: [
+                        (0, t.jsx)(p.Input, {
+                          id: e.name,
+                          name: e.name,
+                          type: V ? "text" : "password",
+                          placeholder: "************",
+                          value: e.state.value,
+                          onBlur: e.handleBlur,
+                          onChange: (t) => e.handleChange(t.target.value),
+                          "aria-invalid": r,
+                          className: "pr-10",
+                          autoComplete: "off",
+                        }),
+                        (0, t.jsx)("button", {
+                          className:
+                            "absolute right-3 top-1/2 -translate-y-1/2",
+                          type: "button",
+                          onClick: () => Q(v),
+                          children: V
+                            ? (0, t.jsx)(l.EyeClosed, { className: "size-4" })
+                            : (0, t.jsx)(i.Eye, { className: "size-4" }),
+                        }),
+                      ],
+                    }),
+                    r &&
+                      (0, t.jsx)(m.FieldError, { errors: e.state.meta.errors }),
+                  ],
+                });
+              }),
+              (D[12] = V),
+              (D[13] = O))
+            : (O = D[13]),
+          D[14] !== X.Field || D[15] !== O
+            ? ((T = (0, t.jsx)(X.Field, { name: "password", children: O })),
+              (D[14] = X.Field),
+              (D[15] = O),
+              (D[16] = T))
+            : (T = D[16]),
+          D[17] !== V
+            ? ((R = (e) => {
+                let r = e.state.meta.isTouched && !e.state.meta.isValid;
+                return (0, t.jsxs)(m.Field, {
+                  "data-invalid": r,
+                  children: [
+                    (0, t.jsx)(m.FieldLabel, {
+                      htmlFor: e.name,
+                      children: "Confirm Password",
+                    }),
+                    (0, t.jsxs)("div", {
+                      className: "relative",
+                      children: [
+                        (0, t.jsx)(p.Input, {
+                          id: e.name,
+                          name: e.name,
+                          type: V ? "text" : "password",
+                          placeholder: "************",
+                          value: e.state.value,
+                          onBlur: e.handleBlur,
+                          onChange: (t) => e.handleChange(t.target.value),
+                          "aria-invalid": r,
+                          className: "pr-10",
+                          autoComplete: "off",
+                        }),
+                        (0, t.jsx)("button", {
+                          className:
+                            "absolute right-3 top-1/2 -translate-y-1/2",
+                          type: "button",
+                          onClick: () => Q(y),
+                          children: V
+                            ? (0, t.jsx)(l.EyeClosed, { className: "size-4" })
+                            : (0, t.jsx)(i.Eye, { className: "size-4" }),
+                        }),
+                      ],
+                    }),
+                    r &&
+                      (0, t.jsx)(m.FieldError, { errors: e.state.meta.errors }),
+                  ],
+                });
+              }),
+              (D[17] = V),
+              (D[18] = R))
+            : (R = D[18]),
+          D[19] !== X.Field || D[20] !== R
+            ? ((L = (0, t.jsx)(X.Field, {
+                name: "confirmPassword",
+                children: R,
+              })),
+              (D[19] = X.Field),
+              (D[20] = R),
+              (D[21] = L))
+            : (L = D[21]),
+          D[22] !== q
+            ? ((A = q
+                ? (0, t.jsxs)(t.Fragment, {
+                    children: [(0, t.jsx)(h.Spinner, {}), " submitting"],
+                  })
+                : "Submit"),
+              (D[22] = q),
+              (D[23] = A))
+            : (A = D[23]),
+          D[24] !== A
+            ? ((B = (0, t.jsx)(f.Button, { type: "submit", children: A })),
+              (D[24] = A),
+              (D[25] = B))
+            : (B = D[25]),
+          D[26] !== L ||
+          D[27] !== B ||
+          D[28] !== _ ||
+          D[29] !== N ||
+          D[30] !== w ||
+          D[31] !== T
+            ? ((I = (0, t.jsxs)(m.FieldGroup, {
+                children: [_, N, w, T, L, B],
+              })),
+              (D[26] = L),
+              (D[27] = B),
+              (D[28] = _),
+              (D[29] = N),
+              (D[30] = w),
+              (D[31] = T),
+              (D[32] = I))
+            : (I = D[32]),
+          D[33] !== I || D[34] !== F
+            ? ((U = (0, t.jsx)("form", { onSubmit: F, children: I })),
+              (D[33] = I),
+              (D[34] = F),
+              (D[35] = U))
+            : (U = D[35]),
+          D[36] === Symbol.for("react.memo_cache_sentinel")
+            ? ((k = (0, t.jsx)(m.FieldSeparator, { children: "Or" })),
+              ($ = (0, t.jsx)(d.default, {})),
+              (D[36] = k),
+              (D[37] = $))
+            : ((k = D[36]), ($ = D[37])),
+          D[38] === Symbol.for("react.memo_cache_sentinel")
+            ? ((M = (0, t.jsxs)("div", {
+                className: "text-center text-sm text-muted-foreground",
+                children: [
+                  "Already have an account?",
+                  " ",
+                  (0, t.jsx)(s.default, {
+                    href: "/login",
+                    className:
+                      "font-medium underline underline-offset-4 hover:text-primary",
+                    children: "Login",
+                  }),
+                ],
+              })),
+              (D[38] = M))
+            : (M = D[38]),
+          D[39] !== U
+            ? ((z = (0, t.jsxs)("div", {
+                className: "flex flex-col gap-6",
+                children: [E, U, k, $, M],
+              })),
+              (D[39] = U),
+              (D[40] = z))
+            : (z = D[40]),
+          z
+        );
+      },
+    ]);
+  },
+]);
