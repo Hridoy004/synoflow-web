@@ -26,7 +26,7 @@ import {
 
 const routes = [
   { name: "Home", url: "/" },
-  { name: "About us", url: "/about-us" },
+  { name: "About", url: "/about" },
   { name: "Services", url: "/services" },
   { name: "Contact", url: "/contact" },
   { name: "Pricing", url: "/pricing" },

@@ -4,29 +4,70 @@ import Link from "next/link";
 
 export default function LoginPage() {
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <Link href="/" className="flex items-center gap-2 font-medium">
-            <div className="flex items-center gap-2">
-              <Logo />
-              <span>Synoflow System</span>
-            </div>
-          </Link>
-        </div>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xs">
+    <div className="grid min-h-svh bg-white lg:grid-cols-[minmax(0,55fr)_minmax(0,45fr)]">
+      <div className="flex flex-col px-5 py-6 sm:px-10 md:px-14 md:py-10">
+        <Link
+          href="/"
+          className="flex items-center justify-center gap-2.5 text-lg font-semibold tracking-tight text-slate-900 lg:justify-start"
+        >
+          <Logo />
+          <span>Synoflow</span>
+        </Link>
+
+        <main className="flex flex-1 items-center justify-center py-10">
+          <div className="w-full max-w-[400px]">
             <LoginForm />
           </div>
-        </div>
+        </main>
+
+        <footer className="flex flex-col items-center gap-2 text-xs text-slate-500 sm:flex-row sm:justify-between">
+          <p>&copy; {new Date().getFullYear()} Synoflow System</p>
+          <nav className="flex items-center gap-4">
+            <Link href="#" className="hover:text-slate-900">
+              Privacy
+            </Link>
+            <Link href="#" className="hover:text-slate-900">
+              Terms
+            </Link>
+            <Link href="#" className="hover:text-slate-900">
+              Help
+            </Link>
+          </nav>
+        </footer>
       </div>
-      <div className="relative hidden bg-muted lg:block">
-        <img
-          src="/register.jpg"
-          alt="Login"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+
+      <aside className="relative hidden overflow-hidden border-l border-slate-200/80 bg-gradient-to-br from-indigo-50 via-[#F6F5FF] to-violet-100 lg:flex lg:flex-col">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-60 [background-image:radial-gradient(#c7d2fe_1.2px,transparent_1.2px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_top_right,black,transparent_65%)]"
         />
-      </div>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 top-1/3 size-96 rounded-full bg-violet-300/30 blur-3xl"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-24 -left-16 size-96 rounded-full bg-sky-300/30 blur-3xl"
+        />
+
+        <div className="relative z-10 max-w-lg px-10 pt-14 xl:px-14 xl:pt-20">
+          <h2 className="text-2xl font-semibold leading-[1.2] tracking-tight text-slate-900 xl:text-3xl 2xl:text-4xl">
+            Everything your team is working on, in one place.
+          </h2>
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-slate-600 xl:text-base">
+            Plan sprints, assign tasks and track progress from backlog to
+            release.
+          </p>
+        </div>
+
+        <div className="relative z-10 mt-8 min-h-0 flex-1 px-6 pb-10 xl:px-10">
+          <img
+            src="/login.svg"
+            alt=""
+            className="size-full object-contain object-bottom"
+          />
+        </div>
+      </aside>
     </div>
   );
 }
