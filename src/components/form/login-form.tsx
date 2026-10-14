@@ -208,7 +208,7 @@ export default function LoginForm() {
           New to Synoflow?{" "}
           <Link
             href="/register"
-            className="font-semibold text-indigo-600 underline-offset-4 hover:text-indigo-700 hover:underline"
+            className="font-semibold text-blue-600 underline-offset-4 hover:text-blue-700 hover:underline"
           >
             Create an account
           </Link>
