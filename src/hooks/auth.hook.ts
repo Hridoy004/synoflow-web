@@ -1,6 +1,8 @@
 import {
+  forgotPassword,
   getMe,
   googleOAuth,
+  resetPassword,
   userLogin,
   userLogout,
   userRegistration,
@@ -43,5 +45,17 @@ export function useGetMe() {
     queryKey: ["user"],
     queryFn: getMe,
     retry: false,
+  });
+}
+
+export function useForgotPassword() {
+  return useMutation({
+    mutationFn: forgotPassword,
+  });
+}
+
+export function useResetPassword() {
+  return useMutation({
+    mutationFn: resetPassword,
   });
 }

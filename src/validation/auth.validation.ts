@@ -44,3 +44,21 @@ export const userRegistrationSchema = z
     message: "Password do not match",
     path: ["confirmPassword"],
   });
+
+export const forgotPasswordSchema = z.object({
+  email: emailSchema,
+});
+
+export const resetPasswordSchema = z
+  .object({
+    otp: z
+      .string()
+      .length(6, "Enter the 6-digit code")
+      .regex(/^\d+$/, "Code must contain digits only"),
+    newPassword: passwordSchema,
+    confirmPassword: passwordSchema.min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
