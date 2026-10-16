@@ -1,6 +1,6 @@
-import Logo from "@/assets/svg/Logo";
 import { ArrowLeft, MailCheck } from "lucide-react";
 import Link from "next/link";
+import Logo from "@/assets/svg/Logo";
 
 export default function AccountVerifyPage() {
   return (
@@ -27,7 +27,7 @@ export default function AccountVerifyPage() {
               <MailCheck aria-hidden="true" className="size-7" />
             </span>
 
-            {/** biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+            {/** biome-ignore lint/a11y/useSemanticElements: The live region groups a heading and description. */}
             <div
               role="status"
               aria-live="polite"

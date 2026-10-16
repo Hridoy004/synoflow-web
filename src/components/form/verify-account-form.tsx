@@ -1,11 +1,11 @@
 "use client";
 
-import { useVerifyAccount } from "@/hooks";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { ArrowLeft, MailCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useVerifyAccount } from "@/hooks";
 import { Button } from "../ui/button";
 import { Field, FieldError } from "../ui/field";
 import {

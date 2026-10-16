@@ -1,6 +1,6 @@
+import Link from "next/link";
 import Logo from "@/assets/svg/Logo";
 import { ForgotPasswordForm } from "@/components/form/forgot-password-form";
-import Link from "next/link";
 
 export default function ForgotPasswordPage() {
   return (

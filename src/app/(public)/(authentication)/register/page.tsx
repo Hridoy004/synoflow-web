@@ -1,6 +1,7 @@
+import Image from "next/image";
+import Link from "next/link";
 import Logo from "@/assets/svg/Logo";
 import RegisterForm from "@/components/form/register-form";
-import Link from "next/link";
 
 const footerLinks = [
   { label: "Privacy", href: "/privacy" },
@@ -82,8 +83,11 @@ export default function RegisterPage() {
         </div>
 
         <div className="relative z-10 mx-auto flex min-h-0 w-full max-w-3xl flex-1 items-center justify-center px-5 pb-8 pt-6 xl:px-10 xl:pb-12">
-          <img
+          <Image
             src="/register.svg"
+            width={720}
+            height={640}
+            sizes="(min-width: 1024px) 45vw, 100vw"
             alt=""
             aria-hidden="true"
             draggable={false}

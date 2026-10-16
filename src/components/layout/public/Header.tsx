@@ -1,10 +1,5 @@
 "use client";
 
-import Logo from "@/assets/svg/Logo";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/toast";
-import { useGetMe, useLogout } from "@/hooks";
-import { SystemRole } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ChevronDown,
@@ -23,6 +18,11 @@ import {
   useRef,
   useState,
 } from "react";
+import Logo from "@/assets/svg/Logo";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/toast";
+import { useGetMe, useLogout } from "@/hooks";
+import type { SystemRole } from "@/types";
 
 const routes = [
   { name: "Home", url: "/" },
@@ -132,6 +132,7 @@ export default function Header() {
 
   const accountRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const previousPathname = useRef(pathname);
 
   const { data, isLoading } = useGetMe();
   const { mutate: logout, isPending } = useLogout();
@@ -155,8 +156,14 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    closeMenus();
-  }, [pathname, closeMenus]);
+    if (previousPathname.current === pathname) {
+      return;
+    }
+
+    previousPathname.current = pathname;
+    setMobileOpen(false);
+    setAccountOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";

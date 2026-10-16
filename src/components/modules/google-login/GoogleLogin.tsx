@@ -1,7 +1,5 @@
 "use client";
 
-import { toast } from "@/components/ui/toast";
-import { useGoogleOAuth as useGoogleOAuthMutation } from "@/hooks";
 import {
   type CredentialResponse,
   type GsiButtonConfiguration,
@@ -10,6 +8,8 @@ import {
 } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef } from "react";
+import { toast } from "@/components/ui/toast";
+import { useGoogleOAuth as useGoogleOAuthMutation } from "@/hooks";
 
 type GoogleIdentityApi = {
   initialize: (configuration: IdConfiguration) => void;

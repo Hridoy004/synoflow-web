@@ -1,5 +1,9 @@
 "use client";
 
+import { useForm } from "@tanstack/react-form";
+import { ArrowLeft, ArrowRight, KeyRound, Mail } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -10,10 +14,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForgotPassword } from "@/hooks";
 import { forgotPasswordSchema } from "@/validation";
-import { useForm } from "@tanstack/react-form";
-import { ArrowLeft, ArrowRight, KeyRound, Mail } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Spinner } from "../ui/spinner";
 import { toast } from "../ui/toast";
 

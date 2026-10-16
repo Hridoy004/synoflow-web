@@ -1,7 +1,7 @@
-import Logo from "@/assets/svg/Logo";
-import ResetPasswordForm from "@/components/form/reset-password-form";
 import Link from "next/link";
 import { Suspense } from "react";
+import Logo from "@/assets/svg/Logo";
+import ResetPasswordForm from "@/components/form/reset-password-form";
 
 export default function ResetPasswordPage() {
   return (

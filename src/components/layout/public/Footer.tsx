@@ -1,5 +1,5 @@
-import Logo from "@/assets/svg/Logo";
 import Link from "next/link";
+import Logo from "@/assets/svg/Logo";
 
 const columns = [
   {

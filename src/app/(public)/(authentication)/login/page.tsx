@@ -1,6 +1,7 @@
+import Image from "next/image";
+import Link from "next/link";
 import Logo from "@/assets/svg/Logo";
 import LoginForm from "@/components/form/login-form";
-import Link from "next/link";
 
 export default function LoginPage() {
   return (
@@ -61,8 +62,11 @@ export default function LoginPage() {
         </div>
 
         <div className="relative z-10 mt-8 min-h-0 flex-1 px-6 pb-10 xl:px-10">
-          <img
+          <Image
             src="/login.svg"
+            width={720}
+            height={640}
+            sizes="(min-width: 1024px) 45vw, 100vw"
             alt=""
             className="size-full object-contain object-bottom"
           />

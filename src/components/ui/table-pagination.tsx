@@ -12,19 +12,19 @@ import {
 const getButtonArray = (
   totalPages: number,
   page: number,
-): (number | "ellipsis")[] => {
+): (number | "ellipsis-start" | "ellipsis-end")[] => {
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
 
   if (page <= 4) {
-    return [1, 2, 3, 4, 5, "ellipsis", totalPages];
+    return [1, 2, 3, 4, 5, "ellipsis-end", totalPages];
   }
 
   if (page >= totalPages - 3) {
     return [
       1,
-      "ellipsis",
+      "ellipsis-start",
       totalPages - 4,
       totalPages - 3,
       totalPages - 2,
@@ -33,7 +33,15 @@ const getButtonArray = (
     ];
   }
 
-  return [1, "ellipsis", page - 1, page, page + 1, "ellipsis", totalPages];
+  return [
+    1,
+    "ellipsis-start",
+    page - 1,
+    page,
+    page + 1,
+    "ellipsis-end",
+    totalPages,
+  ];
 };
 
 export default function TablePagination() {
@@ -59,9 +67,9 @@ export default function TablePagination() {
         <PaginationItem>
           <PaginationEllipsis />
         </PaginationItem>
-        {getButtonArray(totalPages, page).map((item, index) =>
-          item === "ellipsis" ? (
-            <PaginationItem key={`ellipsis${index}`}>
+        {getButtonArray(totalPages, page).map((item) =>
+          typeof item === "string" ? (
+            <PaginationItem key={item}>
               <PaginationEllipsis />
             </PaginationItem>
           ) : (

@@ -1,7 +1,5 @@
 "use client";
 
-import { useRegistration } from "@/hooks";
-import { userRegistrationSchema } from "@/validation";
 import { useForm } from "@tanstack/react-form";
 import {
   ArrowRight,
@@ -15,7 +13,9 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import z from "zod";
+import type z from "zod";
+import { useRegistration } from "@/hooks";
+import { userRegistrationSchema } from "@/validation";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import { Button } from "../ui/button";
 import {

@@ -1,13 +1,13 @@
 "use client";
 
-import { useForgotPassword, useResetPassword } from "@/hooks";
-import { resetPasswordSchema } from "@/validation";
 import { useForm } from "@tanstack/react-form";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { ArrowLeft, Eye, EyeOff, LockKeyhole, MailCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useForgotPassword, useResetPassword } from "@/hooks";
+import { resetPasswordSchema } from "@/validation";
 import { Button } from "../ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";

@@ -1,5 +1,16 @@
 "use client";
 
+import {
+  Bell,
+  BriefcaseBusiness,
+  CheckSquare,
+  FolderKanban,
+  LayoutDashboard,
+  UserRound,
+  Users,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "@/assets/svg/Logo";
 import {
   Sidebar,
@@ -16,17 +27,6 @@ import {
 import { adminRoutes, userRoutes } from "@/routes";
 import type { SystemRole } from "@/types";
 import type { SidebarItems } from "@/types/sidebar.type";
-import {
-  Bell,
-  BriefcaseBusiness,
-  CheckSquare,
-  FolderKanban,
-  LayoutDashboard,
-  UserRound,
-  Users,
-} from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const sidebarRoutes: Partial<Record<SystemRole, SidebarItems>> = {
   SUPER_ADMIN: adminRoutes,

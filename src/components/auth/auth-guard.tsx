@@ -1,8 +1,8 @@
 "use client";
 
-import { useGetMe } from "@/hooks";
 import { useRouter } from "next/navigation";
-import { ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect } from "react";
+import { useGetMe } from "@/hooks";
 import AuthLoading from "./auth-loading";
 
 export default function AuthGuard({ children }: { children: ReactNode }) {
@@ -19,7 +19,7 @@ export default function AuthGuard({ children }: { children: ReactNode }) {
     if (isError || !user) {
       router.replace("/login");
     }
-  }, [isPending, isError, user]);
+  }, [isPending, isError, user, router]);
 
   if (isPending) {
     return <AuthLoading />;

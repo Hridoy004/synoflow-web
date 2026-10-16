@@ -1,10 +1,10 @@
 "use client";
 
+import { Bell, Search } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Bell, Search } from "lucide-react";
-import { usePathname } from "next/navigation";
 
 type DashboardHeaderProps = {
   user: {
