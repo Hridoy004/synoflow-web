@@ -2,29 +2,40 @@ const prefix = "/user";
 
 export const userRoutes = [
   {
-    title: "Management",
+    title: "Workspace",
     items: [
       {
         title: "Overview",
-        url: `${prefix}`,
+        url: prefix,
       },
       {
-        title: "Project Structure",
-        url: `${prefix}/abc`,
+        title: "Organizations",
+        url: `${prefix}/organizations`,
+      },
+      {
+        title: "Projects",
+        url: `${prefix}/projects`,
+      },
+      {
+        title: "Teams",
+        url: `${prefix}/teams`,
+      },
+      {
+        title: "My Tasks",
+        url: `${prefix}/tasks`,
       },
     ],
   },
   {
-    title: "App Settings",
+    title: "Personal",
     items: [
       {
-        title: "Routing",
-        url: "#",
+        title: "Profile",
+        url: `${prefix}/profile`,
       },
       {
-        title: "Data Fetching",
-        url: "#",
-        isActive: true,
+        title: "Notifications",
+        url: `${prefix}/notifications`,
       },
     ],
   },
