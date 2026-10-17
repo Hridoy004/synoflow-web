@@ -12,3 +12,13 @@ export interface Meta {
   total: number;
   totalPages: number;
 }
+
+export interface Paginated<T> {
+  data: T[];
+  meta: Meta;
+}
+
+export interface PaginationParams {
+  page?: number;
+  limit?: number;
+}

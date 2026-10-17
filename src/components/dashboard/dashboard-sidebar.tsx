@@ -25,8 +25,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { adminRoutes, userRoutes } from "@/routes";
-import type { SystemRole } from "@/types";
-import type { SidebarItems } from "@/types/sidebar.type";
+import type { SidebarItems, SystemRole } from "@/types";
 
 const sidebarRoutes: Partial<Record<SystemRole, SidebarItems>> = {
   SUPER_ADMIN: adminRoutes,
