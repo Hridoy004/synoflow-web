@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   AboutHero,
   Capabilities,
@@ -6,7 +7,6 @@ import {
   Values,
   WhySynoflow,
 } from "@/components/modules/about/about-section";
-import type { Metadata } from "next";
 
 const description =
   "Synoflow brings projects, tasks, and people together in one connected workspace.";
