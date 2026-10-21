@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import ContactForm from "@/components/form/contact-form";
 import { ContactCta } from "@/components/modules/contact/contact-cta";
 import { ContactFaq } from "@/components/modules/contact/contact-faq";
@@ -7,7 +8,6 @@ import {
   type InquiryType,
   isInquiryType,
 } from "@/validation/contact.validation";
-import type { Metadata } from "next";
 
 const description =
   "Have a question, need support, or want to explore Synoflow? Get in touch with our team.";

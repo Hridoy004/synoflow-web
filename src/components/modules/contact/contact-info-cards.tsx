@@ -1,11 +1,3 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle,
-} from "@/components/ui/card";
-import type { InquiryType } from "@/validation/contact.validation";
 import {
   ArrowRight,
   Handshake,
@@ -14,6 +6,14 @@ import {
   Mail,
 } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
+import type { InquiryType } from "@/validation/contact.validation";
 
 type ContactOption = {
   icon: LucideIcon;
