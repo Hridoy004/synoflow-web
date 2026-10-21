@@ -1,7 +1,13 @@
-export default function PricingPage() {
+import PricingSection from "@/components/modules/pricing/pricing-section";
+
+export default function HomePage() {
   return (
-    <div>
-      <h1>Pricing page</h1>
-    </div>
+    <main>
+      {/* Existing landing page sections */}
+
+      <PricingSection />
+
+      {/* Existing remaining sections */}
+    </main>
   );
 }
