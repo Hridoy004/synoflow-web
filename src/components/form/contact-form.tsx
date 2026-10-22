@@ -4,12 +4,13 @@ import { useForm } from "@tanstack/react-form";
 import {
   ArrowRight,
   Building2,
+  ChevronDown,
   Mail,
   MessageSquare,
   Send,
   User,
 } from "lucide-react";
-import { getContactErrorMessage } from "@/api";
+
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -57,10 +58,11 @@ export default function ContactForm({ defaultInquiry }: ContactFormProps) {
         });
 
         form.reset();
-      } catch (error) {
+      } catch {
         toast.add({
           title: "Unable to send message",
-          description: getContactErrorMessage(error),
+          description:
+            "Please try again later or contact us directly at support@synoflow.com",
           type: "error",
         });
       }
@@ -182,28 +184,36 @@ export default function ContactForm({ defaultInquiry }: ContactFormProps) {
                       Inquiry type <span className="text-rose-500">*</span>
                     </FieldLabel>
 
-                    <select
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onChange={(event) =>
-                        field.handleChange(event.target.value)
-                      }
-                      onBlur={field.handleBlur}
-                      aria-invalid={isInvalid}
-                      className={`${inputClass} w-full px-3 ${
-                        field.state.value ? "text-slate-900" : "text-slate-400"
-                      }`}
-                    >
-                      <option value="" disabled>
-                        Select a topic
-                      </option>
-                      {INQUIRY_TYPES.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.label}
+                    <div className="relative">
+                      <select
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(event) =>
+                          field.handleChange(event.target.value)
+                        }
+                        onBlur={field.handleBlur}
+                        aria-invalid={isInvalid}
+                        className={`${inputClass} w-full appearance-none px-3 pr-10 ${
+                          field.state.value
+                            ? "text-slate-900"
+                            : "text-slate-400"
+                        }`}
+                      >
+                        <option value="" disabled>
+                          Select a topic
                         </option>
-                      ))}
-                    </select>
+                        {INQUIRY_TYPES.map((item) => (
+                          <option key={item.value} value={item.value}>
+                            {item.label}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown
+                        aria-hidden="true"
+                        className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+                      />
+                    </div>
 
                     {isInvalid && (
                       <FieldError errors={field.state.meta.errors} />

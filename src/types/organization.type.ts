@@ -89,3 +89,8 @@ export type OrganizationInvitationListResponse = ApiResponse<
 export type OrganizationActivityListResponse = ApiResponse<
   OrganizationActivity[]
 >;
+
+export interface AcceptInvitationInput {
+  organizationId: string;
+  token: string;
+}

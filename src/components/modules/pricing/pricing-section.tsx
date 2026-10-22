@@ -3,12 +3,8 @@ import {
   Check,
   CircleHelp,
   Crown,
-  FolderKanban,
   Layers3,
-  ShieldCheck,
   Sparkles,
-  Users,
-  X,
   Zap,
 } from "lucide-react";
 
@@ -78,47 +74,6 @@ const plans = [
   },
 ];
 
-const comparisonFeatures = [
-  {
-    category: "Project Management",
-    icon: FolderKanban,
-    features: [
-      { name: "Projects", free: "3", pro: "15", business: "50" },
-      {
-        name: "Tasks per project",
-        free: "100",
-        pro: "1,000",
-        business: "5,000",
-      },
-      { name: "Task priorities", free: true, pro: true, business: true },
-      { name: "Subtasks", free: true, pro: true, business: true },
-    ],
-  },
-  {
-    category: "Team & Workspace",
-    icon: Users,
-    features: [
-      { name: "Team members", free: "5", pro: "25", business: "100" },
-      { name: "Teams", free: "2", pro: "10", business: "30" },
-      { name: "Organization workspace", free: true, pro: true, business: true },
-      { name: "Role-based access", free: true, pro: true, business: true },
-    ],
-  },
-  {
-    category: "Storage & Files",
-    icon: ShieldCheck,
-    features: [
-      { name: "Storage", free: "500 MB", pro: "10 GB", business: "50 GB" },
-      {
-        name: "Maximum file size",
-        free: "5 MB",
-        pro: "25 MB",
-        business: "100 MB",
-      },
-    ],
-  },
-];
-
 const faqs = [
   {
     question: "Which Synoflow plan should I choose?",
@@ -141,24 +96,6 @@ const faqs = [
       "Subscription cancellation will be available according to the billing rules configured for your account once subscription management is connected.",
   },
 ];
-
-function FeatureValue({ value }: { value: string | boolean }) {
-  if (typeof value === "boolean") {
-    return value ? (
-      <Check
-        className="mx-auto size-5 text-emerald-600"
-        aria-label="Included"
-      />
-    ) : (
-      <X
-        className="mx-auto size-5 text-muted-foreground/50"
-        aria-label="Not included"
-      />
-    );
-  }
-
-  return <span className="text-sm font-medium text-foreground">{value}</span>;
-}
 
 export default function PricingSection() {
   return (
@@ -338,7 +275,7 @@ export default function PricingSection() {
             </p>
           </div>
 
-          <Accordion type="single" collapsible className="mt-8 w-full">
+          <Accordion className="mt-8 w-full">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={faq.question}

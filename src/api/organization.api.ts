@@ -1,5 +1,6 @@
 import apiClient from "@/lib/apiClient";
 import type {
+  AcceptInvitationInput,
   AddOrganizationMemberInput,
   CreateOrganizationInput,
   DeleteOrganizationResponse,
@@ -142,4 +143,14 @@ export function getOrganizationActivities(
     `${activitiesUrl(orgId)}?${toQueryString({ page, limit })}`,
     { method: "GET" },
   );
+}
+
+export function acceptOrganizationInvitation({
+  organizationId,
+  token,
+}: AcceptInvitationInput) {
+  return apiClient(`/organizations/${organizationId}/members/accept`, {
+    method: "POST",
+    body: { token },
+  });
 }

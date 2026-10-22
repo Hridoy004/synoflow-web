@@ -5,6 +5,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import {
+  acceptOrganizationInvitation,
   addOrganizationMember,
   createOrganization,
   deleteOrganization,
@@ -190,5 +191,11 @@ export function useRemoveOrganizationMember(orgId: string) {
   return useMutation({
     mutationFn: (memberId: string) => removeOrganizationMember(orgId, memberId),
     onSuccess: invalidateMemberData,
+  });
+}
+
+export function useAcceptInvitation() {
+  return useMutation({
+    mutationFn: acceptOrganizationInvitation,
   });
 }

@@ -32,7 +32,8 @@ export const contactSchema = z.object({
   organization: z
     .string()
     .trim()
-    .max(120, "Organization name must be 120 characters or fewer"),
+    .max(120, "Organization name must be 120 characters or fewer")
+    .transform((value) => value || undefined),
   subject: z
     .string()
     .trim()
@@ -49,7 +50,6 @@ export const contactFormSchema = contactSchema.extend({
   inquiryType: z.union([z.literal(""), z.enum(inquiryValues)]),
 });
 
-/** Validated data sent to the API. */
 export type ContactPayload = z.infer<typeof contactSchema>;
 export type ContactFormValues = z.infer<typeof contactFormSchema>;
 
