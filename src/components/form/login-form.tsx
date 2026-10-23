@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,9 +24,10 @@ import { toast } from "../ui/toast";
 const inputClass =
   "h-11 rounded-lg border-slate-200 bg-white text-base shadow-xs placeholder:text-slate-400 focus-visible:border-indigo-500 focus-visible:ring-indigo-500/20 sm:text-sm";
 
-export default function LoginForm() {
+export default function LoginForm({ nextPath = "/" }: { nextPath?: string }) {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { mutate: login, isPending: loginPending } = useLogin();
 
@@ -41,13 +43,14 @@ export default function LoginForm() {
       login(
         { email: value.email, password: value.password },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["user"] });
             toast.add({
               title: "Signed in",
               description: "Welcome back to Synoflow.",
               type: "success",
             });
-            router.push("/");
+            router.push(nextPath);
           },
           onError: (err) => {
             toast.add({
@@ -201,7 +204,7 @@ export default function LoginForm() {
 
       <FieldSeparator>Or continue with</FieldSeparator>
 
-      <GoogleLoginComponent />
+      <GoogleLoginComponent nextPath={nextPath} />
 
       <div className="flex flex-col gap-4 text-center">
         <p className="text-sm text-slate-500">

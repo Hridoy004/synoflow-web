@@ -1,13 +1,9 @@
 import PricingSection from "@/components/modules/pricing/pricing-section";
 
-export default function HomePage() {
+export default function PricingPage() {
   return (
-    <main>
-      {/* Existing landing page sections */}
-
+    <main className="overflow-x-clip bg-background text-foreground antialiased">
       <PricingSection />
-
-      {/* Existing remaining sections */}
     </main>
   );
 }

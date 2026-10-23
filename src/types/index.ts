@@ -1,5 +1,6 @@
 export * from "./api.type";
 export * from "./auth.type";
+export * from "./billing.type";
 export * from "./contact.type";
 export * from "./organization.type";
 export * from "./sidebar.type";

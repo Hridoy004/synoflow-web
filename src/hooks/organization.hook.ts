@@ -49,10 +49,14 @@ export const organizationKeys = {
     [...organizationKeys.activities(orgId), params] as const,
 };
 
-export function useOrganizations(params: GetOrganizationsParams = {}) {
+export function useOrganizations(
+  params: GetOrganizationsParams = {},
+  enabled = true,
+) {
   return useQuery({
     queryKey: organizationKeys.list(params),
     queryFn: () => getOrganizations(params),
+    enabled,
     placeholderData: keepPreviousData,
   });
 }

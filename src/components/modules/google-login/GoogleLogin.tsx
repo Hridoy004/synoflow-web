@@ -6,6 +6,7 @@ import {
   type IdConfiguration,
   useGoogleOAuth as useGoogleOAuthContext,
 } from "@react-oauth/google";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "@/components/ui/toast";
@@ -41,8 +42,13 @@ const buttonConfiguration: GsiButtonConfiguration = {
   text: "continue_with",
 };
 
-export default function GoogleLoginComponent() {
+export default function GoogleLoginComponent({
+  nextPath = "/",
+}: {
+  nextPath?: string;
+}) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { mutate: googleLogin } = useGoogleOAuthMutation();
   const { clientId, scriptLoadedSuccessfully } = useGoogleOAuthContext();
   const buttonRef = useRef<HTMLDivElement>(null);
@@ -62,13 +68,14 @@ export default function GoogleLoginComponent() {
     googleLogin(
       { idToken },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({ queryKey: ["user"] });
           toast.add({
             title: "Logged in Successfully",
             description: "Welcome back",
             type: "success",
           });
-          router.push("/");
+          router.push(nextPath);
         },
         onError: (err) => {
           toast.add({

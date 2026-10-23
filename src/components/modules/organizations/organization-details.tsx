@@ -186,6 +186,18 @@ export function OrganizationDetails({ orgId }: { orgId: string }) {
         All organizations
       </Button>
 
+      <Button
+        variant="outline"
+        nativeButton={false}
+        render={
+          <Link
+            href={`/user/organizations/${encodeURIComponent(orgId)}/subscription`}
+          />
+        }
+      >
+        Subscription & billing
+      </Button>
+
       <OrganizationTabs activeTab={activeTab} onChange={setActiveTab} />
 
       {activeTab === "general" && (

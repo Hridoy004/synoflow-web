@@ -3,7 +3,26 @@ import Link from "next/link";
 import Logo from "@/assets/svg/Logo";
 import LoginForm from "@/components/form/login-form";
 
-export default function LoginPage() {
+function getSafeNextPath(value: string | string[] | undefined) {
+  if (
+    typeof value !== "string" ||
+    !value.startsWith("/") ||
+    value.startsWith("//") ||
+    value.includes("\\")
+  ) {
+    return "/";
+  }
+
+  const destination = new URL(value, "https://synoflow.invalid");
+  return destination.origin === "https://synoflow.invalid"
+    ? `${destination.pathname}${destination.search}${destination.hash}`
+    : "/";
+}
+
+export default async function LoginPage({ searchParams }: PageProps<"/login">) {
+  const { next } = await searchParams;
+  const nextPath = getSafeNextPath(next);
+
   return (
     <div className="grid min-h-svh bg-white lg:grid-cols-[minmax(0,55fr)_minmax(0,45fr)]">
       <div className="flex flex-col px-5 py-6 sm:px-10 md:px-14 md:py-10">
@@ -17,7 +36,7 @@ export default function LoginPage() {
 
         <main className="flex flex-1 items-center justify-center py-10">
           <div className="w-full max-w-[400px]">
-            <LoginForm />
+            <LoginForm nextPath={nextPath} />
           </div>
         </main>
 

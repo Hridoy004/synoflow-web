@@ -1,12 +1,13 @@
+"use client";
+
 import {
   ArrowRight,
   Check,
+  CheckCircle2,
   CircleHelp,
-  Crown,
-  Layers3,
   Sparkles,
-  Zap,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import {
   Accordion,
@@ -17,62 +18,10 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-
-const plans = [
-  {
-    name: "Free",
-    description: "Everything you need to get started.",
-    price: "$0",
-    period: "/month",
-    icon: Layers3,
-    popular: false,
-    buttonText: "Get Started Free",
-    features: [
-      "Up to 5 members",
-      "2 teams",
-      "3 projects",
-      "100 tasks per project",
-      "500 MB storage",
-      "5 MB maximum file size",
-    ],
-  },
-  {
-    name: "Pro",
-    description: "More power for growing teams.",
-    price: "$49",
-    period: "/month",
-    icon: Zap,
-    popular: true,
-    buttonText: "Choose Pro",
-    features: [
-      "Up to 25 members",
-      "10 teams",
-      "15 projects",
-      "1,000 tasks per project",
-      "10 GB storage",
-      "25 MB maximum file size",
-    ],
-  },
-  {
-    name: "Business",
-    description: "Scale projects across your organization.",
-    price: "$99",
-    period: "/month",
-    icon: Crown,
-    popular: false,
-    buttonText: "Choose Business",
-    features: [
-      "Up to 100 members",
-      "30 teams",
-      "50 projects",
-      "5,000 tasks per project",
-      "50 GB storage",
-      "100 MB maximum file size",
-    ],
-  },
-];
+import type { SubscriptionPlan } from "@/types";
+import { PlanPurchaseDialog } from "./plan-purchase-dialog";
+import { isSubscriptionPlan, pricingPlans } from "./pricing-plans";
 
 const faqs = [
   {
@@ -81,72 +30,91 @@ const faqs = [
       "Start with Free if you are exploring Synoflow or managing a small workspace. Pro and Business offer higher resource limits for larger teams.",
   },
   {
-    question: "Can I upgrade my plan later?",
+    question: "Are these prices available for checkout?",
     answer:
-      "You can choose a different plan as your team's needs change. Subscription upgrade behavior will be connected when billing functionality is implemented.",
+      "You can request a plan from this page, but the billing service's checkout response and payment confirmation contracts are not yet documented. Prices and billing terms remain a preview until those details are confirmed.",
   },
   {
-    question: "What happens when I reach a plan limit?",
+    question: "How do I compare the plans?",
     answer:
-      "Each plan has defined limits for members, teams, projects, tasks, and storage. The application can provide appropriate guidance when plan limit enforcement is implemented.",
-  },
-  {
-    question: "Can I cancel my subscription?",
-    answer:
-      "Subscription cancellation will be available according to the billing rules configured for your account once subscription management is connected.",
+      "Compare the member, team, project, task, and storage limits listed on each plan to find the best fit for your workspace.",
   },
 ];
 
 export default function PricingSection() {
+  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(
+    null,
+  );
+  const [purchaseDialogOpen, setPurchaseDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedPlan = params.get("plan");
+
+    if (isSubscriptionPlan(requestedPlan)) {
+      setSelectedPlan(requestedPlan);
+      setPurchaseDialogOpen(true);
+    }
+  }, []);
+
   return (
     <section
       id="pricing"
-      className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
+      className="relative isolate -mt-16 overflow-hidden border-b bg-gradient-to-b from-primary/5 via-background to-background pt-16"
     >
-      {/* Decorative background */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-[420px] bg-gradient-to-b from-indigo-50/80 via-white to-white"
+        className="pointer-events-none absolute left-1/2 top-0 -z-0 size-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/15 blur-[120px]"
       />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section heading */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 sm:pb-24 sm:pt-16 lg:px-8 lg:pb-28">
         <div className="mx-auto max-w-3xl text-center">
           <Badge
             variant="outline"
-            className="mb-5 gap-2 rounded-full border-indigo-200 bg-indigo-50 px-4 py-1.5 text-indigo-700"
+            className="mt-8 mb-5 gap-2 rounded-full border-primary/20 bg-primary/10 px-4 py-1.5 text-primary"
           >
             <Sparkles className="size-3.5" />
             SIMPLE & TRANSPARENT PRICING
           </Badge>
 
-          <h2 className="text-3xl font-bold tracking-tight text-[#10156F] sm:text-4xl lg:text-5xl">
+          <h1 className="text-balance text-3xl font-bold tracking-tight text-[#10156F] sm:text-4xl lg:text-5xl">
             The right plan for
             <span className="mt-2 block text-[#4852F5]">
               your next big idea.
             </span>
-          </h2>
+          </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-slate-600 sm:text-lg">
             Start for free, find your flow, and choose a plan that grows with
             your team. No unnecessary complexity.
           </p>
         </div>
 
-        {/* Pricing cards */}
-        <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-          {plans.map((plan) => {
+        <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 items-stretch gap-6 sm:mt-14 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
+          {pricingPlans.map((plan) => {
             const Icon = plan.icon;
 
             return (
-              <Card
+              <button
+                type="button"
                 key={plan.name}
-                className={`relative flex h-full flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8 ${
-                  plan.popular
-                    ? "border-2 border-[#4852F5] shadow-xl shadow-indigo-100/70"
-                    : "border-slate-200 shadow-sm hover:border-indigo-200"
+                aria-pressed={selectedPlan === plan.id}
+                onClick={() => setSelectedPlan(plan.id)}
+                className={`relative flex h-full w-full cursor-pointer flex-col rounded-2xl border bg-white p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4852F5]/25 sm:p-8 ${
+                  selectedPlan === plan.id
+                    ? "border-2 border-[#4852F5] bg-indigo-50/50 shadow-xl shadow-indigo-100/70 ring-2 ring-[#4852F5]/20"
+                    : plan.popular
+                      ? "border-2 border-indigo-200 shadow-lg shadow-indigo-100/50 hover:border-[#4852F5]/60"
+                      : "border-slate-200 shadow-sm hover:border-indigo-300"
                 }`}
               >
+                {selectedPlan === plan.id && (
+                  <span className="absolute right-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-[#4852F5] px-2.5 py-1 text-xs font-semibold text-white">
+                    <CheckCircle2 aria-hidden="true" className="size-3.5" />
+                    SELECTED
+                  </span>
+                )}
+
                 {plan.popular && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
                     <Badge className="rounded-full border-0 bg-[#4852F5] px-4 py-1.5 text-white shadow-md shadow-indigo-200">
@@ -194,22 +162,20 @@ export default function PricingSection() {
 
                 <p className="mt-2 text-xs text-slate-500">
                   {plan.name === "Free"
-                    ? "Free plan"
-                    : "Pricing shown for design preview"}
+                    ? "Free plan · ৳0"
+                    : "BDT · billed monthly"}
                 </p>
 
-                <Button
-                  type="button"
-                  variant={plan.popular ? "default" : "outline"}
-                  className={`mt-6 h-12 w-full rounded-xl font-semibold ${
-                    plan.popular
-                      ? "bg-[#4852F5] text-white shadow-md shadow-indigo-200 hover:bg-[#3A43D6]"
-                      : "border-slate-200 text-[#10156F] hover:border-indigo-300 hover:bg-indigo-50 hover:text-[#4852F5]"
+                <span
+                  className={`mt-6 flex h-12 w-full items-center justify-center rounded-xl border font-semibold transition-colors ${
+                    selectedPlan === plan.id || plan.popular
+                      ? "border-[#4852F5] bg-[#4852F5] text-white shadow-md shadow-indigo-200"
+                      : "border-indigo-200 bg-white text-[#10156F]"
                   }`}
                 >
-                  {plan.buttonText}
+                  {selectedPlan === plan.id ? "Selected plan" : plan.buttonText}
                   <ArrowRight className="ml-2 size-4" />
-                </Button>
+                </span>
 
                 <Separator className="my-7" />
 
@@ -238,12 +204,28 @@ export default function PricingSection() {
                     ? "A simple way to get your workspace started."
                     : `Designed for teams that need ${plan.name === "Pro" ? "more room to grow." : "more room to scale."}`}
                 </p>
-              </Card>
+              </button>
             );
           })}
         </div>
 
-        {/* Trust note */}
+        <div className="mt-8 flex flex-col items-center gap-3">
+          <p className="text-sm text-slate-600" aria-live="polite">
+            {selectedPlan
+              ? `${pricingPlans.find((plan) => plan.id === selectedPlan)?.name} plan selected`
+              : "Select a plan to continue"}
+          </p>
+          <Button
+            type="button"
+            disabled={!selectedPlan}
+            onClick={() => setPurchaseDialogOpen(true)}
+            className="h-11 min-w-56 rounded-xl bg-[#4852F5] px-6 font-semibold text-white shadow-md shadow-indigo-200 hover:bg-[#3A43D6]"
+          >
+            Continue with selected plan
+            <ArrowRight className="size-4" />
+          </Button>
+        </div>
+
         <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-slate-500">
           <span className="flex items-center gap-2">
             <Check className="size-4 text-emerald-600" />
@@ -259,7 +241,6 @@ export default function PricingSection() {
           </span>
         </div>
 
-        {/* FAQ */}
         <div className="mx-auto mt-24 max-w-3xl sm:mt-28">
           <div className="text-center">
             <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-indigo-50 text-[#4852F5]">
@@ -293,6 +274,15 @@ export default function PricingSection() {
           </Accordion>
         </div>
       </div>
+      {selectedPlan && purchaseDialogOpen && (
+        <PlanPurchaseDialog
+          planId={selectedPlan}
+          open={purchaseDialogOpen}
+          onOpenChange={(open) => {
+            setPurchaseDialogOpen(open);
+          }}
+        />
+      )}
     </section>
   );
 }
