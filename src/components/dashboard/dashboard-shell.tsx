@@ -49,7 +49,7 @@ export default function DashboardShell({
           }}
         />
 
-        <main className="flex min-w-0 flex-1 flex-col bg-slate-50/70 px-3 py-4 sm:px-6 sm:py-6">
+        <main className="flex min-w-0 flex-1 flex-col bg-[#F7F8FF] px-3 py-4 sm:px-6 sm:py-6">
           {children}
         </main>
       </SidebarInset>

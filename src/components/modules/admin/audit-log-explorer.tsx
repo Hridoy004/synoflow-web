@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useAdminAuditLogs } from "@/hooks";
+import { useUrlQueryState } from "@/hooks/use-url-query-state";
 import type {
   AdminActivityAction,
   AdminActivityEntity,
@@ -133,8 +134,17 @@ function AuditLogDetails({
 }
 
 export function AuditLogExplorer() {
-  const [filters, setFilters] = useState(EMPTY_FILTERS);
-  const [page, setPage] = useState(1);
+  const query = useUrlQueryState();
+  const filters = {
+    organizationId: query.get("organizationId"),
+    userId: query.get("userId"),
+    entityType:
+      ENTITY_TYPES.find((value) => value === query.get("entityType")) ?? "",
+    action: ACTIONS.find((value) => value === query.get("action")) ?? "",
+    from: query.get("from"),
+    to: query.get("to"),
+  };
+  const page = query.getPage();
   const [selectedLog, setSelectedLog] = useState<AdminAuditLog | null>(null);
   const auditLogsQuery = useAdminAuditLogs({
     page,
@@ -157,13 +167,19 @@ export function AuditLogExplorer() {
   const totalPages = Math.max(meta?.totalPages ?? 1, 1);
 
   const updateFilter = (key: keyof typeof EMPTY_FILTERS, value: string) => {
-    setFilters((current) => ({ ...current, [key]: value }));
-    setPage(1);
+    query.set({ [key]: value, page: 1 });
   };
 
   const clearFilters = () => {
-    setFilters(EMPTY_FILTERS);
-    setPage(1);
+    query.set({
+      organizationId: null,
+      userId: null,
+      entityType: null,
+      action: null,
+      from: null,
+      to: null,
+      page: 1,
+    });
   };
 
   return (
@@ -434,7 +450,7 @@ export function AuditLogExplorer() {
                   variant="outline"
                   size="sm"
                   disabled={page <= 1 || auditLogsQuery.isFetching}
-                  onClick={() => setPage((current) => Math.max(1, current - 1))}
+                  onClick={() => query.set({ page: Math.max(1, page - 1) })}
                   className="gap-1"
                 >
                   <ChevronLeft className="size-4" aria-hidden="true" />
@@ -446,7 +462,7 @@ export function AuditLogExplorer() {
                   size="sm"
                   disabled={page >= totalPages || auditLogsQuery.isFetching}
                   onClick={() =>
-                    setPage((current) => Math.min(totalPages, current + 1))
+                    query.set({ page: Math.min(totalPages, page + 1) })
                   }
                   className="gap-1"
                 >

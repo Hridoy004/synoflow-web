@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, RefreshCw, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ import {
   useAdminSubscriptions,
 } from "@/hooks";
 import useDebounce from "@/hooks/debounce.hook";
+import { useUrlQueryState } from "@/hooks/use-url-query-state";
 import { formatDate } from "@/lib/format";
 import type {
   AdminOrganization,
@@ -146,10 +147,16 @@ export function AdminResourceManagement({
 }: {
   resource: ResourceType;
 }) {
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
-  const [plan, setPlan] = useState("");
-  const [page, setPage] = useState(1);
+  const urlQuery = useUrlQueryState();
+  const copy = RESOURCE_COPY[resource];
+  const search = urlQuery.get("search");
+  const rawStatus = urlQuery.get("status");
+  const status = copy.statuses.some((value) => value === rawStatus)
+    ? rawStatus
+    : "";
+  const rawPlan = urlQuery.get("plan");
+  const plan = ["FREE", "PRO", "BUSINESS"].includes(rawPlan) ? rawPlan : "";
+  const page = urlQuery.getPage();
   const debouncedSearch = useDebounce(search.trim(), 350);
   const filters: AdminResourceFilters = useMemo(
     () => ({
@@ -186,13 +193,8 @@ export function AdminResourceManagement({
   );
   const meta = query.data?.meta;
   const totalPages = Math.max(meta?.totalPages ?? 1, 1);
-  const copy = RESOURCE_COPY[resource];
-
   const clearFilters = () => {
-    setSearch("");
-    setStatus("");
-    setPlan("");
-    setPage(1);
+    urlQuery.set({ search: null, status: null, plan: null, page: 1 });
   };
 
   return (
@@ -231,8 +233,7 @@ export function AdminResourceManagement({
             <Input
               value={search}
               onChange={(event) => {
-                setSearch(event.target.value);
-                setPage(1);
+                urlQuery.set({ search: event.target.value, page: 1 });
               }}
               placeholder={copy.search}
               aria-label={copy.search}
@@ -243,8 +244,7 @@ export function AdminResourceManagement({
             aria-label="Filter by status"
             value={status}
             onChange={(event) => {
-              setStatus(event.target.value);
-              setPage(1);
+              urlQuery.set({ status: event.target.value, page: 1 });
             }}
             className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] md:w-auto"
           >
@@ -260,8 +260,7 @@ export function AdminResourceManagement({
               aria-label="Filter by subscription plan"
               value={plan}
               onChange={(event) => {
-                setPlan(event.target.value);
-                setPage(1);
+                urlQuery.set({ plan: event.target.value, page: 1 });
               }}
               className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] md:w-auto"
             >
@@ -424,7 +423,7 @@ export function AdminResourceManagement({
                   variant="outline"
                   size="sm"
                   disabled={page <= 1 || query.isFetching}
-                  onClick={() => setPage((current) => Math.max(1, current - 1))}
+                  onClick={() => urlQuery.set({ page: Math.max(1, page - 1) })}
                 >
                   <ChevronLeft className="size-4" aria-hidden="true" />
                   Previous
@@ -435,7 +434,7 @@ export function AdminResourceManagement({
                   size="sm"
                   disabled={page >= totalPages || query.isFetching}
                   onClick={() =>
-                    setPage((current) => Math.min(totalPages, current + 1))
+                    urlQuery.set({ page: Math.min(totalPages, page + 1) })
                   }
                 >
                   Next

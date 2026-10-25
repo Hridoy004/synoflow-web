@@ -1,8 +1,8 @@
 "use client";
 
 import { CalendarDays, X } from "lucide-react";
-import { useState } from "react";
 import { useOrganizationActivities } from "@/hooks";
+import { useUrlQueryState } from "@/hooks/use-url-query-state";
 import { formatDate } from "@/lib/format";
 import type { OrganizationActivity } from "@/types";
 import { EmptyState, ErrorState, ListSkeleton } from "../list-states";
@@ -45,7 +45,8 @@ function ActivityItem({ activity }: { activity: OrganizationActivity }) {
 }
 
 export function OrganizationActivityPanel({ orgId }: { orgId: string }) {
-  const [page, setPage] = useState(1);
+  const query = useUrlQueryState();
+  const page = query.getPage();
   const { data, isPending, isError, error, refetch } =
     useOrganizationActivities(orgId, { page, limit: ACTIVITIES_PAGE_SIZE });
 
@@ -83,7 +84,12 @@ export function OrganizationActivityPanel({ orgId }: { orgId: string }) {
           <ActivityItem key={activity.id} activity={activity} />
         ))}
       </ul>
-      {meta && <OrganizationPagination meta={meta} onPageChange={setPage} />}
+      {meta && (
+        <OrganizationPagination
+          meta={meta}
+          onPageChange={(nextPage) => query.set({ page: nextPage })}
+        />
+      )}
     </div>
   );
 }

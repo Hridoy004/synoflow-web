@@ -58,8 +58,8 @@ const menuItem =
   "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 transition-colors";
 
 const navLink = `rounded-md px-3 py-2 text-sm font-medium transition-colors ${focusRing}`;
-const navLinkActive = "bg-slate-100 text-slate-950";
-const navLinkIdle = "text-slate-600 hover:bg-slate-50 hover:text-slate-950";
+const navLinkActive = "bg-brand-50 text-brand-800";
+const navLinkIdle = "text-slate-600 hover:bg-brand-50 hover:text-brand-800";
 
 /* ---------- Helpers ---------- */
 function getIdentity(user: unknown) {

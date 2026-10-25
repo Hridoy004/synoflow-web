@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useOrganizations } from "@/hooks";
+import { useUrlQueryState } from "@/hooks/use-url-query-state";
 import { cn } from "@/lib/utils";
 import type { Organization } from "@/types";
 
@@ -34,9 +35,10 @@ interface DialogState {
 }
 
 export function OrganizationList() {
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [view, setView] = useState<"grid" | "list">("grid");
+  const query = useUrlQueryState();
+  const page = query.getPage();
+  const search = query.get("search");
+  const view = query.get("view") === "list" ? "list" : "grid";
 
   const [formDialog, setFormDialog] = useState<DialogState>({
     open: false,
@@ -79,7 +81,7 @@ export function OrganizationList() {
 
   const handleDeleted = () => {
     if (organizations.length === 1 && page > 1) {
-      setPage((current) => current - 1);
+      query.set({ page: page - 1 });
     }
   };
 
@@ -117,7 +119,9 @@ export function OrganizationList() {
 
           <Input
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(event) =>
+              query.set({ search: event.target.value, page: 1 })
+            }
             placeholder="Search organizations..."
             aria-label="Search organizations"
             className="h-10 rounded-lg border-slate-200 bg-white pl-9 shadow-none focus-visible:ring-blue-500"
@@ -130,8 +134,7 @@ export function OrganizationList() {
             variant="outline"
             className="h-10 gap-2 rounded-lg border-slate-200 text-slate-600"
             onClick={() => {
-              setSearch("");
-              setPage(1);
+              query.set({ search: null, page: 1 });
             }}
           >
             <SlidersHorizontal className="size-4" />
@@ -145,7 +148,7 @@ export function OrganizationList() {
               size="icon"
               aria-label="Grid view"
               aria-pressed={view === "grid"}
-              onClick={() => setView("grid")}
+              onClick={() => query.set({ view: "grid" })}
               className={cn(
                 "size-8 rounded-md",
                 view === "grid" && "bg-blue-50 text-blue-700 hover:bg-blue-50",
@@ -160,7 +163,7 @@ export function OrganizationList() {
               size="icon"
               aria-label="List view"
               aria-pressed={view === "list"}
-              onClick={() => setView("list")}
+              onClick={() => query.set({ view: "list" })}
               className={cn(
                 "size-8 rounded-md",
                 view === "list" && "bg-blue-50 text-blue-700 hover:bg-blue-50",
@@ -199,7 +202,7 @@ export function OrganizationList() {
           <Button
             variant="outline"
             className="mt-4 rounded-lg"
-            onClick={() => setSearch("")}
+            onClick={() => query.set({ search: null })}
           >
             Clear search
           </Button>
@@ -245,7 +248,7 @@ export function OrganizationList() {
                   variant="outline"
                   size="sm"
                   className="rounded-lg"
-                  onClick={() => setPage((current) => current - 1)}
+                  onClick={() => query.set({ page: page - 1 })}
                   disabled={meta.page <= 1 || isPlaceholderData}
                 >
                   <ChevronLeft className="size-4" />
@@ -257,7 +260,7 @@ export function OrganizationList() {
                   variant="outline"
                   size="sm"
                   className="rounded-lg"
-                  onClick={() => setPage((current) => current + 1)}
+                  onClick={() => query.set({ page: page + 1 })}
                   disabled={meta.page >= meta.totalPages || isPlaceholderData}
                 >
                   Next

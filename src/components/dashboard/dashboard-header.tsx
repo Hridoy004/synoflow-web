@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useProject } from "@/hooks";
 
 type DashboardHeaderProps = {
   user: {
@@ -54,7 +55,15 @@ function getPageTitle(pathname: string) {
 
 export function DashboardHeader({ user }: DashboardHeaderProps) {
   const pathname = usePathname();
-  const title = getPageTitle(pathname);
+  const projectId = pathname.match(/^\/user\/projects\/([^/]+)$/)?.[1] ?? "";
+  const projectQuery = useProject(projectId);
+  const project = projectQuery.data?.data;
+  const title = projectId
+    ? (project?.name ?? "Project")
+    : getPageTitle(pathname);
+  const subtitle = project
+    ? `${project.key} · ${project.status.replaceAll("_", " ")}`
+    : "Manage your workspace efficiently";
 
   const initials =
     user.name
@@ -77,8 +86,8 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
             {title}
           </h1>
 
-          <p className="hidden text-xs text-muted-foreground sm:block">
-            Manage your workspace efficiently
+          <p className="hidden truncate text-xs text-muted-foreground sm:block">
+            {subtitle}
           </p>
         </div>
       </div>

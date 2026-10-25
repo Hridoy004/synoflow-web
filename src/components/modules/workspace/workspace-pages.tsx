@@ -73,6 +73,7 @@ import {
   useUpdateTeam,
   useUploadTaskAttachment,
 } from "@/hooks";
+import { useUrlQueryState } from "@/hooks/use-url-query-state";
 import { formatDate } from "@/lib/format";
 import type {
   Label,
@@ -84,6 +85,14 @@ import type {
   Team,
   WorkspaceActivity,
 } from "@/types";
+import {
+  commentSchema,
+  labelSchema,
+  projectSchema,
+  sprintSchema,
+  taskSchema,
+  teamSchema,
+} from "@/validation/workspace.validation";
 
 const fieldClass =
   "h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100";
@@ -288,11 +297,16 @@ export function TeamsWorkspace({ orgId }: { orgId: string }) {
   const createTeam = useCreateTeam(orgId);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const parsed = teamSchema.safeParse({
+      name,
+      description: description || undefined,
+    });
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0]?.message ?? "Check the team details.");
+      return;
+    }
     try {
-      await createTeam.mutateAsync({
-        name: name.trim(),
-        ...(description.trim() ? { description: description.trim() } : {}),
-      });
+      await createTeam.mutateAsync(parsed.data);
       setName("");
       setDescription("");
       setShowForm(false);
@@ -483,11 +497,18 @@ export function TeamDetailWorkspace({
             onSubmit={async (event) => {
               event.preventDefault();
               const formData = new FormData(event.currentTarget);
+              const parsed = teamSchema.safeParse({
+                name: formData.get("name"),
+                description: formData.get("description") || undefined,
+              });
+              if (!parsed.success) {
+                toast.error(
+                  parsed.error.issues[0]?.message ?? "Check the team details.",
+                );
+                return;
+              }
               try {
-                await updateTeam.mutateAsync({
-                  name: String(formData.get("name") ?? "").trim(),
-                  description: String(formData.get("description") ?? "").trim(),
-                });
+                await updateTeam.mutateAsync(parsed.data);
                 setShowEdit(false);
                 toast.success("Team updated");
               } catch (error) {
@@ -649,22 +670,45 @@ export function ProjectsWorkspace({ orgId }: { orgId: string }) {
   const [key, setKey] = useState("");
   const [teamId, setTeamId] = useState("");
   const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [projectStep, setProjectStep] = useState<1 | 2>(1);
   const projects = useProjects(orgId, { page: 1, limit: 100 });
   const teams = useTeams(orgId, { page: 1, limit: 100 });
   const createProject = useCreateProject(orgId);
+  function validateProject() {
+    const parsed = projectSchema.safeParse({
+      name,
+      key,
+      description: description || undefined,
+      teamId: teamId || undefined,
+      startDate: startDate || undefined,
+      dueDate: dueDate || undefined,
+    });
+    if (!parsed.success) {
+      toast.error(
+        parsed.error.issues[0]?.message ?? "Check the project details.",
+      );
+      return null;
+    }
+    return parsed.data;
+  }
+  function continueProjectSetup() {
+    if (validateProject()) setProjectStep(2);
+  }
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const project = validateProject();
+    if (!project) return;
     try {
-      await createProject.mutateAsync({
-        name: name.trim(),
-        key: key.trim().toUpperCase(),
-        ...(teamId ? { teamId } : {}),
-        ...(description.trim() ? { description: description.trim() } : {}),
-      });
+      await createProject.mutateAsync(project);
       setName("");
       setKey("");
       setDescription("");
       setTeamId("");
+      setStartDate("");
+      setDueDate("");
+      setProjectStep(1);
       setShowForm(false);
       toast.success("Project created");
     } catch (error) {
@@ -690,52 +734,121 @@ export function ProjectsWorkspace({ orgId }: { orgId: string }) {
       {canManage && showForm && (
         <form
           onSubmit={submit}
-          className={`${panelClass} grid gap-3 p-4 sm:grid-cols-2`}
+          className={`${panelClass} space-y-4 p-4 sm:p-5`}
         >
-          <Input
-            required
-            minLength={2}
-            maxLength={100}
-            placeholder="Project name"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-          <Input
-            required
-            minLength={2}
-            maxLength={10}
-            placeholder="Project key (e.g. APP)"
-            value={key}
-            onChange={(event) =>
-              setKey(event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))
-            }
-          />
-          <select
-            className={fieldClass}
-            value={teamId}
-            onChange={(event) => setTeamId(event.target.value)}
-          >
-            <option value="">No team (organization project)</option>
-            {teams.data?.data.map((team) => (
-              <option key={team.id} value={team.id}>
-                {team.name}
-              </option>
-            ))}
-          </select>
-          <Input
-            maxLength={2000}
-            placeholder="Description (optional)"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-          <div className="flex gap-2 sm:col-span-2">
-            <Button type="submit" disabled={createProject.isPending}>
-              {createProject.isPending ? "Creating..." : "Create project"}
-            </Button>
+          <div>
+            <p className="text-sm font-semibold text-slate-900">
+              Step {projectStep} of 2
+            </p>
+            <p className="mt-1 text-sm text-slate-500">
+              {projectStep === 1
+                ? "Set up the project name, key, and purpose."
+                : "Choose a team and add an optional schedule."}
+            </p>
+          </div>
+          {projectStep === 1 ? (
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Input
+                required
+                minLength={2}
+                maxLength={150}
+                placeholder="Project name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
+              <Input
+                required
+                minLength={2}
+                maxLength={20}
+                placeholder="Project key (e.g. APP)"
+                value={key}
+                onChange={(event) =>
+                  setKey(
+                    event.target.value
+                      .toUpperCase()
+                      .replace(/[^A-Z0-9_-]/g, ""),
+                  )
+                }
+              />
+              <Input
+                maxLength={500}
+                placeholder="Description (optional)"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                className="sm:col-span-2"
+              />
+            </div>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2">
+              <select
+                className={fieldClass}
+                value={teamId}
+                onChange={(event) => setTeamId(event.target.value)}
+                aria-label="Project team"
+              >
+                <option value="">No team (organization project)</option>
+                {teams.data?.data.map((team) => (
+                  <option key={team.id} value={team.id}>
+                    {team.name}
+                  </option>
+                ))}
+              </select>
+              <div className="grid grid-cols-2 gap-3 sm:col-span-2">
+                <label
+                  htmlFor="project-start-date"
+                  className="text-xs font-medium text-slate-500"
+                >
+                  Start date
+                  <Input
+                    id="project-start-date"
+                    type="date"
+                    className="mt-1"
+                    value={startDate}
+                    onChange={(event) => setStartDate(event.target.value)}
+                  />
+                </label>
+                <label
+                  htmlFor="project-due-date"
+                  className="text-xs font-medium text-slate-500"
+                >
+                  Due date
+                  <Input
+                    id="project-due-date"
+                    type="date"
+                    className="mt-1"
+                    value={dueDate}
+                    onChange={(event) => setDueDate(event.target.value)}
+                  />
+                </label>
+              </div>
+            </div>
+          )}
+          <div className="flex flex-wrap gap-2">
+            {projectStep === 1 ? (
+              <Button type="button" onClick={continueProjectSetup}>
+                Continue
+              </Button>
+            ) : (
+              <>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setProjectStep(1)}
+                >
+                  Back
+                </Button>
+                <Button type="submit" disabled={createProject.isPending}>
+                  {createProject.isPending ? "Creating..." : "Create project"}
+                </Button>
+              </>
+            )}
             <Button
               type="button"
               variant="outline"
-              onClick={() => setShowForm(false)}
+              onClick={() => {
+                setProjectStep(1);
+                setShowForm(false);
+              }}
             >
               Cancel
             </Button>
@@ -800,8 +913,13 @@ function TaskDetails({
   const activities = useTaskActivity(task.id, { page: 1, limit: 10 });
   async function addComment(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const parsed = commentSchema.safeParse({ content: comment });
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0]?.message ?? "Enter a comment.");
+      return;
+    }
     try {
-      await createComment.mutateAsync({ content: comment.trim() });
+      await createComment.mutateAsync(parsed.data);
       setComment("");
       toast.success("Comment added");
     } catch (error) {
@@ -876,13 +994,21 @@ function TaskDetails({
               onSubmit={async (event) => {
                 event.preventDefault();
                 const formData = new FormData(event.currentTarget);
-                try {
-                  await updateTask.mutateAsync({
-                    title: String(formData.get("title") ?? "").trim(),
-                    description: String(
-                      formData.get("description") ?? "",
-                    ).trim(),
+                const parsed = taskSchema
+                  .pick({ title: true, description: true })
+                  .safeParse({
+                    title: formData.get("title"),
+                    description: formData.get("description") || undefined,
                   });
+                if (!parsed.success) {
+                  toast.error(
+                    parsed.error.issues[0]?.message ??
+                      "Check the task details.",
+                  );
+                  return;
+                }
+                try {
+                  await updateTask.mutateAsync(parsed.data);
                   setShowEdit(false);
                   toast.success("Task details updated");
                 } catch (error) {
@@ -1055,10 +1181,18 @@ function TaskDetails({
                 className="mt-2 flex gap-2"
                 onSubmit={async (event) => {
                   event.preventDefault();
+                  const parsed = taskSchema
+                    .pick({ title: true })
+                    .safeParse({ title: subtaskTitle });
+                  if (!parsed.success) {
+                    toast.error(
+                      parsed.error.issues[0]?.message ??
+                        "Enter a subtask title.",
+                    );
+                    return;
+                  }
                   try {
-                    await createSubtask.mutateAsync({
-                      title: subtaskTitle.trim(),
-                    });
+                    await createSubtask.mutateAsync(parsed.data);
                     setSubtaskTitle("");
                     toast.success("Subtask added");
                   } catch (error) {
@@ -1296,8 +1430,15 @@ function TaskCommentRow({
           className="mt-2 space-y-2"
           onSubmit={async (event) => {
             event.preventDefault();
+            const parsed = commentSchema.safeParse({ content });
+            if (!parsed.success) {
+              toast.error(
+                parsed.error.issues[0]?.message ?? "Enter a comment.",
+              );
+              return;
+            }
             try {
-              await update.mutateAsync({ content: content.trim() });
+              await update.mutateAsync(parsed.data);
               setEditing(false);
               toast.success("Comment updated");
             } catch (error) {
@@ -1400,11 +1541,17 @@ function ProjectTasks({
   const [newAssigneeId, setNewAssigneeId] = useState("");
   const [newSprintId, setNewSprintId] = useState("");
   const [newDueDate, setNewDueDate] = useState("");
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [priorityFilter, setPriorityFilter] = useState("");
-  const [sprintFilter, setSprintFilter] = useState("");
-  const [view, setView] = useState<"list" | "board">("list");
+  const query = useUrlQueryState();
+  const search = query.get("search");
+  const rawStatus = query.get("status");
+  const statusFilter = TASK_STATUSES.find((value) => value === rawStatus) ?? "";
+  const rawPriority = query.get("priority");
+  const priorityFilter =
+    (["LOW", "MEDIUM", "HIGH", "URGENT"] as const).find(
+      (value) => value === rawPriority,
+    ) ?? "";
+  const sprintFilter = query.get("sprintId");
+  const view = query.get("view") === "board" ? "board" : "list";
   const projectMembers = useProjectMembers(project.id, { page: 1, limit: 100 });
   const tasks = useTasks(project.id, {
     page: 1,
@@ -1425,20 +1572,29 @@ function ProjectTasks({
           className={`${panelClass} grid gap-3 p-4 sm:grid-cols-2`}
           onSubmit={async (event) => {
             event.preventDefault();
+            const parsed = taskSchema.safeParse({
+              title,
+              description: description || undefined,
+              status: "TODO",
+              priority: newPriority,
+              assigneeId: newAssigneeId || undefined,
+              sprintId: newSprintId || undefined,
+              dueDate: newDueDate || undefined,
+            });
+            if (!parsed.success) {
+              toast.error(
+                parsed.error.issues[0]?.message ?? "Check the task details.",
+              );
+              return;
+            }
             try {
               await createTask.mutateAsync({
-                title: title.trim(),
-                ...(description.trim()
-                  ? { description: description.trim() }
-                  : {}),
-                priority: newPriority,
-                ...(newAssigneeId ? { assigneeId: newAssigneeId } : {}),
-                ...(newSprintId ? { sprintId: newSprintId } : {}),
-                ...(newDueDate
-                  ? {
-                      dueDate: new Date(`${newDueDate}T00:00:00`).toISOString(),
-                    }
-                  : {}),
+                ...parsed.data,
+                dueDate: parsed.data.dueDate
+                  ? new Date(
+                      `${parsed.data.dueDate}T00:00:00.000Z`,
+                    ).toISOString()
+                  : undefined,
               });
               setTitle("");
               setDescription("");
@@ -1530,14 +1686,14 @@ function ProjectTasks({
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
         <Input
           value={search}
-          onChange={(event) => setSearch(event.target.value)}
+          onChange={(event) => query.set({ search: event.target.value })}
           placeholder="Search tasks..."
           aria-label="Search tasks"
         />
         <select
           className={fieldClass}
           value={statusFilter}
-          onChange={(event) => setStatusFilter(event.target.value)}
+          onChange={(event) => query.set({ status: event.target.value })}
           aria-label="Filter by status"
         >
           <option value="">All statuses</option>
@@ -1550,7 +1706,7 @@ function ProjectTasks({
         <select
           className={fieldClass}
           value={priorityFilter}
-          onChange={(event) => setPriorityFilter(event.target.value)}
+          onChange={(event) => query.set({ priority: event.target.value })}
           aria-label="Filter by priority"
         >
           <option value="">All priorities</option>
@@ -1563,7 +1719,7 @@ function ProjectTasks({
         <select
           className={fieldClass}
           value={sprintFilter}
-          onChange={(event) => setSprintFilter(event.target.value)}
+          onChange={(event) => query.set({ sprintId: event.target.value })}
           aria-label="Filter by sprint"
         >
           <option value="">All sprints</option>
@@ -1580,7 +1736,7 @@ function ProjectTasks({
             key={mode}
             type="button"
             aria-pressed={view === mode}
-            onClick={() => setView(mode)}
+            onClick={() => query.set({ view: mode })}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium capitalize ${
               view === mode
                 ? "bg-indigo-600 text-white"
@@ -1736,11 +1892,18 @@ function ProjectSprints({
           className={`${panelClass} grid gap-3 p-4 sm:grid-cols-2`}
           onSubmit={async (event) => {
             event.preventDefault();
+            const parsed = sprintSchema.safeParse({
+              name,
+              goal: goal || undefined,
+            });
+            if (!parsed.success) {
+              toast.error(
+                parsed.error.issues[0]?.message ?? "Check the sprint.",
+              );
+              return;
+            }
             try {
-              await create.mutateAsync({
-                name: name.trim(),
-                ...(goal.trim() ? { goal: goal.trim() } : {}),
-              });
+              await create.mutateAsync(parsed.data);
               setName("");
               setGoal("");
               toast.success("Sprint created");
@@ -1854,12 +2017,24 @@ function SprintCard({
             onSubmit={async (event) => {
               event.preventDefault();
               const formData = new FormData(event.currentTarget);
+              const parsed = sprintSchema.safeParse({
+                name: formData.get("name"),
+                goal: formData.get("goal") || undefined,
+                startDate: formData.get("startDate") || undefined,
+                endDate: formData.get("endDate") || undefined,
+              });
+              if (!parsed.success) {
+                toast.error(
+                  parsed.error.issues[0]?.message ?? "Check the sprint.",
+                );
+                return;
+              }
               try {
                 await update.mutateAsync({
-                  name: String(formData.get("name") ?? "").trim(),
-                  goal: String(formData.get("goal") ?? "").trim(),
-                  startDate: String(formData.get("startDate") ?? "") || null,
-                  endDate: String(formData.get("endDate") ?? "") || null,
+                  name: parsed.data.name,
+                  goal: parsed.data.goal,
+                  startDate: parsed.data.startDate ?? null,
+                  endDate: parsed.data.endDate ?? null,
                 });
                 setShowEdit(false);
                 toast.success("Sprint updated");
@@ -2169,15 +2344,33 @@ function ProjectWorkspace({
           onSubmit={async (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-            const dateValue = (name: string) =>
-              String(formData.get(name) ?? "") || null;
+            const parsed = projectSchema
+              .pick({
+                name: true,
+                description: true,
+                teamId: true,
+                startDate: true,
+                dueDate: true,
+              })
+              .safeParse({
+                name: formData.get("name"),
+                description: formData.get("description") || undefined,
+                teamId: formData.get("teamId") || undefined,
+                startDate: formData.get("startDate") || undefined,
+                dueDate: formData.get("dueDate") || undefined,
+              });
+            if (!parsed.success) {
+              toast.error(
+                parsed.error.issues[0]?.message ?? "Check the project details.",
+              );
+              return;
+            }
             try {
               await updateProject.mutateAsync({
-                name: String(formData.get("name") ?? "").trim(),
-                description: String(formData.get("description") ?? "").trim(),
-                teamId: String(formData.get("teamId") ?? "") || null,
-                startDate: dateValue("startDate"),
-                dueDate: dateValue("dueDate"),
+                ...parsed.data,
+                teamId: parsed.data.teamId || null,
+                startDate: parsed.data.startDate ?? null,
+                dueDate: parsed.data.dueDate ?? null,
               });
               setShowEdit(false);
               toast.success("Project updated");
@@ -2327,7 +2520,8 @@ export function OrganizationLabelsWorkspace({ orgId }: { orgId: string }) {
   const canManage = organization.data?.data.role === "OWNER";
   const [name, setName] = useState("");
   const [color, setColor] = useState("#6366f1");
-  const [search, setSearch] = useState("");
+  const query = useUrlQueryState();
+  const search = query.get("search");
   const labels = useLabelsForWorkspace(orgId, search);
   const create = useCreateLabel(orgId);
   const remove = useDeleteLabel(orgId);
@@ -2343,8 +2537,15 @@ export function OrganizationLabelsWorkspace({ orgId }: { orgId: string }) {
           className={`${panelClass} flex flex-col gap-3 p-4 sm:flex-row`}
           onSubmit={async (event) => {
             event.preventDefault();
+            const parsed = labelSchema.safeParse({ name, color });
+            if (!parsed.success) {
+              toast.error(
+                parsed.error.issues[0]?.message ?? "Check the label.",
+              );
+              return;
+            }
             try {
-              await create.mutateAsync({ name: name.trim(), color });
+              await create.mutateAsync(parsed.data);
               setName("");
               toast.success("Label created");
             } catch (error) {
@@ -2378,7 +2579,7 @@ export function OrganizationLabelsWorkspace({ orgId }: { orgId: string }) {
       )}
       <Input
         value={search}
-        onChange={(event) => setSearch(event.target.value)}
+        onChange={(event) => query.set({ search: event.target.value })}
         placeholder="Search labels..."
         aria-label="Search labels"
       />
@@ -2436,11 +2637,16 @@ function LabelCard({
         onSubmit={async (event) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
+          const parsed = labelSchema.safeParse({
+            name: formData.get("name"),
+            color,
+          });
+          if (!parsed.success) {
+            toast.error(parsed.error.issues[0]?.message ?? "Check the label.");
+            return;
+          }
           try {
-            await update.mutateAsync({
-              name: String(formData.get("name") ?? "").trim(),
-              color,
-            });
+            await update.mutateAsync(parsed.data);
             setEditing(false);
             toast.success("Label updated");
           } catch (error) {

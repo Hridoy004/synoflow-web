@@ -10,6 +10,7 @@ import {
   useOrganizationMembers,
   useUpdateOrganizationMemberRole,
 } from "@/hooks";
+import { useUrlQueryState } from "@/hooks/use-url-query-state";
 import { cn } from "@/lib/utils";
 import type { OrganizationMember, OrganizationRole } from "@/types";
 import { EmptyState, ErrorState, ListSkeleton } from "../list-states";
@@ -53,9 +54,13 @@ export function OrganizationMembersPanel({
   orgId: string;
   canManageMembers: boolean;
 }) {
-  const [search, setSearch] = useState("");
-  const [roleFilter, setRoleFilter] = useState<RoleFilter>("ALL");
-  const [page, setPage] = useState(1);
+  const query = useUrlQueryState();
+  const search = query.get("search");
+  const rawRole = query.get("role");
+  const roleFilter: RoleFilter =
+    rawRole === "OWNER" || rawRole === "MEMBER" ? rawRole : "ALL";
+  const page = query.getPage();
+  const setQuery = query.set;
   const [inviteOpen, setInviteOpen] = useState(false);
   const [memberToRemove, setMemberToRemove] =
     useState<OrganizationMember | null>(null);
@@ -79,9 +84,9 @@ export function OrganizationMembersPanel({
   // Keep the page in range after a removal shrinks the list.
   useEffect(() => {
     if (meta && page > Math.max(meta.totalPages, 1)) {
-      setPage(Math.max(meta.totalPages, 1));
+      setQuery({ page: Math.max(meta.totalPages, 1) });
     }
-  }, [meta, page]);
+  }, [meta, page, setQuery]);
 
   const filteredMembers = useMemo(
     () => filterMembers(members, search, roleFilter),
@@ -90,9 +95,7 @@ export function OrganizationMembersPanel({
   const ownerCount = members.filter((m) => m.role === "OWNER").length;
 
   const resetFilters = () => {
-    setSearch("");
-    setRoleFilter("ALL");
-    setPage(1);
+    query.set({ search: null, role: null, page: 1 });
   };
 
   const handleRoleChange = (
@@ -157,7 +160,7 @@ export function OrganizationMembersPanel({
         {meta && (
           <OrganizationPagination
             meta={meta}
-            onPageChange={setPage}
+            onPageChange={(nextPage) => query.set({ page: nextPage })}
             disabled={isUpdatingRole}
           />
         )}
@@ -211,8 +214,7 @@ export function OrganizationMembersPanel({
             <Input
               value={search}
               onChange={(event) => {
-                setSearch(event.target.value);
-                setPage(1);
+                query.set({ search: event.target.value, page: 1 });
               }}
               placeholder="Search members..."
               aria-label="Search members"
@@ -225,8 +227,7 @@ export function OrganizationMembersPanel({
               aria-label="Filter members by role"
               value={roleFilter}
               onChange={(event) => {
-                setRoleFilter(event.target.value as RoleFilter);
-                setPage(1);
+                query.set({ role: event.target.value, page: 1 });
               }}
               className={selectClass}
             >

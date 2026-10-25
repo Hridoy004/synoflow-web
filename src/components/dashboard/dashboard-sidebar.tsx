@@ -1,7 +1,9 @@
 "use client";
 
 import {
+  Activity,
   BriefcaseBusiness,
+  Building2,
   CreditCard,
   FolderKanban,
   LayoutDashboard,
@@ -24,6 +26,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { useOrganization, useProject } from "@/hooks";
 import { adminRoutes, superAdminRoutes, userRoutes } from "@/routes";
 import type { SidebarItems, SystemRole } from "@/types";
 
@@ -41,11 +44,68 @@ const routeIcons = {
   Subscriptions: Tags,
   Payments: CreditCard,
   Users,
+  Organization: Building2,
+  Teams: Users,
+  Labels: Tags,
+  Activity,
+  "Open project": FolderKanban,
 } as const;
 
 export function DashboardSidebar({ role }: { role: SystemRole }) {
   const pathname = usePathname();
-  const routes = sidebarRoutes[role] ?? [];
+  const projectId = pathname.match(/^\/user\/projects\/([^/]+)$/)?.[1] ?? "";
+  const projectQuery = useProject(projectId);
+  const project = projectQuery.data?.data;
+  const orgIdFromPath =
+    pathname.match(/^\/user\/organizations\/([^/]+)/)?.[1] ?? "";
+  const orgId = project?.organizationId ?? orgIdFromPath;
+  const organizationQuery = useOrganization(orgId);
+  const organization = organizationQuery.data?.data;
+  const routes = [...(sidebarRoutes[role] ?? [])];
+
+  if (role === "USER" && organization && orgId) {
+    routes.push({
+      title: organization.name,
+      items: [
+        {
+          title: "Organization",
+          url: `/user/organizations/${orgId}`,
+        },
+        {
+          title: "Teams",
+          url: `/user/organizations/${orgId}/teams`,
+        },
+        {
+          title: "Projects",
+          url: `/user/organizations/${orgId}/projects`,
+        },
+        {
+          title: "Labels",
+          url: `/user/organizations/${orgId}/labels`,
+        },
+        {
+          title: "Activity",
+          url: `/user/organizations/${orgId}/activity`,
+        },
+      ],
+    });
+  }
+
+  if (role === "USER" && project) {
+    routes.push({
+      title: project.name,
+      items: [
+        {
+          title: "Open project",
+          url: `/user/projects/${project.id}`,
+        },
+        {
+          title: "Projects",
+          url: `/user/organizations/${project.organizationId}/projects`,
+        },
+      ],
+    });
+  }
 
   return (
     <Sidebar collapsible="icon" variant="sidebar">
@@ -65,7 +125,7 @@ export function DashboardSidebar({ role }: { role: SystemRole }) {
       <SidebarContent className="gap-0 py-3">
         {routes.map((group) => (
           <SidebarGroup key={group.title} className="px-2 py-2">
-            <SidebarGroupLabel className="px-2 text-xs font-medium uppercase tracking-wider text-muted-foreground group-data-[collapsible=icon]:hidden">
+            <SidebarGroupLabel className="truncate px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground group-data-[collapsible=icon]:hidden">
               {group.title}
             </SidebarGroupLabel>
 

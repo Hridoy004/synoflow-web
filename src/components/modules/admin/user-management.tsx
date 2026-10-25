@@ -33,6 +33,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { useAdminUsers, useGetMe, useUpdateAdminUserRole } from "@/hooks";
 import useDebounce from "@/hooks/debounce.hook";
+import { useUrlQueryState } from "@/hooks/use-url-query-state";
 import { formatDate } from "@/lib/format";
 import type { AdminUser, SystemRole, UserStatus } from "@/types";
 
@@ -196,10 +197,14 @@ function UserTableRow({
 }
 
 export function UserManagement() {
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState<UserStatus | "">("");
-  const [systemRole, setSystemRole] = useState<SystemRole | "">("");
-  const [page, setPage] = useState(1);
+  const query = useUrlQueryState();
+  const search = query.get("search");
+  const rawStatus = query.get("status");
+  const status: UserStatus | "" =
+    rawStatus === "ACTIVE" || rawStatus === "SUSPENDED" ? rawStatus : "";
+  const rawRole = query.get("systemRole");
+  const systemRole = SYSTEM_ROLES.find((role) => role === rawRole) ?? "";
+  const page = query.getPage();
   const [roleChange, setRoleChange] = useState<RoleChange | null>(null);
   const debouncedSearch = useDebounce(search.trim(), 350);
 
@@ -224,10 +229,7 @@ export function UserManagement() {
   const hasFilters = Boolean(search || status || systemRole);
 
   const clearFilters = () => {
-    setSearch("");
-    setStatus("");
-    setSystemRole("");
-    setPage(1);
+    query.set({ search: null, status: null, systemRole: null, page: 1 });
   };
 
   const handleRoleChange = () => {
@@ -294,8 +296,7 @@ export function UserManagement() {
             <Input
               value={search}
               onChange={(event) => {
-                setSearch(event.target.value);
-                setPage(1);
+                query.set({ search: event.target.value, page: 1 });
               }}
               placeholder="Search name or email"
               aria-label="Search users by name or email"
@@ -307,8 +308,10 @@ export function UserManagement() {
               aria-label="Filter by account status"
               value={status}
               onChange={(event) => {
-                setStatus(event.target.value as UserStatus | "");
-                setPage(1);
+                query.set({
+                  status: event.target.value,
+                  page: 1,
+                });
               }}
               className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] sm:w-auto"
             >
@@ -320,8 +323,7 @@ export function UserManagement() {
               aria-label="Filter by system role"
               value={systemRole}
               onChange={(event) => {
-                setSystemRole(event.target.value as SystemRole | "");
-                setPage(1);
+                query.set({ systemRole: event.target.value, page: 1 });
               }}
               className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] sm:w-auto"
             >
@@ -542,7 +544,7 @@ export function UserManagement() {
                   variant="outline"
                   size="sm"
                   disabled={page <= 1 || usersQuery.isFetching}
-                  onClick={() => setPage((current) => Math.max(current - 1, 1))}
+                  onClick={() => query.set({ page: Math.max(page - 1, 1) })}
                   className="gap-1"
                 >
                   <ChevronLeft className="size-4" aria-hidden="true" />
@@ -554,7 +556,7 @@ export function UserManagement() {
                   size="sm"
                   disabled={page >= totalPages || usersQuery.isFetching}
                   onClick={() =>
-                    setPage((current) => Math.min(current + 1, totalPages))
+                    query.set({ page: Math.min(page + 1, totalPages) })
                   }
                   className="gap-1"
                 >

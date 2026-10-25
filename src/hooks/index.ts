@@ -4,4 +4,5 @@ export * from "./billing.hook";
 export * from "./contact.hook";
 export * from "./debounce.hook";
 export * from "./organization.hook";
+export * from "./use-url-query-state";
 export * from "./workspace.hook";
