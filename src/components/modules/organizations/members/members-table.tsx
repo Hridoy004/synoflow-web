@@ -19,6 +19,7 @@ interface MembersTableProps {
   members: OrganizationMember[];
   currentUserId?: string;
   canManage: boolean;
+  isUpdatingRole: boolean;
   onChangeRole: (member: OrganizationMember, role: OrganizationRole) => void;
   onRemove: (member: OrganizationMember) => void;
 }
@@ -27,6 +28,7 @@ export function MembersTable({
   members,
   currentUserId,
   canManage,
+  isUpdatingRole,
   onChangeRole,
   onRemove,
 }: MembersTableProps) {
@@ -104,12 +106,20 @@ export function MembersTable({
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem
-                          disabled={isSelf}
-                          onClick={() =>
-                            onChangeRole(member, isOwner ? "MEMBER" : "OWNER")
+                          disabled={
+                            isSelf || isUpdatingRole || member.role === "MEMBER"
                           }
+                          onClick={() => onChangeRole(member, "MEMBER")}
                         >
-                          {isOwner ? "Change to member" : "Promote to owner"}
+                          Change to member
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          disabled={
+                            isSelf || isUpdatingRole || member.role === "OWNER"
+                          }
+                          onClick={() => onChangeRole(member, "OWNER")}
+                        >
+                          Promote to owner
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           disabled={isSelf}

@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import type { SystemRole } from "@/types";
 
 const DASHBOARD_ROUTE: Record<SystemRole, string> = {
-  SUPER_ADMIN: "/admin",
+  SUPER_ADMIN: "/super-admin",
   ADMIN: "/admin",
   USER: "/user",
 };

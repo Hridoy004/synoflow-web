@@ -1,6 +1,6 @@
 export type SystemRole = "SUPER_ADMIN" | "ADMIN" | "USER";
 
-export type UserStatus = "ACTIVE" | "BLOCKED" | "DELETED";
+export type UserStatus = "ACTIVE" | "SUSPENDED";
 
 export interface User {
   id: string;
@@ -9,7 +9,7 @@ export interface User {
   googleId: null | string;
   authProvider: string;
   emailVerified: boolean;
-  role: SystemRole;
+  systemRole: SystemRole;
   status: UserStatus;
   needPasswordChange: boolean;
   imageUrl: null | string;

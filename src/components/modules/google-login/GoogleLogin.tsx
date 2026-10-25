@@ -9,8 +9,10 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef } from "react";
+import { getMe } from "@/api";
 import { toast } from "@/components/ui/toast";
 import { useGoogleOAuth as useGoogleOAuthMutation } from "@/hooks";
+import { getDashboardPath } from "@/lib/auth";
 
 type GoogleIdentityApi = {
   initialize: (configuration: IdConfiguration) => void;
@@ -43,7 +45,7 @@ const buttonConfiguration: GsiButtonConfiguration = {
 };
 
 export default function GoogleLoginComponent({
-  nextPath = "/",
+  nextPath,
 }: {
   nextPath?: string;
 }) {
@@ -69,13 +71,30 @@ export default function GoogleLoginComponent({
       { idToken },
       {
         onSuccess: async () => {
-          await queryClient.invalidateQueries({ queryKey: ["user"] });
+          try {
+            const currentUser = await queryClient.fetchQuery({
+              queryKey: ["user"],
+              queryFn: getMe,
+            });
+            router.push(
+              nextPath ?? getDashboardPath(currentUser.data.systemRole),
+            );
+          } catch (error) {
+            toast.add({
+              title: "Signed in, but workspace could not be loaded",
+              description:
+                error instanceof Error
+                  ? error.message
+                  : "Refresh the page to continue.",
+              type: "error",
+            });
+            return;
+          }
           toast.add({
             title: "Logged in Successfully",
             description: "Welcome back",
             type: "success",
           });
-          router.push(nextPath);
         },
         onError: (err) => {
           toast.add({

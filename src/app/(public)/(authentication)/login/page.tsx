@@ -10,13 +10,13 @@ function getSafeNextPath(value: string | string[] | undefined) {
     value.startsWith("//") ||
     value.includes("\\")
   ) {
-    return "/";
+    return undefined;
   }
 
   const destination = new URL(value, "https://synoflow.invalid");
   return destination.origin === "https://synoflow.invalid"
     ? `${destination.pathname}${destination.search}${destination.hash}`
-    : "/";
+    : undefined;
 }
 
 export default async function LoginPage({ searchParams }: PageProps<"/login">) {

@@ -149,7 +149,7 @@ export function acceptOrganizationInvitation({
   organizationId,
   token,
 }: AcceptInvitationInput) {
-  return apiClient(`/organizations/${organizationId}/members/accept`, {
+  return apiClient(`${organizationUrl(organizationId)}/members/accept`, {
     method: "POST",
     body: { token },
   });

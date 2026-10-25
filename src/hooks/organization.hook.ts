@@ -180,11 +180,11 @@ export function useUpdateOrganizationMemberRole(orgId: string) {
   return useMutation({
     mutationFn: ({
       memberId,
-      payload,
+      role,
     }: {
       memberId: string;
-      payload: UpdateOrganizationMemberInput;
-    }) => updateOrganizationMemberRole(orgId, memberId, payload),
+      role: UpdateOrganizationMemberInput["role"];
+    }) => updateOrganizationMemberRole(orgId, memberId, { role }),
     onSuccess: invalidateMemberData,
   });
 }
@@ -199,7 +199,19 @@ export function useRemoveOrganizationMember(orgId: string) {
 }
 
 export function useAcceptInvitation() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: acceptOrganizationInvitation,
+    onSuccess: (_response, { organizationId }) =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: organizationKeys.lists() }),
+        queryClient.invalidateQueries({
+          queryKey: organizationKeys.members(organizationId),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: organizationKeys.activities(organizationId),
+        }),
+      ]),
   });
 }

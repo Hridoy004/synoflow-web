@@ -1,6 +1,5 @@
 "use client";
 
-import { Bell, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -15,14 +14,19 @@ type DashboardHeaderProps = {
 };
 
 const pageTitles: Record<string, string> = {
+  "/admin": "Dashboard",
+  "/super-admin": "Dashboard",
+  "/super-admin/users": "User management",
+  "/super-admin/audit-logs": "Audit logs",
+  "/super-admin/organizations": "Organizations",
+  "/super-admin/projects": "Projects",
+  "/super-admin/subscriptions": "Subscriptions",
+  "/super-admin/payments": "Payments",
+  "/admin/users": "User management",
+  "/admin/audit-logs": "Audit logs",
+  "/admin/payments": "Payments",
   "/user": "Overview",
   "/user/organizations": "Organizations",
-  "/user/projects": "Projects",
-  "/user/teams": "Teams",
-  "/user/tasks": "My Tasks",
-  "/user/profile": "Profile",
-  "/user/notifications": "Notifications",
-  "/user/settings": "Account Settings",
 };
 
 function getPageTitle(pathname: string) {
@@ -80,22 +84,6 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
       </div>
 
       <div className="flex shrink-0 items-center gap-1 sm:gap-3">
-        <button
-          type="button"
-          aria-label="Search"
-          className="inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-        >
-          <Search className="size-4" />
-        </button>
-
-        <button
-          type="button"
-          aria-label="Notifications"
-          className="relative inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-        >
-          <Bell className="size-4" />
-        </button>
-
         <Separator
           orientation="vertical"
           className="mx-1 hidden h-5 sm:block justify-center"

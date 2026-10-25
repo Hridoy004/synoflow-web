@@ -33,7 +33,7 @@ const routes = [
 ];
 
 const dashboardRoute: Record<SystemRole, string> = {
-  SUPER_ADMIN: "/admin",
+  SUPER_ADMIN: "/super-admin",
   ADMIN: "/admin",
   USER: "/user",
 };

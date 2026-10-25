@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  Bell,
   BriefcaseBusiness,
-  CheckSquare,
+  CreditCard,
   FolderKanban,
   LayoutDashboard,
-  UserRound,
+  ScrollText,
+  Tags,
   Users,
 } from "lucide-react";
 import Link from "next/link";
@@ -24,11 +24,11 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { adminRoutes, userRoutes } from "@/routes";
+import { adminRoutes, superAdminRoutes, userRoutes } from "@/routes";
 import type { SidebarItems, SystemRole } from "@/types";
 
 const sidebarRoutes: Partial<Record<SystemRole, SidebarItems>> = {
-  SUPER_ADMIN: adminRoutes,
+  SUPER_ADMIN: superAdminRoutes,
   ADMIN: adminRoutes,
   USER: userRoutes,
 };
@@ -37,10 +37,10 @@ const routeIcons = {
   Overview: LayoutDashboard,
   Organizations: BriefcaseBusiness,
   Projects: FolderKanban,
-  Teams: Users,
-  "My Tasks": CheckSquare,
-  Profile: UserRound,
-  Notifications: Bell,
+  "Audit logs": ScrollText,
+  Subscriptions: Tags,
+  Payments: CreditCard,
+  Users,
 } as const;
 
 export function DashboardSidebar({ role }: { role: SystemRole }) {

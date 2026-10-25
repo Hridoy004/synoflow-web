@@ -97,21 +97,24 @@ export function OrganizationMembersPanel({
 
   const handleRoleChange = (
     member: OrganizationMember,
-    nextRole: OrganizationRole,
+    role: OrganizationRole,
   ) => {
     updateMemberRole(
-      { memberId: member.memberId, payload: { role: nextRole } },
+      { memberId: member.memberId, role },
       {
         onSuccess: () =>
           toast.add({
             title: "Role updated",
-            description: `${getMemberName(member)} is now a ${ROLE_LABELS[nextRole]}.`,
+            description: `${getMemberName(member)} is now a ${ROLE_LABELS[role]}.`,
             type: "success",
           }),
-        onError: (error) =>
+        onError: (error: Error & { data?: { message?: unknown } }) =>
           toast.add({
             title: "Role update failed",
-            description: error.message || "Please try again.",
+            description:
+              (typeof error.data?.message === "string"
+                ? error.data.message
+                : error.message) || "Please try again.",
             type: "error",
           }),
       },
@@ -147,6 +150,7 @@ export function OrganizationMembersPanel({
           members={filteredMembers}
           currentUserId={currentUserId}
           canManage={canManageMembers}
+          isUpdatingRole={isUpdatingRole}
           onChangeRole={handleRoleChange}
           onRemove={setMemberToRemove}
         />

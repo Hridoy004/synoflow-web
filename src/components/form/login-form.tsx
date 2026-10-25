@@ -6,7 +6,9 @@ import { ArrowRight, Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { getMe } from "@/api";
 import { useLogin } from "@/hooks";
+import { getDashboardPath } from "@/lib/auth";
 import { loginSchema } from "@/validation";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import { Button } from "../ui/button";
@@ -24,7 +26,7 @@ import { toast } from "../ui/toast";
 const inputClass =
   "h-11 rounded-lg border-slate-200 bg-white text-base shadow-xs placeholder:text-slate-400 focus-visible:border-indigo-500 focus-visible:ring-indigo-500/20 sm:text-sm";
 
-export default function LoginForm({ nextPath = "/" }: { nextPath?: string }) {
+export default function LoginForm({ nextPath }: { nextPath?: string }) {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -44,13 +46,30 @@ export default function LoginForm({ nextPath = "/" }: { nextPath?: string }) {
         { email: value.email, password: value.password },
         {
           onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["user"] });
+            try {
+              const currentUser = await queryClient.fetchQuery({
+                queryKey: ["user"],
+                queryFn: getMe,
+              });
+              router.push(
+                nextPath ?? getDashboardPath(currentUser.data.systemRole),
+              );
+            } catch (error) {
+              toast.add({
+                title: "Signed in, but workspace could not be loaded",
+                description:
+                  error instanceof Error
+                    ? error.message
+                    : "Refresh the page to continue.",
+                type: "error",
+              });
+              return;
+            }
             toast.add({
               title: "Signed in",
               description: "Welcome back to Synoflow.",
               type: "success",
             });
-            router.push(nextPath);
           },
           onError: (err) => {
             toast.add({

@@ -30,7 +30,15 @@ export default function DashboardShell({
 
   return (
     <SidebarProvider>
-      <DashboardSidebar role={dashboardRole} />
+      <DashboardSidebar
+        role={
+          user.systemRole === "SUPER_ADMIN" ||
+          user.systemRole === "ADMIN" ||
+          user.systemRole === "USER"
+            ? user.systemRole
+            : dashboardRole
+        }
+      />
 
       <SidebarInset className="min-h-svh min-w-0">
         <DashboardHeader
@@ -41,7 +49,7 @@ export default function DashboardShell({
           }}
         />
 
-        <main className="flex min-w-0 flex-1 flex-col p-4 sm:p-6">
+        <main className="flex min-w-0 flex-1 flex-col bg-slate-50/70 px-3 py-4 sm:px-6 sm:py-6">
           {children}
         </main>
       </SidebarInset>

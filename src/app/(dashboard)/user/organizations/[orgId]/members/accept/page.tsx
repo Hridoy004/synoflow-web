@@ -7,10 +7,10 @@ import { useAcceptInvitation } from "@/hooks";
 
 export default function AcceptInvitationPage() {
   const router = useRouter();
-  const params = useParams<{ organizationId: string }>();
+  const params = useParams<{ orgId: string }>();
   const searchParams = useSearchParams();
 
-  const organizationId = params.organizationId;
+  const organizationId = params.orgId;
   const token = searchParams.get("token");
 
   const submitted = useRef(false);
@@ -22,13 +22,15 @@ export default function AcceptInvitationPage() {
   const { mutate } = useAcceptInvitation();
 
   useEffect(() => {
-    if (!organizationId || !token || submitted.current) {
-      if (!token) {
-        setStatus("error");
-        setMessage(
-          "Invitation token is missing. Please use the link from your invitation email.",
-        );
-      }
+    if (submitted.current) return;
+
+    if (!organizationId || !token) {
+      setStatus("error");
+      setMessage(
+        !organizationId
+          ? "Organization is missing. Please use the link from your invitation email."
+          : "Invitation token is missing. Please use the link from your invitation email.",
+      );
       return;
     }
 
@@ -49,6 +51,11 @@ export default function AcceptInvitationPage() {
         onError: (error: unknown) => {
           const apiError = error as {
             message?: string;
+            data?: {
+              message?: string;
+            };
+            status?: number;
+            statusCode?: number;
             response?: {
               data?: {
                 message?: string;
@@ -56,13 +63,21 @@ export default function AcceptInvitationPage() {
             };
           };
 
+          const statusCode = apiError.status ?? apiError.statusCode;
           const errorMessage =
+            apiError.data?.message ??
             apiError.response?.data?.message ??
-            apiError.message ??
-            "Unable to accept the invitation. It may have expired or already been used.";
+            (statusCode === 403
+              ? "Your account is not permitted to accept this invitation."
+              : (apiError.message ??
+                "Unable to accept the invitation. It may have expired or already been used."));
 
           setStatus("error");
-          setMessage(errorMessage);
+          setMessage(
+            statusCode === 403
+              ? `${errorMessage} Please make sure you are signed in with the email address that received the invitation.`
+              : errorMessage,
+          );
         },
       },
     );
