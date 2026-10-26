@@ -135,10 +135,13 @@ export function DashboardSidebar({ role }: { role: SystemRole }) {
                   const Icon =
                     routeIcons[item.title as keyof typeof routeIcons];
 
+                  const isDashboardHome =
+                    item.url === "/user" ||
+                    item.url === "/admin" ||
+                    item.url === "/super-admin";
                   const isActive =
                     pathname === item.url ||
-                    (item.url !== "/user" &&
-                      pathname.startsWith(`${item.url}/`));
+                    (!isDashboardHome && pathname.startsWith(`${item.url}/`));
 
                   return (
                     <SidebarMenuItem key={item.url}>

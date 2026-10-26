@@ -89,7 +89,10 @@ import {
   commentSchema,
   labelSchema,
   projectSchema,
+  projectUpdateSchema,
   sprintSchema,
+  subtaskSchema,
+  taskDetailsSchema,
   taskSchema,
   teamSchema,
 } from "@/validation/workspace.validation";
@@ -994,12 +997,10 @@ function TaskDetails({
               onSubmit={async (event) => {
                 event.preventDefault();
                 const formData = new FormData(event.currentTarget);
-                const parsed = taskSchema
-                  .pick({ title: true, description: true })
-                  .safeParse({
-                    title: formData.get("title"),
-                    description: formData.get("description") || undefined,
-                  });
+                const parsed = taskDetailsSchema.safeParse({
+                  title: formData.get("title"),
+                  description: formData.get("description") || undefined,
+                });
                 if (!parsed.success) {
                   toast.error(
                     parsed.error.issues[0]?.message ??
@@ -1181,9 +1182,9 @@ function TaskDetails({
                 className="mt-2 flex gap-2"
                 onSubmit={async (event) => {
                   event.preventDefault();
-                  const parsed = taskSchema
-                    .pick({ title: true })
-                    .safeParse({ title: subtaskTitle });
+                  const parsed = subtaskSchema.safeParse({
+                    title: subtaskTitle,
+                  });
                   if (!parsed.success) {
                     toast.error(
                       parsed.error.issues[0]?.message ??
@@ -2266,77 +2267,66 @@ function ProjectWorkspace({
   ] as const;
   return (
     <div className="mx-auto w-full max-w-7xl space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-        <div className="min-w-0 flex-1">
-          <Link
-            href={`/user/organizations/${orgId}/projects`}
-            className="text-sm font-medium text-indigo-700 hover:underline"
-          >
-            ← All projects
-          </Link>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <span className="rounded-md bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700">
-              {project.key}
-            </span>
-            <Badge variant="secondary">
-              {project.status.replaceAll("_", " ")}
-            </Badge>
-          </div>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-            {project.name}
-          </h1>
-          {project.description && (
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-500">
-              {project.description}
-            </p>
-          )}
-        </div>
-        {canManage && (
-          <Button
-            variant="outline"
-            className="shrink-0"
-            onClick={() => setShowEdit((value) => !value)}
-          >
-            Edit details
-          </Button>
-        )}
-        {canManage && confirmDelete ? (
-          <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-sm sm:px-5">
+        <Link
+          href={`/user/organizations/${orgId}/projects`}
+          className="text-sm font-medium text-brand-700 transition hover:text-brand-800 hover:underline"
+        >
+          ← All projects
+        </Link>
+        <span className="hidden h-5 w-px bg-slate-200 sm:block" />
+        <span className="rounded-md bg-brand-50 px-2.5 py-1 text-xs font-bold tracking-wide text-brand-700">
+          {project.key}
+        </span>
+        <Badge variant="secondary">{project.status.replaceAll("_", " ")}</Badge>
+        <div className="ml-auto flex flex-wrap items-center gap-2">
+          {canManage && (
             <Button
-              variant="destructive"
-              disabled={removeProject.isPending}
-              onClick={async () => {
-                try {
-                  await removeProject.mutateAsync(project.id);
-                  toast.success("Project deleted");
-                  window.location.assign(
-                    `/user/organizations/${orgId}/projects`,
-                  );
-                } catch (error) {
-                  toast.error(
-                    error instanceof Error
-                      ? error.message
-                      : "Could not delete project",
-                  );
-                }
-              }}
+              variant="outline"
+              className="shrink-0"
+              onClick={() => setShowEdit((value) => !value)}
             >
-              Confirm delete
+              Edit details
             </Button>
-            <Button variant="outline" onClick={() => setConfirmDelete(false)}>
-              Cancel
+          )}
+          {canManage && confirmDelete ? (
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant="destructive"
+                disabled={removeProject.isPending}
+                onClick={async () => {
+                  try {
+                    await removeProject.mutateAsync(project.id);
+                    toast.success("Project deleted");
+                    window.location.assign(
+                      `/user/organizations/${orgId}/projects`,
+                    );
+                  } catch (error) {
+                    toast.error(
+                      error instanceof Error
+                        ? error.message
+                        : "Could not delete project",
+                    );
+                  }
+                }}
+              >
+                Confirm delete
+              </Button>
+              <Button variant="outline" onClick={() => setConfirmDelete(false)}>
+                Cancel
+              </Button>
+            </div>
+          ) : canManage ? (
+            <Button
+              variant="outline"
+              className="shrink-0"
+              onClick={() => setConfirmDelete(true)}
+            >
+              <Trash2 className="size-4" />
+              <span className="hidden sm:inline">Delete project</span>
             </Button>
-          </div>
-        ) : canManage ? (
-          <Button
-            variant="outline"
-            className="shrink-0"
-            onClick={() => setConfirmDelete(true)}
-          >
-            <Trash2 className="size-4" />
-            <span className="hidden sm:inline">Delete project</span>
-          </Button>
-        ) : null}
+          ) : null}
+        </div>
       </div>
       {canManage && showEdit && (
         <form
@@ -2344,21 +2334,13 @@ function ProjectWorkspace({
           onSubmit={async (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-            const parsed = projectSchema
-              .pick({
-                name: true,
-                description: true,
-                teamId: true,
-                startDate: true,
-                dueDate: true,
-              })
-              .safeParse({
-                name: formData.get("name"),
-                description: formData.get("description") || undefined,
-                teamId: formData.get("teamId") || undefined,
-                startDate: formData.get("startDate") || undefined,
-                dueDate: formData.get("dueDate") || undefined,
-              });
+            const parsed = projectUpdateSchema.safeParse({
+              name: formData.get("name"),
+              description: formData.get("description") || undefined,
+              teamId: formData.get("teamId") || undefined,
+              startDate: formData.get("startDate") || undefined,
+              dueDate: formData.get("dueDate") || undefined,
+            });
             if (!parsed.success) {
               toast.error(
                 parsed.error.issues[0]?.message ?? "Check the project details.",

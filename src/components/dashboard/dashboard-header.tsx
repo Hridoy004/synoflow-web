@@ -62,7 +62,8 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
     ? (project?.name ?? "Project")
     : getPageTitle(pathname);
   const subtitle = project
-    ? `${project.key} · ${project.status.replaceAll("_", " ")}`
+    ? project.description ||
+      `${project.key} · ${project.status.replaceAll("_", " ")}`
     : "Manage your workspace efficiently";
 
   const initials =
@@ -86,7 +87,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
             {title}
           </h1>
 
-          <p className="hidden truncate text-xs text-muted-foreground sm:block">
+          <p className="max-w-[min(48vw,48rem)] truncate text-[11px] text-muted-foreground sm:text-xs">
             {subtitle}
           </p>
         </div>

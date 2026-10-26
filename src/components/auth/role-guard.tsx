@@ -1,8 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type ReactNode, useEffect } from "react";
 import { useGetMe } from "@/hooks";
+import { getLoginRedirectPath } from "@/lib/auth/session";
 import type { SystemRole } from "@/types";
 import AccessDenied from "./access-denied";
 import AuthLoading from "./auth-loading";
@@ -14,6 +15,8 @@ interface IProps {
 
 export default function RoleGuard({ children, roles }: IProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const { data, isPending, isError } = useGetMe();
 
@@ -26,9 +29,12 @@ export default function RoleGuard({ children, roles }: IProps) {
       return;
     }
     if (isError || !user) {
-      router.replace("/login");
+      const search = searchParams.toString();
+      router.replace(
+        getLoginRedirectPath(`${pathname}${search ? `?${search}` : ""}`),
+      );
     }
-  }, [isPending, isError, user, router]);
+  }, [isPending, isError, user, router, pathname, searchParams]);
 
   if (isPending) {
     return <AuthLoading />;
