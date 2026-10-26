@@ -34,3 +34,21 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+### Authentication deployment configuration
+
+Set `NEXT_PUBLIC_API_BASE_URL` in Vercel for every environment you deploy, using the public HTTPS backend URL and the `/api/v1` path, for example:
+
+```text
+NEXT_PUBLIC_API_BASE_URL=https://api.example.com/api/v1
+```
+
+This `NEXT_PUBLIC_` value is embedded in the browser bundle at build time. Set it before deploying and redeploy after changing it. Do not use `localhost` for a Vercel deployment. Local development can continue to use the backend's localhost URL in `.env.local`.
+
+The backend must allow the deployed frontend origin (including any custom domain) for credentialed API requests:
+
+- Return the exact frontend origin in `Access-Control-Allow-Origin` and `Access-Control-Allow-Credentials: true`; do not use `*` with credentials.
+- Handle `OPTIONS` preflight requests for the API routes.
+- For cross-site cookie authentication, issue the session cookie with `HttpOnly; Secure; SameSite=None`. The login response must set the cookie, and `/auth/me` must accept it.
+
+The frontend sends API requests with credentials enabled. If login succeeds but `/auth/me` returns `401`, verify in the browser's Network panel that the login response's `Set-Cookie` was accepted and that the subsequent `/auth/me` request includes that cookie.
