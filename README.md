@@ -37,18 +37,16 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ### Authentication deployment configuration
 
-Set `NEXT_PUBLIC_API_BASE_URL` in Vercel for every environment you deploy, using the public HTTPS backend URL and the `/api/v1` path, for example:
+Set `NEXT_PUBLIC_API_BASE_URL` in Vercel for every environment you deploy, using the backend URL and the `/api/v1` path, for example:
 
 ```text
 NEXT_PUBLIC_API_BASE_URL=https://api.example.com/api/v1
 ```
 
-This `NEXT_PUBLIC_` value is embedded in the browser bundle at build time. Set it before deploying and redeploy after changing it. Do not use `localhost` for a Vercel deployment. Local development can continue to use the backend's localhost URL in `.env.local`.
+The frontend sends API requests to its own `/api/v1` path, and Next.js proxies them to this backend URL. This keeps authentication cookies first-party on the frontend domain. `NEXT_PUBLIC_API_BASE_URL` is read when Next.js starts/builds, so set it before deploying and redeploy after changing it. Do not use `localhost` for a Vercel deployment. Local development can continue to use the backend's localhost URL in `.env.local`.
 
-The backend must allow the deployed frontend origin (including any custom domain) for credentialed API requests:
+The browser now talks only to the frontend origin, so browser CORS is not required for these API calls. The backend can keep its existing CORS configuration for other clients.
 
-- Return the exact frontend origin in `Access-Control-Allow-Origin` and `Access-Control-Allow-Credentials: true`; do not use `*` with credentials.
-- Handle `OPTIONS` preflight requests for the API routes.
-- For cross-site cookie authentication, issue the session cookie with `HttpOnly; Secure; SameSite=None`. The login response must set the cookie, and `/auth/me` must accept it.
+- The login response must set an `HttpOnly; Secure` session cookie without a `Domain` attribute, so the browser stores it for the frontend host. `/auth/me` must accept that cookie.
 
-The frontend sends API requests with credentials enabled. If login succeeds but `/auth/me` returns `401`, verify in the browser's Network panel that the login response's `Set-Cookie` was accepted and that the subsequent `/auth/me` request includes that cookie.
+If login succeeds but `/auth/me` returns `401`, verify in the browser's Network panel that the same-origin `/api/v1/auth/login` response's `Set-Cookie` was accepted and that the subsequent `/api/v1/auth/me` request includes that cookie.
