@@ -72,6 +72,93 @@ export interface UpdateOrganizationMemberInput {
   role: OrganizationRole;
 }
 
+export interface GetOrganizationsParams {
+  page?: number;
+  limit?: number;
+}
+
+export interface GetOrganizationMembersParams {
+  page?: number;
+  limit?: number;
+}
+
+export interface GetOrganizationActivitiesParams {
+  page?: number;
+  limit?: number;
+}
+
+export interface OrganizationPage {
+  data: Organization[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export type OrganizationListResponse = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: OrganizationPage;
+};
+
+export type OrganizationResponse = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: Organization;
+};
+
+export interface OrganizationMemberPage {
+  data: OrganizationMember[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export type OrganizationMemberListResponse = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: OrganizationMemberPage;
+};
+
+export type OrganizationMemberMutationResponse = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: OrganizationMember;
+};
+
+export interface OrganizationActivityPage {
+  data: OrganizationActivity[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export type OrganizationActivityListResponse = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: OrganizationActivityPage;
+};
+
+export type DeleteOrganizationResponse = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: null;
+};
+
 export interface AcceptInvitationInput {
   organizationId: string;
   token: string;

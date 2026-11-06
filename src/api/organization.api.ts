@@ -22,6 +22,18 @@ const ORGANIZATIONS_URL = "/organizations";
 const organizationUrl = (orgId: string) =>
   `${ORGANIZATIONS_URL}/${encodeURIComponent(orgId)}`;
 
+const DEFAULT_PAGE = 1;
+const DEFAULT_ACTIVITIES_LIMIT = 20;
+
+function toQueryString(params: object) {
+  const searchParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined) searchParams.set(key, String(value));
+  }
+  const query = searchParams.toString();
+  return query ? query : "";
+}
+
 const membersUrl = (orgId: string) => `${organizationUrl(orgId)}/members`;
 
 const memberUrl = (orgId: string, memberId: string) =>
@@ -30,9 +42,12 @@ const memberUrl = (orgId: string, memberId: string) =>
 const activitiesUrl = (orgId: string) => `${organizationUrl(orgId)}/activities`;
 
 export function getOrganizations(params: GetOrganizationsParams = {}) {
-  return apiClient<OrganizationListResponse>(`${ORGANIZATIONS_URL}?${params}`, {
+  return apiClient<OrganizationListResponse>(
+    `${ORGANIZATIONS_URL}?${toQueryString(params)}`,
+    {
     method: "GET",
-  });
+    },
+  );
 }
 
 export function getOrganizationById(id: string) {
