@@ -9,7 +9,7 @@ import {
 } from "@/components/modules/about/about-section";
 
 const description =
-  "Synoflow brings projects, tasks, and people together in one connected workspace.";
+  "Learn how Synoflow helps teams plan work, collaborate clearly, and deliver projects from one connected workspace.";
 
 export const metadata: Metadata = {
   title: "About",

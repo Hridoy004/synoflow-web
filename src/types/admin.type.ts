@@ -1,12 +1,4 @@
-import type { Meta, SystemRole, UserStatus } from "@/types";
-
-export interface AdminApiResponse<T> {
-  success: boolean;
-  statusCode: number;
-  message: string;
-  data: T;
-  meta?: Meta;
-}
+import type { SystemRole, UserStatus } from "@/types";
 
 export interface AdminDashboardStats {
   users: {
@@ -50,10 +42,6 @@ export interface AdminUserFilters {
   search?: string;
   status?: UserStatus;
   systemRole?: SystemRole;
-}
-
-export interface AdminUserListResponse extends AdminApiResponse<AdminUser[]> {
-  meta: Meta;
 }
 
 export type AdminActivityAction =
@@ -110,11 +98,6 @@ export interface AdminAuditLog {
     name: string;
     email: string;
   };
-}
-
-export interface AdminAuditLogListResponse
-  extends AdminApiResponse<AdminAuditLog[]> {
-  meta: Meta;
 }
 
 export type AdminOrganizationStatus = "ACTIVE" | "SUSPENDED";
@@ -176,10 +159,6 @@ export interface AdminSubscription {
   createdAt: string;
   updatedAt: string;
   organization: { id: string; name: string; slug: string };
-}
-
-export interface AdminResourceListResponse<T> extends AdminApiResponse<T[]> {
-  meta: Meta;
 }
 
 export interface UpdateAdminUserRoleInput {

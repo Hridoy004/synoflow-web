@@ -1,10 +1,4 @@
 import {
-  keepPreviousData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import {
   cancelSubscription,
   createCheckout,
   createSubscription,
@@ -16,9 +10,14 @@ import {
 import type {
   CheckoutInput,
   CreateSubscriptionInput,
-  PaginationParams,
   UpdateSubscriptionInput,
 } from "@/types";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { organizationKeys } from "./organization.hook";
 
 export const billingKeys = {

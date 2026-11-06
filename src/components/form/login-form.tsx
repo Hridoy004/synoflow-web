@@ -1,15 +1,12 @@
 "use client";
 
+import { useLogin } from "@/hooks";
+import { loginSchema } from "@/validation";
 import { useForm } from "@tanstack/react-form";
-import { useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { getMe } from "@/api";
-import { useLogin } from "@/hooks";
-import { getDashboardPath } from "@/lib/auth";
-import { loginSchema } from "@/validation";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import { Button } from "../ui/button";
 import {
@@ -26,10 +23,9 @@ import { toast } from "../ui/toast";
 const inputClass =
   "h-11 rounded-lg border-slate-200 bg-white text-base shadow-xs placeholder:text-slate-400 focus-visible:border-indigo-500 focus-visible:ring-indigo-500/20 sm:text-sm";
 
-export default function LoginForm({ nextPath }: { nextPath?: string }) {
-  const [showPassword, setShowPassword] = useState(false);
+export default function LoginForm() {
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const [showPassword, setShowPassword] = useState(false);
 
   const { mutate: login, isPending: loginPending } = useLogin();
 
@@ -43,39 +39,24 @@ export default function LoginForm({ nextPath }: { nextPath?: string }) {
     },
     onSubmit: ({ value }) => {
       login(
-        { email: value.email, password: value.password },
         {
-          onSuccess: async () => {
-            try {
-              const currentUser = await queryClient.fetchQuery({
-                queryKey: ["user"],
-                queryFn: getMe,
-              });
-              router.push(
-                nextPath ?? getDashboardPath(currentUser.data.systemRole),
-              );
-            } catch (error) {
-              toast.add({
-                title: "Signed in, but workspace could not be loaded",
-                description:
-                  error instanceof Error
-                    ? error.message
-                    : "Refresh the page to continue.",
-                type: "error",
-              });
-              return;
-            }
+          email: value.email,
+          password: value.password,
+        },
+        {
+          onSuccess: () => {
             toast.add({
               title: "Signed in",
               description: "Welcome back to Synoflow.",
               type: "success",
             });
+            router.push("/");
           },
-          onError: (err) => {
+          onError: (error) => {
             toast.add({
-              title: "Couldn't sign you in",
+              title: "Login failed",
               description:
-                err.message || "Check your email and password, then try again.",
+                error.message || "Something went wrong. Please try again.",
               type: "error",
             });
           },
@@ -97,10 +78,10 @@ export default function LoginForm({ nextPath }: { nextPath?: string }) {
 
       <form
         noValidate
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
+        onSubmit={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          void form.handleSubmit();
         }}
       >
         <FieldGroup>
@@ -117,11 +98,13 @@ export default function LoginForm({ nextPath }: { nextPath?: string }) {
                   >
                     Work email
                   </FieldLabel>
+
                   <div className="relative">
                     <Mail
                       aria-hidden="true"
                       className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
                     />
+
                     <Input
                       id={field.name}
                       name={field.name}
@@ -129,13 +112,17 @@ export default function LoginForm({ nextPath }: { nextPath?: string }) {
                       inputMode="email"
                       placeholder="you@company.com"
                       className={`${inputClass} pl-9`}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      onBlur={field.handleBlur}
                       value={field.state.value}
+                      onChange={(event) =>
+                        field.handleChange(event.target.value)
+                      }
+                      onBlur={field.handleBlur}
                       autoComplete="email"
                       aria-invalid={isInvalid}
+                      required
                     />
                   </div>
+
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
               );
@@ -156,6 +143,7 @@ export default function LoginForm({ nextPath }: { nextPath?: string }) {
                     >
                       Password
                     </FieldLabel>
+
                     <Link
                       href="/forgot-password"
                       className="text-xs font-medium text-indigo-600 underline-offset-4 hover:text-indigo-700 hover:underline"
@@ -163,39 +151,46 @@ export default function LoginForm({ nextPath }: { nextPath?: string }) {
                       Forgot password?
                     </Link>
                   </div>
+
                   <div className="relative">
                     <LockKeyhole
                       aria-hidden="true"
                       className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
                     />
+
                     <Input
                       id={field.name}
                       name={field.name}
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       className={`${inputClass} pl-9 pr-11`}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      onBlur={field.handleBlur}
                       value={field.state.value}
+                      onChange={(event) =>
+                        field.handleChange(event.target.value)
+                      }
+                      onBlur={field.handleBlur}
                       autoComplete="current-password"
                       aria-invalid={isInvalid}
+                      required
                     />
+
                     <button
                       type="button"
                       aria-label={
                         showPassword ? "Hide password" : "Show password"
                       }
                       aria-pressed={showPassword}
-                      onClick={() => setShowPassword((prev) => !prev)}
+                      onClick={() => setShowPassword((previous) => !previous)}
                       className="absolute right-1 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-slate-400 transition-colors hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                     >
                       {showPassword ? (
-                        <EyeOff className="size-4" />
+                        <EyeOff aria-hidden="true" className="size-4" />
                       ) : (
-                        <Eye className="size-4" />
+                        <Eye aria-hidden="true" className="size-4" />
                       )}
                     </button>
                   </div>
+
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
               );
@@ -203,18 +198,22 @@ export default function LoginForm({ nextPath }: { nextPath?: string }) {
           </form.Field>
 
           <Button
-            disabled={loginPending}
             type="submit"
+            disabled={loginPending}
             className="group h-11 w-full rounded-lg bg-indigo-600 text-sm font-semibold text-white shadow-sm shadow-indigo-600/20 transition-colors hover:bg-indigo-700 focus-visible:ring-indigo-500/40 disabled:opacity-70"
           >
             {loginPending ? (
               <>
-                <Spinner /> Signing in…
+                <Spinner />
+                Signing in…
               </>
             ) : (
               <>
                 Sign in
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight
+                  aria-hidden="true"
+                  className="size-4 transition-transform group-hover:translate-x-0.5"
+                />
               </>
             )}
           </Button>
@@ -223,29 +222,30 @@ export default function LoginForm({ nextPath }: { nextPath?: string }) {
 
       <FieldSeparator>Or continue with</FieldSeparator>
 
-      <GoogleLoginComponent nextPath={nextPath} />
+      <GoogleLoginComponent />
 
       <div className="flex flex-col gap-4 text-center">
         <p className="text-sm text-slate-500">
           New to Synoflow?{" "}
           <Link
             href="/register"
-            className="font-semibold text-blue-600 underline-offset-4 hover:text-blue-700 hover:underline"
+            className="font-semibold text-indigo-600 underline-offset-4 hover:text-indigo-700 hover:underline"
           >
             Create an account
           </Link>
         </p>
+
         <p className="text-xs leading-relaxed text-slate-400">
           By continuing, you agree to our{" "}
           <Link
-            href="#"
+            href="/terms"
             className="underline underline-offset-2 hover:text-slate-600"
           >
             Terms
           </Link>{" "}
           and{" "}
           <Link
-            href="#"
+            href="/privacy"
             className="underline underline-offset-2 hover:text-slate-600"
           >
             Privacy Policy

@@ -13,15 +13,11 @@ import type {
   OrganizationMemberListResponse,
   OrganizationMemberMutationResponse,
   OrganizationResponse,
-  PaginationParams,
   UpdateOrganizationInput,
   UpdateOrganizationMemberInput,
 } from "@/types";
 
 const ORGANIZATIONS_URL = "/organizations";
-const DEFAULT_PAGE = 1;
-const DEFAULT_LIMIT = 10;
-const DEFAULT_ACTIVITIES_LIMIT = 20;
 
 const organizationUrl = (orgId: string) =>
   `${ORGANIZATIONS_URL}/${encodeURIComponent(orgId)}`;
@@ -33,21 +29,10 @@ const memberUrl = (orgId: string, memberId: string) =>
 
 const activitiesUrl = (orgId: string) => `${organizationUrl(orgId)}/activities`;
 
-function toQueryString({
-  page = DEFAULT_PAGE,
-  limit = DEFAULT_LIMIT,
-}: PaginationParams = {}) {
-  return new URLSearchParams({
-    page: String(page),
-    limit: String(limit),
-  }).toString();
-}
-
 export function getOrganizations(params: GetOrganizationsParams = {}) {
-  return apiClient<OrganizationListResponse>(
-    `${ORGANIZATIONS_URL}?${toQueryString(params)}`,
-    { method: "GET" },
-  );
+  return apiClient<OrganizationListResponse>(`${ORGANIZATIONS_URL}?${params}`, {
+    method: "GET",
+  });
 }
 
 export function getOrganizationById(id: string) {

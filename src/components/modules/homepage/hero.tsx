@@ -3,11 +3,7 @@ import Link from "next/link";
 import { buttonClass, Container } from "./primitives";
 import { ProductPreview } from "./product-preview";
 
-const reassurances = [
-  "Free to start",
-  "Set up in minutes",
-  "Invite your whole team",
-];
+const reassurances = ["Free to start", "Set up in minutes", "No credit card"];
 
 function Aurora() {
   return (
@@ -28,23 +24,26 @@ export function Hero() {
     <section className="relative isolate -mt-16 pt-16">
       <Aurora />
 
-      <Container className="pb-24 pt-16 sm:pt-24 lg:pb-32">
+      <Container className="pb-16 pt-10 sm:pt-16 lg:pb-24">
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-balance text-5xl font-semibold leading-[1.03] tracking-[-0.035em] text-slate-950 sm:text-7xl">
-            The workspace where your team plans, tracks, and ships
+          <span className="inline-flex rounded-full border border-indigo-200 bg-white/80 px-3 py-1 text-xs font-semibold text-indigo-700 shadow-sm backdrop-blur">
+            Built for modern, focused teams
+          </span>
+          <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-6xl lg:text-7xl">
+            Plan, track, and ship work in one place
           </h1>
-          <p className="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
-            Synoflow brings issues, sprints, roadmaps, and reports together, so
-            everyone knows what is happening and what to do next.
+          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-slate-600 sm:text-xl sm:leading-8">
+            Replace scattered tasks and status meetings with one clear workspace
+            for projects, sprints, and team updates.
           </p>
 
-          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Link href="/register" className={buttonClass("primary")}>
               Get started for free
               <ArrowRight className="size-4" />
             </Link>
-            <Link href="/login" className={buttonClass("secondary")}>
-              Sign in to workspace
+            <Link href="#features" className={buttonClass("secondary")}>
+              See how it works
             </Link>
           </div>
 
@@ -58,7 +57,7 @@ export function Hero() {
           </ul>
         </div>
 
-        <div>
+        <div className="mt-10 sm:mt-14">
           <ProductPreview />
         </div>
       </Container>

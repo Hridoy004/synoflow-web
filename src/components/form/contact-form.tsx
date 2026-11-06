@@ -10,6 +10,7 @@ import {
   Send,
   User,
 } from "lucide-react";
+import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +30,7 @@ import {
   EMPTY_CONTACT_VALUES,
   INQUIRY_TYPES,
   type InquiryType,
+  isInquiryType,
 } from "@/validation";
 
 const inputClass =
@@ -69,6 +71,13 @@ export default function ContactForm({ defaultInquiry }: ContactFormProps) {
     },
   });
 
+  useEffect(() => {
+    const inquiry = new URLSearchParams(window.location.search).get("inquiry");
+    if (isInquiryType(inquiry)) {
+      form.setFieldValue("inquiryType", inquiry);
+    }
+  }, [form]);
+
   return (
     <div className="flex flex-col gap-7">
       <div className="flex flex-col gap-1.5">
@@ -76,8 +85,8 @@ export default function ContactForm({ defaultInquiry }: ContactFormProps) {
           Send us a message
         </h2>
         <p className="text-sm leading-6 text-slate-500">
-          Have a question or need help? Fill out the form and let us know how we
-          can help.
+          Share a few details and our team will get back to you as soon as
+          possible.
         </p>
       </div>
 
@@ -344,7 +353,7 @@ export default function ContactForm({ defaultInquiry }: ContactFormProps) {
           </Button>
 
           <p className="text-center text-xs leading-relaxed text-slate-400">
-            Your information will only be used to respond to your inquiry.
+            By submitting this form, you agree to our Privacy Policy.
           </p>
         </FieldGroup>
       </form>

@@ -45,7 +45,7 @@ const FAQS: Faq[] = [
 
 export function ContactFaq() {
   return (
-    <section id="faq" className="scroll-mt-24 py-16 sm:py-24">
+    <section id="faq" className="scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto w-full max-w-3xl px-4 sm:px-6">
         <div className="text-center">
           <h2 className="text-balance text-3xl font-semibold tracking-[-0.025em] text-foreground sm:text-4xl">

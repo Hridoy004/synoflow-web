@@ -1,13 +1,3 @@
-import type { ApiResponse, Meta, PaginationParams } from "@/types";
-
-export type WorkspaceResponse<T> = Omit<ApiResponse<T>, "meta"> & {
-  meta?: Meta;
-};
-
-export type WorkspaceListResponse<T> = WorkspaceResponse<T[]> & {
-  meta: Meta;
-};
-
 export interface Team {
   id: string;
   organizationId: string;
@@ -136,16 +126,6 @@ export interface Task {
   subtasksCount?: number;
 }
 
-export interface TaskFilters extends PaginationParams {
-  status?: TaskStatus;
-  priority?: TaskPriority;
-  assigneeId?: string;
-  sprintId?: string;
-  search?: string;
-  sortBy?: TaskSortField;
-  sortOrder?: "asc" | "desc";
-}
-
 export interface TaskInput {
   title: string;
   description?: string;
@@ -185,12 +165,6 @@ export interface LabelInput {
   color?: string | null;
 }
 
-export interface LabelFilters extends PaginationParams {
-  search?: string;
-  sortBy?: "name" | "createdAt" | "updatedAt";
-  sortOrder?: "asc" | "desc";
-}
-
 export interface TaskComment {
   id: string;
   taskId?: string;
@@ -220,31 +194,6 @@ export interface WorkspaceActivity {
   actor: { id: string; name: string; avatar: string | null };
 }
 
-export interface ActivityFilters extends PaginationParams {
-  actorId?: string;
-  action?: string;
-  entityType?: string;
-  entityId?: string;
-}
-
 export interface TaskCommentInput {
   content: string;
 }
-
-export type TeamListResponse = WorkspaceListResponse<Team>;
-export type TeamResponse = WorkspaceResponse<Team>;
-export type TeamMemberListResponse = WorkspaceListResponse<WorkspaceMember>;
-export type ProjectListResponse = WorkspaceListResponse<Project>;
-export type ProjectResponse = WorkspaceResponse<Project>;
-export type ProjectMemberListResponse = WorkspaceListResponse<ProjectMember>;
-export type SprintListResponse = WorkspaceListResponse<Sprint>;
-export type SprintResponse = WorkspaceResponse<Sprint>;
-export type TaskListResponse = WorkspaceListResponse<Task>;
-export type TaskResponse = WorkspaceResponse<Task>;
-export type LabelListResponse = WorkspaceListResponse<Label>;
-export type LabelResponse = WorkspaceResponse<Label>;
-export type TaskCommentListResponse = WorkspaceListResponse<TaskComment>;
-export type TaskCommentResponse = WorkspaceResponse<TaskComment>;
-export type TaskAttachmentListResponse = WorkspaceListResponse<TaskAttachment>;
-export type TaskAttachmentResponse = WorkspaceResponse<TaskAttachment>;
-export type ActivityListResponse = WorkspaceListResponse<WorkspaceActivity>;

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ServicesSection } from "@/components/modules/services/services-section";
 
 const description =
-  "Explore Synoflow's connected tools for project management, task workflows, team collaboration, sprint planning, reporting, and workspace access.";
+  "Plan projects, manage tasks, collaborate with teams, run sprints, report progress, and manage workspace access with Synoflow.";
 
 export const metadata: Metadata = {
   title: "Services",

@@ -184,7 +184,7 @@ function FloatingProgress() {
 
 export function ProductPreview() {
   return (
-    <div className="relative mx-auto mt-16 max-w-6xl sm:mt-20">
+    <div className="relative mx-auto max-w-6xl">
       <GlowFrame>
         <AppWindow
           title="synoflow.app / engineering / website-redesign"

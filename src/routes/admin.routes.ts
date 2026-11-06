@@ -1,58 +1,24 @@
+const prefix = "/admin";
+
 export const adminRoutes = [
   {
     title: "Administration",
     items: [
       {
         title: "Overview",
-        url: "/admin",
+        url: `${prefix}`,
       },
       {
         title: "Users",
-        url: "/admin/users",
+        url: `${prefix}/users`,
       },
       {
         title: "Audit logs",
-        url: "/admin/audit-logs",
+        url: `${prefix}/audit-logs`,
       },
       {
         title: "Payments",
-        url: "/admin/payments",
-      },
-    ],
-  },
-];
-
-export const superAdminRoutes = [
-  {
-    title: "Platform",
-    items: [
-      {
-        title: "Overview",
-        url: "/super-admin",
-      },
-      {
-        title: "Users",
-        url: "/super-admin/users",
-      },
-      {
-        title: "Audit logs",
-        url: "/super-admin/audit-logs",
-      },
-      {
-        title: "Organizations",
-        url: "/super-admin/organizations",
-      },
-      {
-        title: "Projects",
-        url: "/super-admin/projects",
-      },
-      {
-        title: "Subscriptions",
-        url: "/super-admin/subscriptions",
-      },
-      {
-        title: "Payments",
-        url: "/super-admin/payments",
+        url: `${prefix}/payments`,
       },
     ],
   },

@@ -1,10 +1,4 @@
 import {
-  keepPreviousData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import {
   acceptOrganizationInvitation,
   addOrganizationMember,
   createOrganization,
@@ -27,6 +21,12 @@ import type {
   UpdateOrganizationInput,
   UpdateOrganizationMemberInput,
 } from "@/types";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 export const organizationKeys = {
   all: ["organizations"] as const,

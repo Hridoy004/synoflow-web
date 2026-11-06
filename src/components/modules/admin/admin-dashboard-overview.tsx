@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Building2,
   CreditCard,
@@ -8,8 +9,6 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useAdminDashboardStats } from "@/hooks";
 
 const PLAN_COLORS = ["#4852F5", "#16a34a", "#f59e0b", "#7c3aed", "#0891b2"];
 

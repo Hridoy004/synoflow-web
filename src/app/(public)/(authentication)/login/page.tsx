@@ -1,28 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
 import Logo from "@/assets/svg/Logo";
 import LoginForm from "@/components/form/login-form";
+import Link from "next/link";
 
-function getSafeNextPath(value: string | string[] | undefined) {
-  if (
-    typeof value !== "string" ||
-    !value.startsWith("/") ||
-    value.startsWith("//") ||
-    value.includes("\\")
-  ) {
-    return undefined;
-  }
-
-  const destination = new URL(value, "https://synoflow.invalid");
-  return destination.origin === "https://synoflow.invalid"
-    ? `${destination.pathname}${destination.search}${destination.hash}`
-    : undefined;
-}
-
-export default async function LoginPage({ searchParams }: PageProps<"/login">) {
-  const { next } = await searchParams;
-  const nextPath = getSafeNextPath(next);
-
+export default async function LoginPage() {
   return (
     <div className="grid min-h-svh bg-white lg:grid-cols-[minmax(0,55fr)_minmax(0,45fr)]">
       <div className="flex flex-col px-5 py-6 sm:px-10 md:px-14 md:py-10">
@@ -36,7 +16,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
 
         <main className="flex flex-1 items-center justify-center py-10">
           <div className="w-full max-w-[400px]">
-            <LoginForm nextPath={nextPath} />
+            <LoginForm />
           </div>
         </main>
 
@@ -81,7 +61,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
         </div>
 
         <div className="relative z-10 mt-8 min-h-0 flex-1 px-6 pb-10 xl:px-10">
-          <Image
+          <img
             src="/login.svg"
             width={720}
             height={640}

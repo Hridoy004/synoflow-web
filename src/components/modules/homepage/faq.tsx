@@ -6,7 +6,7 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="scroll-mt-20 border-t border-slate-100 bg-slate-50/70 py-24 sm:py-28"
+      className="scroll-mt-20 border-t border-slate-100 bg-slate-50/70 py-20 sm:py-24"
     >
       <Container className="max-w-3xl">
         <SectionHeader

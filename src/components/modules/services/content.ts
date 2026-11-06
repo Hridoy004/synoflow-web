@@ -30,7 +30,7 @@ export const SERVICES: readonly Service[] = [
     id: "project-management",
     title: "Project Management",
     description:
-      "Plan, organize, and track multiple projects from a centralized workspace. Keep your goals, milestones, and progress clearly visible.",
+      "Keep goals, milestones, and delivery progress visible from one project workspace.",
     icon: FolderKanban,
     tone: "indigo",
     features: ["Project organization", "Progress tracking", "Project overview"],
@@ -39,7 +39,7 @@ export const SERVICES: readonly Service[] = [
     id: "task-workflow",
     title: "Task & Workflow Management",
     description:
-      "Turn complex work into manageable tasks. Set priorities, assign responsibilities, and track every task from start to completion.",
+      "Turn complex work into clear tasks, owners, priorities, and deadlines.",
     icon: ListChecks,
     tone: "sky",
     features: [
@@ -52,7 +52,7 @@ export const SERVICES: readonly Service[] = [
     id: "team-collaboration",
     title: "Team Collaboration",
     description:
-      "Bring your team together in one shared workspace. Keep project discussions, task ownership, and team activities organized.",
+      "Keep decisions, ownership, and project activity connected to the work.",
     icon: Users,
     tone: "violet",
     features: ["Team management", "Task comments", "Activity updates"],
@@ -61,7 +61,7 @@ export const SERVICES: readonly Service[] = [
     id: "agile-sprints",
     title: "Agile & Sprint Planning",
     description:
-      "Help development teams organize their workflow, plan sprints, manage backlogs, and keep work aligned with sprint goals.",
+      "Plan sprints, prioritize backlogs, and keep delivery aligned with team goals.",
     icon: CalendarRange,
     tone: "emerald",
     features: [
@@ -74,7 +74,7 @@ export const SERVICES: readonly Service[] = [
     id: "reports-analytics",
     title: "Reports & Analytics",
     description:
-      "Get a clearer view of project progress and task completion with useful insights that help your team understand its workload.",
+      "Understand workload, project health, and team progress with actionable insights.",
     icon: ChartNoAxesCombined,
     tone: "amber",
     features: [
@@ -87,7 +87,7 @@ export const SERVICES: readonly Service[] = [
     id: "workspace-access",
     title: "Workspace & Access Management",
     description:
-      "Manage organizations, teams, and members with structured workspaces and role-based access control.",
+      "Organize organizations and members with secure, role-based access control.",
     icon: ShieldCheck,
     tone: "pink",
     features: [

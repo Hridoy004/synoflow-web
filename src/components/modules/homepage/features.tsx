@@ -177,11 +177,11 @@ function RoadmapVisual() {
 
 export function Features() {
   return (
-    <section id="features" className="scroll-mt-20 py-24 sm:py-32">
+    <section id="features" className="scroll-mt-20 py-20 sm:py-24">
       <Container>
         <SectionHeader
-          title="Everything from the first task to the final release"
-          description="One connected place for planning, doing, and reviewing work."
+          title="From backlog to release, stay in sync"
+          description="Give every team the tools to plan clearly, move faster, and understand progress."
         />
 
         <div className="mt-16 grid gap-5 lg:grid-cols-3">
@@ -189,7 +189,7 @@ export function Features() {
             className="lg:col-span-2"
             icon={Layers3}
             tone="indigo"
-            title="Plan sprints from a backlog that stays organized"
+            title="Turn ideas into sprint-ready plans"
             description="Collect ideas in one backlog, size them with story points, and pull the right work into the next sprint."
           >
             <BacklogVisual />
@@ -198,7 +198,7 @@ export function Features() {
           <FeatureCard
             icon={BarChart3}
             tone="emerald"
-            title="Know where every sprint stands"
+            title="Spot delivery risk earlier"
             description="Spot blocked work while there is still time to act."
           >
             <ReportsVisual />
@@ -207,7 +207,7 @@ export function Features() {
           <FeatureCard
             icon={MessageSquare}
             tone="violet"
-            title="Keep the conversation on the work"
+            title="Keep decisions connected to work"
             description="Comment on issues, so decisions never get lost in chat."
           >
             <CollaborationVisual />
@@ -217,7 +217,7 @@ export function Features() {
             className="lg:col-span-2"
             icon={GanttChartSquare}
             tone="sky"
-            title="Share a roadmap everyone can follow"
+            title="Give every team a shared roadmap"
             description="Lay projects out on a timeline so the whole team sees what ships, when, and what depends on what."
           >
             <RoadmapVisual />

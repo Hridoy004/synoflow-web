@@ -148,13 +148,32 @@ export function ServicesSection() {
             id="services-heading"
             className="mx-auto mt-6 max-w-3xl text-balance text-4xl font-semibold tracking-[-0.03em] text-foreground sm:text-5xl lg:text-6xl"
           >
-            Everything your team needs to succeed
+            One workspace. Every team. Clearer work.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-            From planning projects to delivering results, Synoflow gives your
-            team the tools to stay organized, collaborate effortlessly, and move
-            work forward.
+            Plan projects, manage tasks, collaborate across teams, and turn
+            progress into predictable delivery.
           </p>
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <Button
+              nativeButton={false}
+              render={<Link href={REGISTER_HREF} />}
+              size="lg"
+              className="h-12 w-full px-6 sm:w-auto"
+            >
+              Get started free
+              <ArrowRight className="size-4" />
+            </Button>
+            <Button
+              nativeButton={false}
+              render={<Link href="#services" />}
+              variant="outline"
+              size="lg"
+              className="h-12 w-full px-6 sm:w-auto"
+            >
+              Explore services
+            </Button>
+          </div>
         </div>
       </section>
 

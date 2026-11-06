@@ -34,15 +34,18 @@ export function AboutHero() {
     <section className="relative isolate -mt-16 pt-16">
       <AuroraBackground />
 
-      <Container className="grid items-center gap-12 pb-16 pt-10 sm:gap-16 sm:pb-24 sm:pt-20 lg:grid-cols-2 lg:gap-14 lg:pb-32 lg:pt-24">
+      <Container className="grid items-center gap-12 pb-14 pt-10 sm:gap-16 sm:pb-20 sm:pt-16 lg:grid-cols-2 lg:gap-14 lg:pb-24 lg:pt-20">
         <div className="mx-auto max-w-xl text-center lg:mx-0 lg:text-left">
-          <h1 className="text-balance text-4xl font-semibold leading-[1.08] tracking-[-0.03em] text-foreground sm:text-5xl xl:text-6xl">
-            Great work starts with better collaboration
+          <span className="inline-flex rounded-full border border-primary/20 bg-background/80 px-3 py-1 text-xs font-semibold text-primary shadow-sm">
+            About Synoflow
+          </span>
+          <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.08] tracking-[-0.03em] text-foreground sm:text-5xl xl:text-6xl">
+            Make teamwork clear, focused, and easier
           </h1>
-          <p className="mt-5 text-pretty text-base leading-7 text-muted-foreground sm:mt-7 sm:text-xl sm:leading-9">
-            Synoflow brings projects, tasks, and people together in one
-            connected workspace, helping teams stay organized and focus on
-            meaningful progress.
+          <p className="mt-5 text-pretty text-base leading-7 text-muted-foreground sm:mt-6 sm:text-xl sm:leading-9">
+            We are building a workspace that helps teams replace scattered
+            updates with shared priorities, clear ownership, and visible
+            progress.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:justify-center lg:justify-start">
@@ -76,7 +79,7 @@ export function AboutHero() {
 
 export function MissionVision() {
   return (
-    <section id="our-mission" className="scroll-mt-20 py-16 sm:py-24 lg:py-32">
+    <section id="our-mission" className="scroll-mt-20 py-16 sm:py-20 lg:py-24">
       <Container>
         <SectionHeader
           title="Less chaos. More meaningful work."
@@ -94,7 +97,7 @@ export function MissionVision() {
 
 export function WhySynoflow() {
   return (
-    <section className="border-y bg-muted/50 py-16 sm:py-24 lg:py-32">
+    <section className="border-y bg-muted/50 py-16 sm:py-20 lg:py-24">
       <Container className="grid gap-10 sm:gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeader
@@ -129,7 +132,7 @@ export function WhySynoflow() {
 
 export function Capabilities() {
   return (
-    <section className="py-16 sm:py-24 lg:py-32">
+    <section className="py-16 sm:py-20 lg:py-24">
       <Container>
         <SectionHeader
           title="Everything works better together"
@@ -147,7 +150,7 @@ export function Capabilities() {
 
 export function Values() {
   return (
-    <section className="border-t bg-muted/50 py-16 sm:py-24 lg:py-32">
+    <section className="border-t bg-muted/50 py-16 sm:py-20 lg:py-24">
       <Container>
         <SectionHeader
           title="The values behind our work"
@@ -165,7 +168,7 @@ export function Values() {
 
 export function FinalCta() {
   return (
-    <section className="py-12 sm:py-20 lg:py-24">
+    <section className="py-12 sm:py-16 lg:py-20">
       <Container>
         <div className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-violet-600 px-5 py-14 text-center text-primary-foreground sm:rounded-[32px] sm:px-12 sm:py-20 lg:py-24">
           <div

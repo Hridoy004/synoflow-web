@@ -5,7 +5,7 @@ export function Workflow() {
   return (
     <section
       id="how-it-works"
-      className="relative isolate scroll-mt-20 overflow-hidden bg-[#0E1250] py-24 sm:py-32"
+      className="relative isolate scroll-mt-20 overflow-hidden bg-[#0E1250] py-20 sm:py-24"
     >
       <div
         aria-hidden

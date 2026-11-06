@@ -49,7 +49,7 @@ const CONTACT_OPTIONS: ContactOption[] = [
 
 export function ContactInfoCards() {
   return (
-    <section className="py-12 sm:py-16">
+    <section className="py-10 sm:py-14">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <ul className="grid gap-4 md:grid-cols-3 md:gap-5">
           {CONTACT_OPTIONS.map(

@@ -1,7 +1,9 @@
 import { ofetch } from "ofetch";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 const apiClient = ofetch.create({
-  baseURL: "/api/v1",
+  baseURL: BASE_URL,
   credentials: "include",
 });
 

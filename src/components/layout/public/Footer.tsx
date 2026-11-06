@@ -7,6 +7,7 @@ const columns = [
     links: [
       { name: "Services", url: "/services" },
       { name: "Pricing", url: "/pricing" },
+      { name: "FAQ", url: "/#faq" },
     ],
   },
   {
@@ -24,10 +25,10 @@ const columns = [
     ],
   },
   {
-    title: "Legal",
+    title: "Resources",
     links: [
-      { name: "Privacy policy", url: "/privacy" },
-      { name: "Terms of service", url: "/terms" },
+      { name: "Help center", url: "/contact#faq" },
+      { name: "Contact support", url: "/contact?inquiry=support#contact-form" },
     ],
   },
 ];
@@ -38,7 +39,7 @@ const linkClass =
 export default function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-slate-50/60">
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.4fr_2.6fr] lg:px-8 lg:py-16">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.35fr_2.65fr] lg:px-8 lg:py-14">
         <div className="max-w-xs">
           <Link
             href="/"
@@ -54,11 +55,17 @@ export default function Footer() {
             Project management that keeps tasks, timelines, and teams in one
             place.
           </p>
+          <a
+            href="mailto:support@synoflow.com"
+            className="mt-4 inline-block rounded text-sm font-medium text-[#4852F5] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] focus-visible:ring-offset-2"
+          >
+            support@synoflow.com
+          </a>
         </div>
 
         <nav
           aria-label="Footer"
-          className="grid grid-cols-2 gap-8 sm:grid-cols-4"
+          className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4"
         >
           {columns.map((column) => (
             <div key={column.title}>
@@ -80,9 +87,12 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-slate-200">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 text-sm text-slate-500 sm:flex-row sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>© {new Date().getFullYear()} Synoflow. All rights reserved.</p>
-          <p>Built for teams that ship.</p>
+          <p className="flex items-center gap-2">
+            <span className="size-2 rounded-full bg-emerald-500" aria-hidden />
+            Built for teams that ship.
+          </p>
         </div>
       </div>
     </footer>

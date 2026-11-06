@@ -4,7 +4,7 @@ import { buttonClass, Container } from "./primitives";
 
 export function FinalCta() {
   return (
-    <section className="py-20 sm:py-24">
+    <section className="py-16 sm:py-20">
       <Container>
         <div className="relative isolate overflow-hidden rounded-[32px] bg-gradient-to-br from-[#4852F5] via-[#5B5FF7] to-[#8B5CF6] px-6 py-20 text-center sm:px-12 sm:py-24">
           <div

@@ -1,4 +1,4 @@
-import type { ApiResponse } from "./api.type";
+import { ApiResponse } from "./api.type";
 
 export type SubscriptionPlan = "FREE" | "PRO" | "BUSINESS";
 
@@ -72,6 +72,10 @@ export interface PaymentRecord {
 export interface CheckoutResponseData {
   paymentId: string;
   paymentUrl: string | null;
+}
+
+export interface CheckoutInput {
+  plan: SubscriptionPlan;
 }
 
 export type SubscriptionResponse = ApiResponse<SubscriptionRecord | null>;

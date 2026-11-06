@@ -1,5 +1,3 @@
-import type { ApiResponse, Paginated, PaginationParams } from "@/types";
-
 export type OrganizationRole = "OWNER" | "MEMBER";
 
 export interface Organization {
@@ -73,22 +71,6 @@ export interface InviteOrganizationMemberInput {
 export interface UpdateOrganizationMemberInput {
   role: OrganizationRole;
 }
-
-export type GetOrganizationsParams = PaginationParams;
-export type GetOrganizationMembersParams = PaginationParams;
-export type GetOrganizationActivitiesParams = PaginationParams;
-
-export type OrganizationResponse = ApiResponse<Organization>;
-export type OrganizationMemberMutationResponse = ApiResponse<unknown>;
-export type DeleteOrganizationResponse = ApiResponse<null>;
-export type OrganizationListResponse = ApiResponse<Paginated<Organization>>;
-export type OrganizationMemberListResponse = ApiResponse<OrganizationMember[]>;
-export type OrganizationInvitationListResponse = ApiResponse<
-  OrganizationInvitation[]
->;
-export type OrganizationActivityListResponse = ApiResponse<
-  OrganizationActivity[]
->;
 
 export interface AcceptInvitationInput {
   organizationId: string;

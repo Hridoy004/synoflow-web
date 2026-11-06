@@ -3,7 +3,7 @@ import { Container, SectionHeader } from "./primitives";
 
 export function Teams() {
   return (
-    <section className="py-24 sm:py-32">
+    <section className="py-20 sm:py-24">
       <Container>
         <SectionHeader
           title="One tool, whatever your team builds"
