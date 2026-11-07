@@ -5,7 +5,7 @@ import DashboardShell from "@/components/dashboard/dashboard-shell";
 export default function UserLayout({ children }: { children: ReactNode }) {
   return (
     <RoleGuard roles={["ADMIN", "SUPER_ADMIN", "USER"]}>
-      <DashboardShell dashboardRole="USER">{children}</DashboardShell>
+      <DashboardShell systemRole="USER">{children}</DashboardShell>
     </RoleGuard>
   );
 }

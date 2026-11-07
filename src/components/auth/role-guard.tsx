@@ -1,15 +1,15 @@
 "use client";
 
 import { useGetMe } from "@/hooks";
-import { UserRole } from "@/types";
+import type { SystemRole } from "@/types";
 import { useRouter } from "next/navigation";
-import { ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect } from "react";
 import AccessDenied from "./access-denied";
 import AuthLoading from "./auth-loading";
 
 interface IProps {
   children: ReactNode;
-  roles: UserRole[];
+  roles: SystemRole[];
 }
 
 export default function RoleGuard({ children, roles }: IProps) {
@@ -19,7 +19,7 @@ export default function RoleGuard({ children, roles }: IProps) {
 
   const user = data?.data;
 
-  const isAuthorized = !!user && roles.includes(user.role);
+  const isAuthorized = !!user && roles.includes(user.systemRole);
 
   useEffect(() => {
     if (isPending) {
@@ -28,7 +28,7 @@ export default function RoleGuard({ children, roles }: IProps) {
     if (isError || !user) {
       router.replace("/login");
     }
-  }, [isPending, isError, user]);
+  }, [isPending, isError, user, router]);
 
   if (isPending) {
     return <AuthLoading />;

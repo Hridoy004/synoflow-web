@@ -5,7 +5,7 @@ import DashboardShell from "@/components/dashboard/dashboard-shell";
 export default function layout({ children }: { children: ReactNode }) {
   return (
     <RoleGuard roles={["SUPER_ADMIN"]}>
-      <DashboardShell dashboardRole="SUPER_ADMIN">{children}</DashboardShell>
+      <DashboardShell systemRole="SUPER_ADMIN">{children}</DashboardShell>
     </RoleGuard>
   );
 }

@@ -14,18 +14,18 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { adminRoutes, superAdminRoutes, userRoutes } from "@/routes";
-import { UserRole } from "@/types";
-import { SidebarItems } from "@/types/sidebar.type";
+import type { SidebarItems } from "@/types/sidebar.type";
+import type { SystemRole } from "@/types/user.type";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const sidebarRoutes: Partial<Record<UserRole, SidebarItems>> = {
+const sidebarRoutes: Partial<Record<SystemRole, SidebarItems>> = {
   SUPER_ADMIN: superAdminRoutes,
   ADMIN: adminRoutes,
-  PATIENT: userRoutes,
+  USER: userRoutes,
 };
 
-export function DashboardSidebar({ role }: { role: UserRole }) {
+export function DashboardSidebar({ role }: { role: SystemRole }) {
   const pathname = usePathname();
   const routes: SidebarItems = sidebarRoutes[role] || [];
 
@@ -37,7 +37,7 @@ export function DashboardSidebar({ role }: { role: UserRole }) {
         <Link href="/">
           <div className="flex items-center gap-2">
             <Logo />
-            <span>PH Healthcare</span>
+            <span>Synoflow</span>
           </div>
         </Link>
       </SidebarHeader>

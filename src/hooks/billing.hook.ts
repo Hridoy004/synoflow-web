@@ -42,7 +42,7 @@ export function useSubscription(orgId: string, enabled = true) {
 export function usePaymentHistory(
   orgId: string,
   enabled = true,
-  params: PaginationParams = {},
+  params: { page?: number; limit?: number } = {},
 ) {
   return useQuery({
     queryKey: [...billingKeys.paymentHistory(orgId), params],

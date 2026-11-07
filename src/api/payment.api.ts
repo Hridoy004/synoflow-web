@@ -13,8 +13,10 @@ export function getPayment(paymentId: string) {
   );
 }
 
-export function getPaymentHistory(orgId: string) {
+export function getPaymentHistory(orgId: string, params: { page?: number; limit?: number } = {}) {
   const searchParams = new URLSearchParams();
+  if (params.page !== undefined) searchParams.set("page", String(params.page));
+  if (params.limit !== undefined) searchParams.set("limit", String(params.limit));
   const query = searchParams.size ? `?${searchParams.toString()}` : "";
   return apiClient<PaymentListResponse>(
     `/organizations/${encodeURIComponent(orgId)}/payments${query}`,

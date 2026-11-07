@@ -10,9 +10,10 @@
     "includes": ["**", "!node_modules", "!.next", "!out", "!dist", "!build"]
   },
   "formatter": {
-    "enabled": true,
+    "enabled": false,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "lineEnding": "lf"
   },
   "css": {
     "parser": {
@@ -30,10 +31,6 @@
     }
   },
   "assist": {
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
-    }
+    "enabled": false
   }
 }

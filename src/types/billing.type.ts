@@ -1,4 +1,4 @@
-import { ApiResponse } from "./api.type";
+import type { ApiResponse } from "./api.type";
 
 export type SubscriptionPlan = "FREE" | "PRO" | "BUSINESS";
 

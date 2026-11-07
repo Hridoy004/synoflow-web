@@ -113,19 +113,14 @@ export type OrganizationResponse = {
 
 export interface OrganizationMemberPage {
   data: OrganizationMember[];
-  meta: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
 }
 
 export type OrganizationMemberListResponse = {
   success: boolean;
   statusCode: number;
   message: string;
-  data: OrganizationMemberPage;
+  data: OrganizationMember[];
+  meta: { page: number; limit: number; total: number; totalPages: number };
 };
 
 export type OrganizationMemberMutationResponse = {
@@ -137,19 +132,14 @@ export type OrganizationMemberMutationResponse = {
 
 export interface OrganizationActivityPage {
   data: OrganizationActivity[];
-  meta: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
 }
 
 export type OrganizationActivityListResponse = {
   success: boolean;
   statusCode: number;
   message: string;
-  data: OrganizationActivityPage;
+  data: OrganizationActivity[];
+  meta: { page: number; limit: number; total: number; totalPages: number };
 };
 
 export type DeleteOrganizationResponse = {
