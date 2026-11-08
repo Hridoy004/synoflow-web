@@ -11,7 +11,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -104,7 +104,7 @@ function UserTableSkeleton() {
   );
 }
 
-function UserTableRow({
+const UserTableRow = memo(function UserTableRow({
   user,
   currentUserId,
   canChangeRoles,
@@ -194,7 +194,7 @@ function UserTableRow({
       </td>
     </tr>
   );
-}
+});
 
 export function UserManagement() {
   const query = useUrlQueryState();
@@ -231,6 +231,13 @@ export function UserManagement() {
   const clearFilters = () => {
     query.set({ search: null, status: null, systemRole: null, page: 1 });
   };
+
+  const requestRoleChange = useCallback(
+    (targetUser: AdminUser, nextRole: SystemRole) => {
+      setRoleChange({ user: targetUser, systemRole: nextRole });
+    },
+    [],
+  );
 
   const handleRoleChange = () => {
     if (!roleChange) return;
@@ -520,12 +527,7 @@ export function UserManagement() {
                         currentUser?.data?.systemRole === "SUPER_ADMIN"
                       }
                       isUpdating={isChangingRole}
-                      onRequestRoleChange={(targetUser, nextRole) =>
-                        setRoleChange({
-                          user: targetUser,
-                          systemRole: nextRole,
-                        })
-                      }
+                      onRequestRoleChange={requestRoleChange}
                     />
                   ))}
                 </tbody>

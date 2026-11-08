@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { memo } from "react";
 import { useAdminDashboardStats } from "@/hooks";
 import {
   Building2,
@@ -38,7 +39,7 @@ function formatCurrency(
   }
 }
 
-function MetricCard({
+const MetricCard = memo(function MetricCard({
   title,
   value,
   detail,
@@ -65,7 +66,7 @@ function MetricCard({
       <p className="mt-3 text-xs leading-5 text-slate-500">{detail}</p>
     </article>
   );
-}
+});
 
 function MetricSkeleton() {
   return (
@@ -76,7 +77,7 @@ function MetricSkeleton() {
   );
 }
 
-function SubscriptionDistribution({
+const SubscriptionDistribution = memo(function SubscriptionDistribution({
   plans,
 }: {
   plans: { plan: string; count: number }[];
@@ -155,7 +156,7 @@ function SubscriptionDistribution({
       )}
     </section>
   );
-}
+});
 
 export function AdminDashboardOverview() {
   const statsQuery = useAdminDashboardStats();

@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { VirtualizedList } from "@/components/ui/virtualized-list";
 import {
   useAdminOrganizations,
   useAdminProjects,
@@ -316,8 +317,12 @@ export function AdminResourceManagement({
           </div>
         ) : (
           <>
-            <div className="grid gap-3 xl:hidden">
-              {rows.map((row) => (
+            <div className="xl:hidden">
+              <VirtualizedList
+                items={rows}
+                ariaLabel={`${copy.title} records`}
+                estimateSize={196}
+                renderItem={(row) => (
                 <article
                   key={row.id}
                   className="rounded-xl border border-slate-200 bg-gradient-to-br from-white to-slate-50/70 p-4 shadow-xs transition hover:border-indigo-200 hover:shadow-sm"
@@ -358,7 +363,8 @@ export function AdminResourceManagement({
                     </div>
                   </div>
                 </article>
-              ))}
+                )}
+              />
             </div>
             <div className="hidden overflow-x-auto rounded-xl border border-slate-200 xl:block">
               <table className="w-full min-w-[780px] divide-y divide-slate-200 text-left">

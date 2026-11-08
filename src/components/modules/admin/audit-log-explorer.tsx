@@ -12,8 +12,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { VirtualizedList } from "@/components/ui/virtualized-list";
 import { useAdminAuditLogs } from "@/hooks";
 import { useUrlQueryState } from "@/hooks/use-url-query-state";
+import useDebounce from "@/hooks/debounce.hook";
 import type {
   AdminActivityAction,
   AdminActivityEntity,
@@ -135,9 +137,15 @@ function AuditLogDetails({
 
 export function AuditLogExplorer() {
   const query = useUrlQueryState();
+  const [organizationIdInput, setOrganizationIdInput] = useState(
+    query.get("organizationId"),
+  );
+  const [userIdInput, setUserIdInput] = useState(query.get("userId"));
+  const debouncedOrganizationId = useDebounce(organizationIdInput.trim(), 350);
+  const debouncedUserId = useDebounce(userIdInput.trim(), 350);
   const filters = {
-    organizationId: query.get("organizationId"),
-    userId: query.get("userId"),
+    organizationId: debouncedOrganizationId,
+    userId: debouncedUserId,
     entityType:
       ENTITY_TYPES.find((value) => value === query.get("entityType")) ?? "",
     action: ACTIONS.find((value) => value === query.get("action")) ?? "",
@@ -171,6 +179,8 @@ export function AuditLogExplorer() {
   };
 
   const clearFilters = () => {
+    setOrganizationIdInput("");
+    setUserIdInput("");
     query.set({
       organizationId: null,
       userId: null,
@@ -212,16 +222,16 @@ export function AuditLogExplorer() {
       <section className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-3 shadow-sm sm:p-5">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <Input
-            value={filters.organizationId}
+            value={organizationIdInput}
             onChange={(event) =>
-              updateFilter("organizationId", event.target.value)
+              setOrganizationIdInput(event.target.value)
             }
             placeholder="Organization ID"
             aria-label="Filter by organization ID"
           />
           <Input
-            value={filters.userId}
-            onChange={(event) => updateFilter("userId", event.target.value)}
+            value={userIdInput}
+            onChange={(event) => setUserIdInput(event.target.value)}
             placeholder="Actor user ID"
             aria-label="Filter by actor user ID"
           />
@@ -315,8 +325,12 @@ export function AuditLogExplorer() {
           </div>
         ) : (
           <>
-            <div className="grid gap-3 xl:hidden">
-              {logs.map((log) => (
+            <div className="xl:hidden">
+              <VirtualizedList
+                items={logs}
+                ariaLabel="Audit event records"
+                estimateSize={210}
+                renderItem={(log) => (
                 <article
                   key={log.id}
                   className="rounded-xl border border-slate-200 bg-gradient-to-br from-white to-slate-50/70 p-4 shadow-xs transition hover:border-indigo-200 hover:shadow-sm"
@@ -371,7 +385,8 @@ export function AuditLogExplorer() {
                     View event details
                   </Button>
                 </article>
-              ))}
+                )}
+              />
             </div>
             <div className="hidden overflow-x-auto rounded-xl border border-slate-200 xl:block">
               <table className="w-full min-w-[860px] divide-y divide-slate-200 text-left">
