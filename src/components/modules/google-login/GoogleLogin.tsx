@@ -58,6 +58,7 @@ export default function GoogleLoginComponent() {
       shape="pill"
       text="continue_with"
       size="large"
+      width="400"
       onSuccess={handleGoogleSuccess}
       onError={handleGoogleError}
     />
