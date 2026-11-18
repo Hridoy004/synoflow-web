@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* Keep external state-library hooks out of automatic compiler transforms. */
-  reactCompiler: false,
+  /* config options here */
+  reactCompiler: true,
+  output: "export",
 };
 
 export default nextConfig;

@@ -1,11 +1,11 @@
 "use client";
 
+import { useVerifyAccount } from "@/hooks";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { ArrowLeft, MailCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useVerifyAccount } from "@/hooks";
 import { Button } from "../ui/button";
 import { Field, FieldError } from "../ui/field";
 import {
@@ -17,16 +17,16 @@ import {
 import { Spinner } from "../ui/spinner";
 import { toast } from "../ui/toast";
 
-const RESEND_COOLDOWN = 120;
+const RESEND_COOLDOWN = 5 * 60;
 const OTP_LENGTH = 6;
 
 const slotClass =
   "h-12 w-10 text-lg font-semibold text-slate-900 sm:h-14 sm:w-12 sm:text-xl data-[active=true]:border-blue-500 data-[active=true]:ring-blue-500/30";
 
 const formatTime = (seconds: number) => {
-  const m = String(Math.floor(seconds / 60)).padStart(2, "0");
-  const s = String(seconds % 60).padStart(2, "0");
-  return `${m}:${s}`;
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
 };
 
 export default function VerifyAccountForm() {
