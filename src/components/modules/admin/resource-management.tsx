@@ -247,7 +247,7 @@ export function AdminResourceManagement({
             onChange={(event) => {
               urlQuery.set({ status: event.target.value, page: 1 });
             }}
-            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] md:w-auto"
+            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-primary md:w-auto"
           >
             <option value="">All statuses</option>
             {copy.statuses.map((value) => (
@@ -263,7 +263,7 @@ export function AdminResourceManagement({
               onChange={(event) => {
                 urlQuery.set({ plan: event.target.value, page: 1 });
               }}
-              className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] md:w-auto"
+              className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-primary md:w-auto"
             >
               <option value="">All plans</option>
               <option value="FREE">Free</option>

@@ -9,6 +9,8 @@ const PerformanceLab = dynamic(
   { loading: () => <MetricSkeleton /> },
 );
 
+export const metadata = { title: "Performance" };
+
 export default function AdminPerformancePage() {
   return <PerformanceLab />;
 }

@@ -20,6 +20,9 @@ import { Input } from "../ui/input";
 import { Spinner } from "../ui/spinner";
 import { toast } from "../ui/toast";
 
+const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL;
+const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD;
+
 const inputClass =
   "h-11 rounded-lg border-slate-200 bg-white text-base shadow-xs placeholder:text-slate-400 focus-visible:border-indigo-500 focus-visible:ring-indigo-500/20 sm:text-sm";
 
@@ -220,6 +223,20 @@ export default function LoginForm() {
         </FieldGroup>
       </form>
 
+      {demoEmail && demoPassword && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            form.setFieldValue("email", demoEmail);
+            form.setFieldValue("password", demoPassword);
+          }}
+          className="h-11 w-full rounded-lg"
+        >
+          Use demo account
+        </Button>
+      )}
+
       <FieldSeparator>Or continue with</FieldSeparator>
 
       <GoogleLoginComponent />
@@ -236,19 +253,12 @@ export default function LoginForm() {
         </p>
 
         <p className="text-xs leading-relaxed text-slate-400">
-          By continuing, you agree to our{" "}
+          Need help signing in?{" "}
           <Link
-            href="/terms"
+            href="/contact"
             className="underline underline-offset-2 hover:text-slate-600"
           >
-            Terms
-          </Link>{" "}
-          and{" "}
-          <Link
-            href="/privacy"
-            className="underline underline-offset-2 hover:text-slate-600"
-          >
-            Privacy Policy
+            Contact support
           </Link>
           .
         </p>

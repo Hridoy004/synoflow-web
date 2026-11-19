@@ -276,7 +276,7 @@ function TeamCard({ team, orgId }: { team: Team; orgId: string }) {
       className={`${panelClass} group block p-5 transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md`}
     >
       <div className="flex items-start justify-between gap-3">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-700">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
           <Users className="size-5" />
         </div>
         <ArrowUpRight className="size-4 text-slate-400 transition group-hover:text-indigo-600" />
@@ -763,7 +763,7 @@ export function ProjectsWorkspace({ orgId }: { orgId: string }) {
                 required
                 minLength={2}
                 maxLength={20}
-                placeholder="Project key (e.g. APP)"
+                placeholder="Short project key"
                 value={key}
                 onChange={(event) =>
                   setKey(
@@ -2501,7 +2501,7 @@ export function OrganizationLabelsWorkspace({ orgId }: { orgId: string }) {
   const organization = useOrganization(orgId);
   const canManage = organization.data?.data.role === "OWNER";
   const [name, setName] = useState("");
-  const [color, setColor] = useState("#6366f1");
+  const [color, setColor] = useState("#4f46e5");
   const query = useUrlQueryState();
   const search = query.get("search");
   const labels = useLabelsForWorkspace(orgId, search);
@@ -2611,7 +2611,7 @@ function LabelCard({
 }) {
   const update = useUpdateLabel(label.organizationId, label.id);
   const [editing, setEditing] = useState(false);
-  const [color, setColor] = useState(label.color ?? "#6366f1");
+  const [color, setColor] = useState(label.color ?? "#4f46e5");
   if (editing) {
     return (
       <form

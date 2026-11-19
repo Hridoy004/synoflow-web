@@ -6,6 +6,7 @@ import {
 import type { SystemRole } from "@/types/user.type";
 import type { ReactNode } from "react";
 import { DashboardSidebar } from "./dashboard-sidebar";
+import ThemeToggle from "@/components/layout/public/theme-toggle";
 
 export default function DashboardShell({
   children,
@@ -18,8 +19,9 @@ export default function DashboardShell({
     <SidebarProvider>
       <DashboardSidebar role={systemRole} />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
+          <ThemeToggle />
         </header>
         {children}
       </SidebarInset>

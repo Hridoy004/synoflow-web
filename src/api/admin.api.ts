@@ -3,6 +3,7 @@ import type {
   AdminAuditLog,
   AdminAuditLogFilters,
   AdminDashboardStats,
+  AdminDashboardGrowth,
   AdminOrganization,
   AdminProject,
   AdminResourceFilters,
@@ -26,6 +27,10 @@ const toQuery = (params: object) => {
 
 export function getAdminDashboardStats() {
   return apiClient<ApiResponse<AdminDashboardStats>>("/admin/dashboard-stats");
+}
+
+export function getAdminDashboardGrowth() {
+  return apiClient<ApiResponse<AdminDashboardGrowth>>("/admin/dashboard-growth");
 }
 
 export function getAdminUsers(filters: AdminUserFilters = { page: 1, limit: 20 }) {

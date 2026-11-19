@@ -91,7 +91,7 @@ function PreviewMain() {
           icon={Users}
           label="Teams"
           hint="Shared goals"
-          iconClass="text-violet-600"
+          iconClass="text-primary"
         />
       </div>
 
@@ -144,7 +144,7 @@ function PreviewMain() {
 export function DashboardPreview() {
   return (
     <div className="relative mx-auto w-full max-w-xl">
-      <div className="rounded-[26px] bg-gradient-to-b from-background via-primary/30 to-violet-500/10 p-[1.5px] shadow-2xl shadow-primary/25">
+      <div className="rounded-[26px] bg-gradient-to-b from-background via-primary/25 to-primary/10 p-[1.5px] shadow-2xl shadow-primary/20">
         <div className="overflow-hidden rounded-3xl border bg-card">
           <div className="flex h-10 items-center border-b bg-muted/50 px-4">
             <div className="flex w-12 gap-1.5" aria-hidden>

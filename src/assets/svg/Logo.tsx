@@ -39,8 +39,8 @@ export default function Logo({
           y2="100"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stopColor="#5762FA" />
-          <stop offset="1" stopColor="#3F49EC" />
+          <stop offset="0" stopColor="var(--brand-logo-start)" />
+          <stop offset="1" stopColor="var(--brand-logo-end)" />
         </linearGradient>
         <linearGradient
           id={top}

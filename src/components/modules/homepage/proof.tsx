@@ -18,7 +18,7 @@ export function Proof() {
               key={label}
               className="flex min-h-24 items-center justify-center gap-3 bg-white px-4 text-center text-sm font-semibold text-slate-700"
             >
-              <Icon className="size-5 shrink-0 text-[#4852F5]" aria-hidden />
+              <Icon className="size-5 shrink-0 text-primary" aria-hidden />
               {label}
             </div>
           ))}

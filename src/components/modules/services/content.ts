@@ -8,20 +8,11 @@ import {
   Users,
 } from "lucide-react";
 
-export type ServiceTone =
-  | "indigo"
-  | "sky"
-  | "violet"
-  | "emerald"
-  | "amber"
-  | "pink";
-
 export type Service = {
   id: string;
   title: string;
   description: string;
   icon: LucideIcon;
-  tone: ServiceTone;
   features: readonly string[];
 };
 
@@ -32,7 +23,6 @@ export const SERVICES: readonly Service[] = [
     description:
       "Keep goals, milestones, and delivery progress visible from one project workspace.",
     icon: FolderKanban,
-    tone: "indigo",
     features: ["Project organization", "Progress tracking", "Project overview"],
   },
   {
@@ -41,7 +31,6 @@ export const SERVICES: readonly Service[] = [
     description:
       "Turn complex work into clear tasks, owners, priorities, and deadlines.",
     icon: ListChecks,
-    tone: "sky",
     features: [
       "Task assignments",
       "Priority and status tracking",
@@ -54,7 +43,6 @@ export const SERVICES: readonly Service[] = [
     description:
       "Keep decisions, ownership, and project activity connected to the work.",
     icon: Users,
-    tone: "violet",
     features: ["Team management", "Task comments", "Activity updates"],
   },
   {
@@ -63,7 +51,6 @@ export const SERVICES: readonly Service[] = [
     description:
       "Plan sprints, prioritize backlogs, and keep delivery aligned with team goals.",
     icon: CalendarRange,
-    tone: "emerald",
     features: [
       "Sprint organization",
       "Task planning",
@@ -76,7 +63,6 @@ export const SERVICES: readonly Service[] = [
     description:
       "Understand workload, project health, and team progress with actionable insights.",
     icon: ChartNoAxesCombined,
-    tone: "amber",
     features: [
       "Project progress",
       "Task status summaries",
@@ -89,7 +75,6 @@ export const SERVICES: readonly Service[] = [
     description:
       "Organize organizations and members with secure, role-based access control.",
     icon: ShieldCheck,
-    tone: "pink",
     features: [
       "Organization management",
       "Member invitations",

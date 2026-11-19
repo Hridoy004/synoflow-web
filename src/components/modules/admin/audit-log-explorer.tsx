@@ -239,7 +239,7 @@ export function AuditLogExplorer() {
             aria-label="Filter by entity type"
             value={filters.entityType}
             onChange={(event) => updateFilter("entityType", event.target.value)}
-            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5]"
+            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <option value="">All entity types</option>
             {ENTITY_TYPES.map((entityType) => (
@@ -252,7 +252,7 @@ export function AuditLogExplorer() {
             aria-label="Filter by action"
             value={filters.action}
             onChange={(event) => updateFilter("action", event.target.value)}
-            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5]"
+            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <option value="">All actions</option>
             {ACTIONS.map((action) => (

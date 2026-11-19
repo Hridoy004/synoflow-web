@@ -203,7 +203,6 @@ export function OrganizationFormDialog({
               id="org-name"
               value={name}
               onChange={(event) => handleNameChange(event.target.value)}
-              placeholder="Synoflow Labs"
               maxLength={ORGANIZATION_NAME_MAX_LENGTH}
               disabled={isPending}
               autoComplete="organization"
@@ -225,7 +224,6 @@ export function OrganizationFormDialog({
                 id="org-slug"
                 value={slug}
                 onChange={(event) => handleSlugChange(event.target.value)}
-                placeholder="synoflow-labs"
                 maxLength={ORGANIZATION_SLUG_MAX_LENGTH}
                 disabled={isPending}
                 autoComplete="off"

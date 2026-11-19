@@ -20,6 +20,23 @@ export const adminRoutes = [
         title: "Payments",
         url: `${prefix}/payments`,
       },
+      {
+        title: "Performance",
+        url: `${prefix}/performance`,
+      },
+    ],
+  },
+  {
+    title: "Resources",
+    items: [
+      {
+        title: "Product services",
+        url: "/services",
+      },
+      {
+        title: "Contact support",
+        url: "/contact",
+      },
     ],
   },
 ];

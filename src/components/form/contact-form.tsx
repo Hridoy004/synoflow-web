@@ -60,11 +60,12 @@ export default function ContactForm({ defaultInquiry }: ContactFormProps) {
         });
 
         form.reset();
-      } catch {
+      } catch (error) {
+        if (!(error instanceof Error)) throw error;
+
         toast.add({
           title: "Unable to send message",
-          description:
-            "Please try again later or contact us directly at support@synoflow.com",
+          description: error.message || "Please try again later.",
           type: "error",
         });
       }
@@ -124,7 +125,6 @@ export default function ContactForm({ defaultInquiry }: ContactFormProps) {
                           field.handleChange(event.target.value)
                         }
                         onBlur={field.handleBlur}
-                        placeholder="John Doe"
                         autoComplete="name"
                         className={`${inputClass} pl-9`}
                         aria-invalid={isInvalid}

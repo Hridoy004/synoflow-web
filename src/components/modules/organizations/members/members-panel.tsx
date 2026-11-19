@@ -184,7 +184,7 @@ export function OrganizationMembersPanel({
           {canManageMembers && (
             <Button
               type="button"
-              className="gap-2 rounded-lg bg-[#4852F5] px-4 text-white shadow-sm hover:bg-[#3A43D6]"
+              className="gap-2 rounded-lg bg-primary px-4 text-primary-foreground shadow-sm hover:bg-primary/90"
               onClick={() => setInviteOpen(true)}
             >
               <UserPlus className="size-4" />

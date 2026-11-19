@@ -9,6 +9,8 @@ const AdminDashboardOverview = dynamic(
   { loading: () => <MetricSkeleton /> },
 );
 
+export const metadata = { title: "Admin dashboard" };
+
 export default function AdminDashboard() {
   return <AdminDashboardOverview />;
 }

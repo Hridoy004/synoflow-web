@@ -29,8 +29,6 @@ export function DashboardSidebar({ role }: { role: SystemRole }) {
   const pathname = usePathname();
   const routes: SidebarItems = sidebarRoutes[role] || [];
 
-  console.log(pathname);
-
   return (
     <Sidebar>
       <SidebarHeader>

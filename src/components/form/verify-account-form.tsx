@@ -17,17 +17,10 @@ import {
 import { Spinner } from "../ui/spinner";
 import { toast } from "../ui/toast";
 
-const RESEND_COOLDOWN = 5 * 60;
 const OTP_LENGTH = 6;
 
 const slotClass =
   "h-12 w-10 text-lg font-semibold text-slate-900 sm:h-14 sm:w-12 sm:text-xl data-[active=true]:border-blue-500 data-[active=true]:ring-blue-500/30";
-
-const formatTime = (seconds: number) => {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
-};
 
 export default function VerifyAccountForm() {
   const searchParams = useSearchParams();
@@ -35,7 +28,6 @@ export default function VerifyAccountForm() {
 
   const [otp, setOtp] = useState("");
   const [isInvalid, setIsInvalid] = useState(false);
-  const [resendTimer, setResendTimer] = useState(RESEND_COOLDOWN);
 
   const { mutate: verify, isPending: verifyPending } = useVerifyAccount();
 
@@ -46,12 +38,6 @@ export default function VerifyAccountForm() {
       router.replace("/register");
     }
   }, [email, router]);
-
-  useEffect(() => {
-    if (resendTimer <= 0) return;
-    const id = setTimeout(() => setResendTimer((t) => t - 1), 1000);
-    return () => clearTimeout(id);
-  }, [resendTimer]);
 
   const handleVerify = (code: string) => {
     if (verifyPending) return;
@@ -93,11 +79,6 @@ export default function VerifyAccountForm() {
         },
       },
     );
-  };
-
-  const handleResend = () => {
-    if (resendTimer > 0) return;
-    setResendTimer(RESEND_COOLDOWN);
   };
 
   if (!email) {
@@ -187,21 +168,15 @@ export default function VerifyAccountForm() {
       </form>
 
       <div className="flex flex-col items-center gap-4 text-sm">
-        <p className="text-slate-500">
-          Didn&apos;t get the code?{" "}
-          {resendTimer > 0 ? (
-            <span className="font-medium text-slate-700">
-              Resend in {formatTime(resendTimer)}
-            </span>
-          ) : (
-            <button
-              type="button"
-              onClick={handleResend}
-              className="font-semibold text-blue-600 underline-offset-4 hover:text-blue-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-            >
-              Resend code
-            </button>
-          )}
+        <p className="text-center text-slate-500">
+          Didn&apos;t get the code? Check your spam folder or{" "}
+          <Link
+            href="/contact?inquiry=support#contact-form"
+            className="font-semibold text-blue-600 underline-offset-4 hover:text-blue-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          >
+            contact support
+          </Link>
+          .
         </p>
 
         <Link

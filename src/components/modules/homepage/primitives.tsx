@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { PEOPLE, type PersonId } from "./data";
 
 export function Container({
   children,
@@ -52,37 +51,20 @@ export function SectionHeader({
 }
 
 const buttonBase =
-  "inline-flex h-12 items-center justify-center gap-2 rounded-xl px-6 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] focus-visible:ring-offset-2";
+  "inline-flex h-12 items-center justify-center gap-2 rounded-xl px-6 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
 
 const buttonVariants = {
   primary:
-    "bg-[#4852F5] text-white shadow-[0_10px_30px_-8px_rgba(72,82,245,0.65)] hover:bg-[#3A43D6] hover:shadow-[0_14px_36px_-8px_rgba(72,82,245,0.75)]",
+    "bg-primary text-primary-foreground shadow-md shadow-primary/20 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25",
   secondary:
     "border border-slate-200 bg-white/80 text-slate-800 shadow-sm backdrop-blur hover:border-slate-300 hover:bg-white",
   inverse:
-    "bg-white text-[#2C34C9] shadow-lg shadow-black/10 hover:bg-indigo-50",
+    "bg-white text-brand-800 shadow-lg shadow-black/10 hover:bg-brand-50",
   inverseOutline: "border border-white/40 text-white hover:bg-white/10",
 } as const;
 
 export function buttonClass(variant: keyof typeof buttonVariants) {
   return `${buttonBase} ${buttonVariants[variant]}`;
-}
-
-export function Avatar({
-  id,
-  size = "size-6",
-}: {
-  id: PersonId;
-  size?: string;
-}) {
-  return (
-    <span
-      aria-hidden
-      className={`inline-flex ${size} shrink-0 items-center justify-center rounded-full text-[9px] font-semibold ring-2 ring-white ${PEOPLE[id]}`}
-    >
-      {id}
-    </span>
-  );
 }
 
 export function AppWindow({
@@ -116,7 +98,7 @@ export function AppWindow({
 
 export function GlowFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-[26px] bg-gradient-to-b from-white via-[#4852F5]/30 to-[#8B5CF6]/10 p-[1.5px] shadow-[0_50px_120px_-30px_rgba(72,82,245,0.5)]">
+    <div className="rounded-[26px] bg-gradient-to-b from-background via-primary/25 to-primary/10 p-[1.5px] shadow-2xl shadow-primary/20">
       {children}
     </div>
   );

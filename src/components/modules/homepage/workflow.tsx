@@ -5,11 +5,11 @@ export function Workflow() {
   return (
     <section
       id="how-it-works"
-      className="relative isolate scroll-mt-20 overflow-hidden bg-[#0E1250] py-20 sm:py-24"
+      className="relative isolate scroll-mt-20 overflow-hidden bg-brand-950 py-20 sm:py-24"
     >
       <div
         aria-hidden
-        className="absolute left-1/2 top-0 -z-10 size-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#4852F5]/40 blur-[120px]"
+        className="absolute left-1/2 top-0 -z-10 size-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-400/30 blur-[120px]"
       />
       <div
         aria-hidden
@@ -30,7 +30,7 @@ export function Workflow() {
               className="rounded-3xl bg-white/[0.05] p-8 ring-1 ring-white/10 backdrop-blur transition-colors hover:bg-white/[0.08]"
             >
               <div className="flex items-center justify-between">
-                <span className="flex size-10 items-center justify-center rounded-full bg-white text-sm font-semibold text-[#2C34C9]">
+                <span className="flex size-10 items-center justify-center rounded-full bg-white text-sm font-semibold text-brand-800">
                   {index + 1}
                 </span>
                 <Icon aria-hidden className="size-6 text-indigo-200/70" />

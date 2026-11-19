@@ -64,8 +64,8 @@ export const PURPOSE: {
     icon: Eye,
     title: "Our vision",
     text: "To create a workspace where teams understand their priorities, see the bigger picture, and do their best work together.",
-    cardClass: "from-violet-50",
-    chipClass: "bg-violet-500 text-white shadow-lg shadow-violet-500/30",
+    cardClass: "from-primary/10",
+    chipClass: "bg-primary text-primary-foreground shadow-lg shadow-primary/20",
   },
 ];
 
@@ -105,15 +105,15 @@ export const CAPABILITIES: {
     icon: ListChecks,
     title: "Manage tasks",
     text: "Create tasks, assign responsibilities, and track task status.",
-    cardClass: "from-emerald-50",
-    chipClass: "bg-emerald-500 text-white shadow-lg shadow-emerald-500/30",
+    cardClass: "from-primary/10",
+    chipClass: "bg-primary text-primary-foreground shadow-lg shadow-primary/20",
   },
   {
     icon: Users,
     title: "Work together",
     text: "Bring members together around shared goals and project activity.",
-    cardClass: "from-violet-50",
-    chipClass: "bg-violet-500 text-white shadow-lg shadow-violet-500/30",
+    cardClass: "from-primary/10",
+    chipClass: "bg-primary text-primary-foreground shadow-lg shadow-primary/20",
   },
 ];
 
@@ -127,24 +127,24 @@ export const VALUES: {
     icon: Target,
     title: "Simplicity first",
     text: "Make complex workflows easier to understand, manage, and complete.",
-    chipClass: "bg-indigo-50 text-indigo-600",
+    chipClass: "bg-primary/10 text-primary",
   },
   {
     icon: Users,
     title: "Better together",
     text: "Bring people together around shared goals and meaningful work.",
-    chipClass: "bg-sky-50 text-sky-600",
+    chipClass: "bg-primary/10 text-primary",
   },
   {
     icon: ShieldCheck,
     title: "Built on trust",
     text: "Encourage transparency, accountability, and responsible collaboration.",
-    chipClass: "bg-emerald-50 text-emerald-600",
+    chipClass: "bg-primary/10 text-primary",
   },
   {
     icon: Zap,
     title: "Always improving",
     text: "Help teams spend less time managing work and more time creating value.",
-    chipClass: "bg-amber-50 text-amber-600",
+    chipClass: "bg-primary/10 text-primary",
   },
 ];

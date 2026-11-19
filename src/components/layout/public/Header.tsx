@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
 import { useGetMe, useLogout } from "@/hooks";
 import type { SystemRole } from "@/types";
+import ThemeToggle from "./theme-toggle";
 
 const routes = [
   { name: "Home", url: "/" },
@@ -46,10 +47,10 @@ const roleLabel: Record<SystemRole, string> = {
 
 /* ---------- Style tokens ---------- */
 const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] focus-visible:ring-offset-2";
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
 
 const primaryButton =
-  "rounded-lg bg-[#4852F5] font-semibold text-white shadow-sm transition-colors hover:bg-[#3A43D6]";
+  "rounded-lg bg-primary font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90";
 
 const secondaryButton =
   "rounded-lg border border-slate-300 bg-white font-semibold text-slate-800 transition-colors hover:bg-slate-50";
@@ -57,9 +58,9 @@ const secondaryButton =
 const menuItem =
   "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 transition-colors";
 
-const navLink = `rounded-md px-3 py-2 text-sm font-medium transition-colors ${focusRing}`;
-const navLinkActive = "bg-brand-50 text-brand-800";
-const navLinkIdle = "text-slate-600 hover:bg-brand-50 hover:text-brand-800";
+const navLink = `rounded-lg px-3 py-2 text-sm font-medium transition-[background-color] duration-150 ease-out ${focusRing}`;
+const navLinkActive = "bg-primary/15 font-semibold text-primary";
+const navLinkIdle = "text-slate-600 hover:bg-primary/15 hover:text-primary";
 
 /* ---------- Helpers ---------- */
 function getIdentity(user: unknown) {
@@ -93,7 +94,7 @@ function Avatar({
   return (
     <span
       aria-hidden
-      className={`flex shrink-0 items-center justify-center rounded-full bg-[#4852F5] font-semibold text-white ${className}`}
+      className={`flex shrink-0 items-center justify-center rounded-full bg-primary font-semibold text-primary-foreground ${className}`}
     >
       {initials}
     </span>
@@ -384,7 +385,7 @@ export default function Header() {
             className={`flex shrink-0 items-center gap-2.5 rounded-md ${focusRing}`}
           >
             <Logo className="size-8" />
-            <span className="text-xl font-bold tracking-tight text-[#10156F]">
+            <span className="text-xl font-bold tracking-tight text-brand-800">
               Synoflow
             </span>
           </Link>
@@ -408,8 +409,9 @@ export default function Header() {
           </nav>
         </div>
 
-        <div className="hidden shrink-0 items-center lg:flex">
+        <div className="hidden shrink-0 items-center gap-2 lg:flex">
           {authSection(false)}
+          <ThemeToggle />
         </div>
 
         <Button
@@ -442,10 +444,10 @@ export default function Header() {
                   href={route.url}
                   onClick={closeMenus}
                   aria-current={isActive(route.url) ? "page" : undefined}
-                  className={`flex items-center justify-between rounded-lg px-4 py-3.5 text-[15px] font-medium transition-colors ${
+                  className={`flex items-center justify-between rounded-lg px-4 py-3.5 text-[15px] font-medium transition-[background-color] duration-150 ease-out ${
                     isActive(route.url)
                       ? navLinkActive
-                      : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+                      : "text-slate-700 hover:bg-primary/15 hover:text-primary"
                   }`}
                 >
                   {route.name}
@@ -456,6 +458,9 @@ export default function Header() {
 
             <div className="mt-5 border-t border-slate-100 pt-5">
               {authSection(true)}
+            </div>
+            <div className="mt-4 flex justify-center">
+              <ThemeToggle showLabel />
             </div>
           </div>
         </div>

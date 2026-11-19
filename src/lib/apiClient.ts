@@ -7,5 +7,4 @@ const apiClient = ofetch.create({
   credentials: "include",
 });
 
-export default apiClient as typeof apiClient &
-  (<T>(request: Parameters<typeof apiClient>[0], options?: Parameters<typeof apiClient>[1]) => Promise<T>);
+export default apiClient;

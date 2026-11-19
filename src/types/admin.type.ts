@@ -23,6 +23,14 @@ export interface AdminDashboardStats {
   };
 }
 
+export interface AdminDashboardGrowth {
+  days: {
+    date: string;
+    users: number;
+    organizations: number;
+  }[];
+}
+
 export interface AdminUser {
   id: string;
   name: string;

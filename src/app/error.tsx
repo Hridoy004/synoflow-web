@@ -40,7 +40,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]" />
         <div className="absolute -top-32 left-1/2 size-72 -translate-x-1/2 rounded-full bg-indigo-200/40 blur-3xl sm:size-96" />
         <div className="absolute -bottom-32 -right-20 size-72 rounded-full bg-blue-200/30 blur-3xl sm:size-96" />
       </div>

@@ -61,9 +61,9 @@ export function MembersTable({
               <tr key={member.memberId} className="hover:bg-slate-50/60">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <Avatar size="sm" className="bg-[#EBEEFF] text-[#3A43D6]">
+                    <Avatar size="sm" className="bg-primary/10 text-primary">
                       <AvatarImage src={member.user?.avatar ?? undefined} />
-                      <AvatarFallback className="bg-[#EBEEFF] text-[#3A43D6]">
+                      <AvatarFallback className="bg-primary/10 text-primary">
                         {getInitials(member.user?.name, member.user?.email)}
                       </AvatarFallback>
                     </Avatar>
@@ -83,7 +83,7 @@ export function MembersTable({
                     variant={isOwner ? "default" : "secondary"}
                     className={cn(
                       isOwner
-                        ? "bg-[#EEF1FF] text-[#3A43D6] ring-[#CED2FF]"
+                        ? "bg-primary/10 text-primary ring-primary/20"
                         : "bg-slate-100 text-slate-700",
                     )}
                   >
@@ -100,7 +100,7 @@ export function MembersTable({
                     <DropdownMenu>
                       <DropdownMenuTrigger
                         aria-label={`Actions for ${name}`}
-                        className="inline-flex size-8 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5]"
+                        className="inline-flex size-8 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       >
                         <MoreHorizontal className="size-4" />
                       </DropdownMenuTrigger>

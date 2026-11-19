@@ -209,7 +209,7 @@ export function OrganizationDetails({ orgId }: { orgId: string }) {
         All organizations
       </Link>
 
-      <section className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-indigo-950 to-indigo-800 px-5 py-6 text-white shadow-lg shadow-indigo-950/10 sm:px-8 sm:py-9">
+      <section className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-brand-950 via-brand-900 to-brand-800 px-5 py-6 text-white shadow-lg shadow-brand-950/10 sm:px-8 sm:py-9">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -top-28 -right-16 -z-10 size-80 rounded-full border-[42px] border-white/[0.06]"
@@ -271,21 +271,21 @@ export function OrganizationDetails({ orgId }: { orgId: string }) {
             detail: "Organize people into focused groups",
             href: "teams",
             icon: Users,
-            tint: "bg-violet-50 text-violet-700",
+            tint: "bg-primary/10 text-primary",
           },
           {
             label: "Projects",
             detail: "Plan work and track delivery",
             href: "projects",
             icon: FolderKanban,
-            tint: "bg-indigo-50 text-indigo-700",
+            tint: "bg-primary/10 text-primary",
           },
           {
             label: "Labels",
             detail: "Keep work categorized consistently",
             href: "labels",
             icon: Layers3,
-            tint: "bg-amber-50 text-amber-700",
+            tint: "bg-primary/10 text-primary",
           },
         ].map(({ label, detail, href, icon: Icon, tint }) => (
           <Link

@@ -30,10 +30,10 @@ import { Spinner } from "../ui/spinner";
 import { toast } from "../ui/toast";
 
 const inputClass =
-  "h-11 rounded-lg border-slate-200 bg-white pl-9 text-base shadow-xs placeholder:text-slate-400 focus-visible:border-blue-500 focus-visible:ring-blue-500/20 sm:text-sm";
-const labelClass = "text-sm font-medium text-slate-700";
+  "h-11 rounded-lg border-input bg-card pl-9 text-base text-foreground shadow-xs placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20 sm:text-sm";
+const labelClass = "text-sm font-medium text-foreground";
 const iconClass =
-  "pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400";
+  "pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground";
 
 type UserDefaultValues = z.infer<typeof userRegistrationSchema>;
 
@@ -58,7 +58,7 @@ function ShowToggle({
       aria-label={shown ? "Hide password" : "Show password"}
       aria-pressed={shown}
       onClick={onToggle}
-      className="absolute right-1 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-slate-400 transition-colors hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      className="absolute right-1 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     >
       {shown ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
     </button>
@@ -123,10 +123,10 @@ export default function RegisterForm() {
   return (
     <div className="flex flex-col gap-6 sm:gap-7">
       <div className="flex flex-col gap-1.5 text-center lg:text-left">
-        <h1 className="text-2xl font-semibold leading-tight sm:text-[1.75rem] tracking-tight text-slate-900">
+        <h1 className="text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-[1.75rem]">
           Create your account
         </h1>
-        <p className="text-balance text-sm text-slate-500">
+        <p className="text-balance text-sm text-muted-foreground">
           Set up your Synoflow workspace in under a minute.
         </p>
       </div>
@@ -155,7 +155,6 @@ export default function RegisterForm() {
                       id={field.name}
                       name={field.name}
                       type="text"
-                      placeholder="Ali Hasan"
                       className={inputClass}
                       value={field.state.value}
                       onBlur={field.handleBlur}
@@ -221,7 +220,6 @@ export default function RegisterForm() {
                       name={field.name}
                       type="tel"
                       inputMode="tel"
-                      placeholder="+880 1413 453455"
                       className={inputClass}
                       value={field.state.value}
                       onBlur={field.handleBlur}
@@ -307,7 +305,7 @@ export default function RegisterForm() {
           <Button
             disabled={registrationPending}
             type="submit"
-            className="group h-11 w-full rounded-lg bg-blue-600 text-sm font-semibold text-white shadow-sm shadow-blue-600/20 transition-colors hover:bg-blue-700 focus-visible:ring-blue-500/40 disabled:opacity-70"
+            className="group h-11 w-full rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 transition-colors hover:bg-primary/90 focus-visible:ring-primary/40 disabled:opacity-70"
           >
             {registrationPending ? (
               <>
@@ -328,29 +326,22 @@ export default function RegisterForm() {
       <GoogleLoginComponent />
 
       <div className="flex flex-col gap-4 text-center">
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
             href="/login"
-            className="font-semibold text-blue-600 underline-offset-4 hover:text-blue-700 hover:underline"
+            className="font-semibold text-primary underline-offset-4 hover:text-primary/80 hover:underline"
           >
             Sign in
           </Link>
         </p>
-        <p className="text-xs leading-relaxed text-slate-400">
-          By creating an account, you agree to our{" "}
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          Questions about setting up your account?{" "}
           <Link
-            href="#"
-            className="underline underline-offset-2 hover:text-slate-600"
+            href="/contact"
+            className="underline underline-offset-2 hover:text-primary"
           >
-            Terms
-          </Link>{" "}
-          and{" "}
-          <Link
-            href="#"
-            className="underline underline-offset-2 hover:text-slate-600"
-          >
-            Privacy Policy
+            Contact support
           </Link>
           .
         </p>

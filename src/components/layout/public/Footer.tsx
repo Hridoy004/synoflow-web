@@ -29,12 +29,16 @@ const columns = [
     links: [
       { name: "Help center", url: "/contact#faq" },
       { name: "Contact support", url: "/contact?inquiry=support#contact-form" },
+      {
+        name: "GitHub project",
+        url: "https://github.com/Hridoy004/synoflow-web",
+      },
     ],
   },
 ];
 
 const linkClass =
-  "rounded text-sm text-slate-600 transition-colors hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] focus-visible:ring-offset-2";
+  "rounded text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
 
 export default function Footer() {
   return (
@@ -44,10 +48,10 @@ export default function Footer() {
           <Link
             href="/"
             aria-label="Synoflow homepage"
-            className="inline-flex items-center gap-2.5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2.5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             <Logo className="size-8" />
-            <span className="text-xl font-bold tracking-tight text-[#10156F]">
+            <span className="text-xl font-bold tracking-tight text-brand-800">
               Synoflow
             </span>
           </Link>
@@ -55,12 +59,12 @@ export default function Footer() {
             Project management that keeps tasks, timelines, and teams in one
             place.
           </p>
-          <a
-            href="mailto:support@synoflow.com"
-            className="mt-4 inline-block rounded text-sm font-medium text-[#4852F5] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] focus-visible:ring-offset-2"
+          <Link
+            href="/contact?inquiry=support#contact-form"
+            className="mt-4 inline-block rounded text-sm font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            support@synoflow.com
-          </a>
+            Contact support
+          </Link>
         </div>
 
         <nav
@@ -75,7 +79,16 @@ export default function Footer() {
               <ul className="mt-4 space-y-3">
                 {column.links.map((link) => (
                   <li key={link.url}>
-                    <Link href={link.url} className={linkClass}>
+                    <Link
+                      href={link.url}
+                      className={linkClass}
+                      target={link.url.startsWith("https://") ? "_blank" : undefined}
+                      rel={
+                        link.url.startsWith("https://")
+                          ? "noreferrer noopener"
+                          : undefined
+                      }
+                    >
                       {link.name}
                     </Link>
                   </li>

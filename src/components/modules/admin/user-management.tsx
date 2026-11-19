@@ -125,7 +125,7 @@ const UserTableRow = memo(function UserTableRow({
         <div className="flex min-w-48 items-center gap-3">
           <Avatar className="size-9 shrink-0">
             <AvatarImage src={user.imageUrl || undefined} alt={user.name} />
-            <AvatarFallback className="bg-indigo-50 font-medium text-[#3A43D6]">
+            <AvatarFallback className="bg-primary/10 font-medium text-primary">
               {getInitials(user.name, user.email)}
             </AvatarFallback>
           </Avatar>
@@ -320,7 +320,7 @@ export function UserManagement() {
                   page: 1,
                 });
               }}
-              className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] sm:w-auto"
+              className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-auto"
             >
               <option value="">All statuses</option>
               <option value="ACTIVE">Active</option>
@@ -332,7 +332,7 @@ export function UserManagement() {
               onChange={(event) => {
                 query.set({ systemRole: event.target.value, page: 1 });
               }}
-              className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-[#4852F5] sm:w-auto"
+              className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-auto"
             >
               <option value="">All roles</option>
               {SYSTEM_ROLES.map((role) => (
@@ -413,7 +413,7 @@ export function UserManagement() {
                           src={user.imageUrl || undefined}
                           alt={user.name}
                         />
-                        <AvatarFallback className="bg-indigo-50 font-medium text-[#3A43D6]">
+                        <AvatarFallback className="bg-primary/10 font-medium text-primary">
                           {getInitials(user.name, user.email)}
                         </AvatarFallback>
                       </Avatar>
@@ -620,7 +620,7 @@ export function UserManagement() {
               type="button"
               disabled={isChangingRole}
               onClick={handleRoleChange}
-              className="bg-[#4852F5] text-white hover:bg-[#3A43D6]"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               <ShieldCheck className="size-4" aria-hidden="true" />
               {isChangingRole ? "Updating..." : "Confirm change"}

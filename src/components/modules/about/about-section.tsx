@@ -22,8 +22,8 @@ function AuroraBackground() {
       className="absolute inset-0 -z-10 overflow-hidden bg-gradient-to-b from-primary/5 via-background to-background"
     >
       <div className="absolute -left-24 -top-24 size-[34rem] rounded-full bg-primary/25 blur-[110px]" />
-      <div className="absolute -right-24 top-0 size-[30rem] rounded-full bg-violet-400/25 blur-[110px]" />
-      <div className="absolute left-1/3 top-48 size-[26rem] rounded-full bg-sky-300/30 blur-[110px]" />
+      <div className="absolute -right-24 top-0 size-[30rem] rounded-full bg-primary/15 blur-[110px]" />
+      <div className="absolute left-1/3 top-48 size-[26rem] rounded-full bg-primary/10 blur-[110px]" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(100,116,139,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(100,116,139,0.12)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(65%_55%_at_50%_0%,black,transparent)]" />
     </div>
   );
@@ -170,7 +170,7 @@ export function FinalCta() {
   return (
     <section className="py-12 sm:py-16 lg:py-20">
       <Container>
-        <div className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-violet-600 px-5 py-14 text-center text-primary-foreground sm:rounded-[32px] sm:px-12 sm:py-20 lg:py-24">
+        <div className="brand-gradient relative isolate overflow-hidden rounded-3xl px-5 py-14 text-center text-white sm:rounded-[32px] sm:px-12 sm:py-20 lg:py-24">
           <div
             aria-hidden
             className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.12)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(70%_70%_at_50%_50%,black,transparent)]"
@@ -179,20 +179,20 @@ export function FinalCta() {
             <h2 className="text-balance text-3xl font-semibold tracking-[-0.025em] sm:text-4xl lg:text-5xl lg:leading-[1.08]">
               Ready to bring your work together?
             </h2>
-            <p className="mt-4 text-base leading-7 text-primary-foreground/85 sm:mt-5 sm:text-lg sm:leading-8">
+            <p className="mt-4 text-base leading-7 text-white/85 sm:mt-5 sm:text-lg sm:leading-8">
               Create an organized workspace, align your team, and make progress
               easier to manage with Synoflow.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:mt-10 sm:flex-row">
               <AuthCtaButton
                 variant="secondary"
-                className="bg-background text-primary shadow-lg hover:bg-background/90"
+                className="bg-white text-brand-800 shadow-lg hover:bg-white/90"
               />
               <LinkButton
                 href="/contact"
                 variant="outline"
                 size="lg"
-                className="h-12 w-full border-primary-foreground/40 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground sm:w-auto"
+                className="h-12 w-full border-white/40 bg-transparent px-6 text-white hover:bg-white/10 hover:text-white sm:w-auto"
               >
                 Talk to us
               </LinkButton>

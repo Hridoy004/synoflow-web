@@ -62,7 +62,7 @@ export function UserDashboardOverview() {
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-6">
-      <section className="relative isolate overflow-hidden rounded-2xl bg-gradient-to-br from-[#303BCE] via-[#4852F5] to-[#747CFF] p-5 text-white shadow-sm sm:p-8">
+      <section className="brand-gradient relative isolate overflow-hidden rounded-2xl p-5 text-white shadow-sm sm:p-8">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-14 -top-24 -z-10 size-64 rounded-full border-[36px] border-white/10"
@@ -78,7 +78,7 @@ export function UserDashboardOverview() {
         <Button
           nativeButton={false}
           render={<Link href="/user/organizations" />}
-          className="mt-5 gap-2 bg-white text-[#3F49E8] hover:bg-white/90"
+          className="mt-5 gap-2 bg-white text-brand-800 hover:bg-white/90"
         >
           View organizations
           <ArrowRight className="size-4" aria-hidden="true" />
@@ -96,7 +96,7 @@ export function UserDashboardOverview() {
                 {organizationCount.toLocaleString()}
               </p>
             </div>
-            <span className="flex size-10 items-center justify-center rounded-xl bg-indigo-50 text-[#4852F5]">
+            <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <Building2 className="size-5" aria-hidden="true" />
             </span>
           </div>

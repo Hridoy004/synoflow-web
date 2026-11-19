@@ -9,6 +9,8 @@ const UserManagement = dynamic(
   { loading: () => <MetricSkeleton /> },
 );
 
+export const metadata = { title: "Users" };
+
 export default function AdminUsersPage() {
   return <UserManagement />;
 }

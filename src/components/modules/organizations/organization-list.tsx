@@ -9,11 +9,12 @@ import {
   Search,
   SlidersHorizontal,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useOrganizations } from "@/hooks";
+import useDebounce from "@/hooks/debounce.hook";
 import { useUrlQueryState } from "@/hooks/use-url-query-state";
 import { cn } from "@/lib/utils";
 import type { Organization } from "@/types";
@@ -38,7 +39,20 @@ export function OrganizationList() {
   const query = useUrlQueryState();
   const page = query.getPage();
   const search = query.get("search");
+  const debouncedSearch = useDebounce(search.trim(), 350);
+  const roleValue = query.get("role");
+  const role =
+    roleValue === "OWNER" || roleValue === "MEMBER" ? roleValue : undefined;
+  const sortByValue = query.get("sortBy");
+  const sortBy =
+    sortByValue === "name" ||
+    sortByValue === "slug" ||
+    sortByValue === "updatedAt"
+      ? sortByValue
+      : "createdAt";
+  const sortOrder = query.get("sortOrder") === "asc" ? "asc" : "desc";
   const view = query.get("view") === "list" ? "list" : "grid";
+  const hasFilters = Boolean(debouncedSearch || role);
 
   const [formDialog, setFormDialog] = useState<DialogState>({
     open: false,
@@ -52,24 +66,14 @@ export function OrganizationList() {
     useOrganizations({
       page,
       limit: PAGE_SIZE,
+      ...(debouncedSearch ? { search: debouncedSearch } : {}),
+      ...(role ? { role } : {}),
+      sortBy,
+      sortOrder,
     });
 
   const organizations = data?.data.data ?? [];
   const meta = data?.data.meta;
-
-  // Client-side search for the currently loaded page.
-  const filteredOrganizations = useMemo(() => {
-    const query = search.trim().toLowerCase();
-
-    if (!query) return organizations;
-
-    return organizations.filter(
-      (organization) =>
-        organization.name.toLowerCase().includes(query) ||
-        organization.slug.toLowerCase().includes(query) ||
-        organization.description?.toLowerCase().includes(query),
-    );
-  }, [organizations, search]);
 
   const openCreate = () => setFormDialog({ open: true });
 
@@ -112,9 +116,9 @@ export function OrganizationList() {
         </Button>
       </div>
 
-      {/* Search and view controls */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative w-full sm:max-w-sm">
+      {/* Search, filters, sorting, and view controls */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[minmax(16rem,1fr)_repeat(3,minmax(9rem,11rem))_auto]">
+        <div className="relative min-w-0">
           <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" />
 
           <Input
@@ -128,13 +132,70 @@ export function OrganizationList() {
           />
         </div>
 
-        <div className="flex items-center justify-between gap-3 sm:justify-end">
+        <div>
+          <label htmlFor="organizationRoleFilter" className="sr-only">
+            Filter by membership role
+          </label>
+          <select
+            id="organizationRoleFilter"
+            value={role ?? ""}
+            onChange={(event) =>
+              query.set({
+                role: event.target.value || null,
+                page: 1,
+              })
+            }
+            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All roles</option>
+            <option value="OWNER">Owner</option>
+            <option value="MEMBER">Member</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="organizationSortBy" className="sr-only">
+            Sort organizations by
+          </label>
+          <select
+            id="organizationSortBy"
+            value={sortBy}
+            onChange={(event) =>
+              query.set({ sortBy: event.target.value, page: 1 })
+            }
+            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="createdAt">Recently created</option>
+            <option value="updatedAt">Recently updated</option>
+            <option value="name">Name</option>
+            <option value="slug">Slug</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="organizationSortOrder" className="sr-only">
+            Sort direction
+          </label>
+          <select
+            id="organizationSortOrder"
+            value={sortOrder}
+            onChange={(event) =>
+              query.set({ sortOrder: event.target.value, page: 1 })
+            }
+            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="desc">Descending</option>
+            <option value="asc">Ascending</option>
+          </select>
+        </div>
+
+        <div className="flex items-center justify-between gap-3 sm:col-span-2 lg:col-span-1">
           <Button
             type="button"
             variant="outline"
             className="h-10 gap-2 rounded-lg border-slate-200 text-slate-600"
             onClick={() => {
-              query.set({ search: null, page: 1 });
+              query.set({ search: null, role: null, page: 1 });
             }}
           >
             <SlidersHorizontal className="size-4" />
@@ -183,9 +244,9 @@ export function OrganizationList() {
           message={error.message}
           onRetry={() => refetch()}
         />
-      ) : organizations.length === 0 ? (
+      ) : organizations.length === 0 && !hasFilters ? (
         <OrganizationEmptyState onCreate={openCreate} />
-      ) : filteredOrganizations.length === 0 ? (
+      ) : organizations.length === 0 ? (
         <div className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50/50 px-6 text-center">
           <div className="mb-3 flex size-12 items-center justify-center rounded-xl bg-slate-100">
             <Search className="size-5 text-slate-500" />
@@ -202,9 +263,9 @@ export function OrganizationList() {
           <Button
             variant="outline"
             className="mt-4 rounded-lg"
-            onClick={() => query.set({ search: null })}
+            onClick={() => query.set({ search: null, role: null, page: 1 })}
           >
-            Clear search
+            Clear filters
           </Button>
         </div>
       ) : (
@@ -213,12 +274,12 @@ export function OrganizationList() {
             className={cn(
               "grid gap-5 transition-opacity",
               view === "grid"
-                ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
+                ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
                 : "grid-cols-1",
               isPlaceholderData && "opacity-60",
             )}
           >
-            {filteredOrganizations.map((organization) => (
+            {organizations.map((organization) => (
               <OrganizationCard
                 key={organization.id}
                 organization={organization}

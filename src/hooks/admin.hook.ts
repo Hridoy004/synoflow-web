@@ -1,6 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  getAdminAuditLogs, getAdminDashboardStats, getAdminOrganizations,
+  getAdminAuditLogs,
+  getAdminDashboardGrowth,
+  getAdminDashboardStats,
+  getAdminOrganizations,
   getAdminPayments, getAdminProjects, getAdminSubscriptions,
   getAdminUsers, updateAdminUserRole,
 } from "@/api";
@@ -9,6 +12,7 @@ import type { AdminAuditLogFilters, AdminResourceFilters, AdminUserFilters, Upda
 export const adminKeys = {
   all: ["admin"] as const,
   stats: () => [...adminKeys.all, "stats"] as const,
+  growth: () => [...adminKeys.all, "dashboard-growth"] as const,
   users: (filters: AdminUserFilters) => [...adminKeys.all, "users", filters] as const,
   organizations: (filters: AdminResourceFilters) => [...adminKeys.all, "organizations", filters] as const,
   projects: (filters: AdminResourceFilters) => [...adminKeys.all, "projects", filters] as const,
@@ -18,6 +22,7 @@ export const adminKeys = {
 };
 
 export const useAdminDashboardStats = () => useQuery({ queryKey: adminKeys.stats(), queryFn: getAdminDashboardStats });
+export const useAdminDashboardGrowth = () => useQuery({ queryKey: adminKeys.growth(), queryFn: getAdminDashboardGrowth });
 export const useAdminUsers = (filters: AdminUserFilters) => useQuery({ queryKey: adminKeys.users(filters), queryFn: () => getAdminUsers(filters), placeholderData: (previous) => previous });
 export const useAdminOrganizations = (filters: AdminResourceFilters, enabled = true) => useQuery({ queryKey: adminKeys.organizations(filters), queryFn: () => getAdminOrganizations(filters), enabled });
 export const useAdminProjects = (filters: AdminResourceFilters, enabled = true) => useQuery({ queryKey: adminKeys.projects(filters), queryFn: () => getAdminProjects(filters), enabled });

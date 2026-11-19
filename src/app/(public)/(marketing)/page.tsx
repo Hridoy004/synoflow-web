@@ -5,6 +5,7 @@ import { Hero } from "@/components/modules/homepage/hero";
 import { Proof } from "@/components/modules/homepage/proof";
 import { Teams } from "@/components/modules/homepage/team";
 import { Workflow } from "@/components/modules/homepage/workflow";
+import { WorkspaceOperations } from "@/components/modules/homepage/workspace-operations";
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Features />
       <Workflow />
       <Teams />
+      <WorkspaceOperations />
       <Faq />
       <FinalCta />
     </main>

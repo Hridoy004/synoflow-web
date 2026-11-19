@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { memo } from "react";
-import { useAdminDashboardStats } from "@/hooks";
+import { useAdminDashboardGrowth, useAdminDashboardStats } from "@/hooks";
+import type { AdminDashboardGrowth } from "@/types";
 import {
   Building2,
   CreditCard,
@@ -12,7 +13,155 @@ import {
   Wallet,
 } from "lucide-react";
 
-const PLAN_COLORS = ["#4852F5", "#16a34a", "#f59e0b", "#7c3aed", "#0891b2"];
+const PLAN_COLORS = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+];
+
+const GrowthChart = memo(function GrowthChart({
+  data,
+  field,
+  title,
+  description,
+  color,
+  type,
+}: {
+  data: AdminDashboardGrowth["days"];
+  field: "users" | "organizations";
+  title: string;
+  description: string;
+  color: string;
+  type: "bar" | "line";
+}) {
+  const width = 720;
+  const height = 250;
+  const margin = { top: 16, right: 12, bottom: 34, left: 36 };
+  const chartWidth = width - margin.left - margin.right;
+  const chartHeight = height - margin.top - margin.bottom;
+  const values = data.map((item) => item[field]);
+  const maxValue = Math.max(1, ...values);
+  const x = (index: number) =>
+    margin.left + (index / Math.max(data.length - 1, 1)) * chartWidth;
+  const y = (value: number) =>
+    margin.top + chartHeight - (value / maxValue) * chartHeight;
+  const points = data.map((item, index) => `${x(index)},${y(item[field])}`).join(" ");
+  const labelIndexes = [0, 6, 12, 18, 24, 29].filter((index) => index < data.length);
+
+  return (
+    <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6">
+      <div>
+        <h3 className="font-semibold text-slate-950">{title}</h3>
+        <p className="mt-1 text-sm text-slate-500">{description}</p>
+      </div>
+      {data.length === 0 ? (
+        <div className="mt-5 flex h-56 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-sm text-slate-500">
+          No daily activity is available.
+        </div>
+      ) : (
+        <>
+          <svg
+            role="img"
+            aria-label={`${title} over the past 30 days`}
+            viewBox={`0 0 ${width} ${height}`}
+            className="mt-4 h-auto w-full overflow-visible"
+          >
+            <title>{title}</title>
+            <desc>{description}</desc>
+            {[0, 0.5, 1].map((step) => {
+              const value = Math.round(maxValue * step);
+              const yPosition = y(value);
+              return (
+                <g key={step}>
+                  <line
+                    x1={margin.left}
+                    y1={yPosition}
+                    x2={width - margin.right}
+                    y2={yPosition}
+                    stroke="var(--border)"
+                    strokeDasharray={step === 0 ? undefined : "4 4"}
+                  />
+                  <text
+                    x={margin.left - 8}
+                    y={yPosition + 4}
+                    textAnchor="end"
+                    className="fill-slate-400"
+                    fontSize="11"
+                  >
+                    {value}
+                  </text>
+                </g>
+              );
+            })}
+            {type === "line" ? (
+              <>
+                <polyline
+                  points={points}
+                  fill="none"
+                  stroke={color}
+                  strokeWidth="3"
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                />
+                {data.map((item, index) => (
+                  <circle
+                    key={item.date}
+                    cx={x(index)}
+                    cy={y(item[field])}
+                    r="3"
+                    fill={color}
+                  />
+                ))}
+              </>
+            ) : (
+              data.map((item, index) => {
+                const barWidth = Math.max(3, chartWidth / data.length - 3);
+                return (
+                  <rect
+                    key={item.date}
+                    x={x(index) - barWidth / 2}
+                    y={y(item[field])}
+                    width={barWidth}
+                    height={Math.max(1, margin.top + chartHeight - y(item[field]))}
+                    rx="2"
+                    fill={color}
+                  >
+                    <title>
+                      {item.date}: {formatCount(item[field])}
+                    </title>
+                  </rect>
+                );
+              })
+            )}
+            {labelIndexes.map((index) => (
+              <text
+                key={data[index].date}
+                x={x(index)}
+                y={height - 8}
+                textAnchor="middle"
+                className="fill-slate-400"
+                fontSize="11"
+              >
+                {new Date(`${data[index].date}T00:00:00Z`).toLocaleDateString(
+                  "en-US",
+                  { month: "short", day: "numeric", timeZone: "UTC" },
+                )}
+              </text>
+            ))}
+          </svg>
+          <p className="sr-only">
+            {title}:{" "}
+            {data
+              .map((item) => `${item.date}: ${item[field]}`)
+              .join("; ")}
+          </p>
+        </>
+      )}
+    </section>
+  );
+});
 
 function formatCount(value: number | null | undefined) {
   if (typeof value !== "number" || !Number.isFinite(value)) return "—";
@@ -59,7 +208,7 @@ const MetricCard = memo(function MetricCard({
             {value}
           </p>
         </div>
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-[#4852F5] transition-colors group-hover:bg-indigo-100">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/15">
           <Icon className="size-5" aria-hidden="true" />
         </span>
       </div>
@@ -160,11 +309,12 @@ const SubscriptionDistribution = memo(function SubscriptionDistribution({
 
 export function AdminDashboardOverview() {
   const statsQuery = useAdminDashboardStats();
+  const growthQuery = useAdminDashboardGrowth();
   const stats = statsQuery.data?.data;
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-5 sm:space-y-6">
-      <div className="relative isolate overflow-hidden rounded-2xl bg-gradient-to-br from-[#303BCE] via-[#4852F5] to-[#747CFF] p-5 text-white shadow-sm sm:flex sm:items-end sm:justify-between sm:gap-6 sm:p-7">
+      <div className="brand-gradient relative isolate overflow-hidden rounded-2xl p-5 text-white shadow-sm sm:flex sm:items-end sm:justify-between sm:gap-6 sm:p-7">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-12 -top-20 -z-10 size-64 rounded-full border-[36px] border-white/10"
@@ -183,12 +333,15 @@ export function AdminDashboardOverview() {
         <Button
           type="button"
           variant="outline"
-          onClick={() => void statsQuery.refetch()}
-          disabled={statsQuery.isFetching}
+          onClick={() => {
+            void statsQuery.refetch();
+            void growthQuery.refetch();
+          }}
+          disabled={statsQuery.isFetching || growthQuery.isFetching}
           className="mt-5 gap-2 border-white/25 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:mt-0"
         >
           <RefreshCw
-            className={`size-4 ${statsQuery.isFetching ? "animate-spin" : ""}`}
+            className={`size-4 ${statsQuery.isFetching || growthQuery.isFetching ? "animate-spin" : ""}`}
             aria-hidden="true"
           />
           Refresh
@@ -282,48 +435,52 @@ export function AdminDashboardOverview() {
                 plans={stats.subscriptions.byPlan ?? []}
               />
 
-              <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6">
-                <div>
-                  <h2 className="font-semibold text-slate-950">
-                    Recent platform growth
+              {growthQuery.isPending ? (
+                <>
+                  <MetricSkeleton />
+                  <MetricSkeleton />
+                </>
+              ) : growthQuery.isError || !growthQuery.data?.data ? (
+                <section
+                  role="alert"
+                  className="rounded-2xl border border-red-200 bg-red-50 p-5 xl:col-span-2"
+                >
+                  <h2 className="font-semibold text-red-800">
+                    Unable to load daily growth charts
                   </h2>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Available registration summaries—historical daily data is
-                    not provided by this endpoint.
+                  <p className="mt-1 text-sm text-red-700">
+                    {growthQuery.error?.message ||
+                      "The analytics API returned no chart data."}
                   </p>
-                </div>
-                <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-xl bg-indigo-50 p-4">
-                    <p className="text-sm font-medium text-indigo-900">
-                      New users · 7 days
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold text-indigo-950">
-                      {formatCount(stats.users.newLast7Days)}
-                    </p>
-                  </div>
-                  <div className="rounded-xl bg-slate-50 p-4">
-                    <p className="text-sm font-medium text-slate-700">
-                      New users · 30 days
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold text-slate-950">
-                      {formatCount(stats.users.newLast30Days)}
-                    </p>
-                  </div>
-                  <div className="rounded-xl bg-slate-50 p-4 sm:col-span-2">
-                    <p className="text-sm font-medium text-slate-700">
-                      New organizations · 30 days
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold text-slate-950">
-                      {formatCount(stats.organizations.newLast30Days)}
-                    </p>
-                  </div>
-                </div>
-                <p className="mt-4 text-xs leading-5 text-slate-400">
-                  Daily growth trends and historical revenue charts require
-                  time-series data that is not included in the available API
-                  response.
-                </p>
-              </section>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => void growthQuery.refetch()}
+                    className="mt-4 border-red-300 bg-white text-red-800 hover:bg-red-100"
+                  >
+                    Try again
+                  </Button>
+                </section>
+              ) : (
+                <>
+                  <GrowthChart
+                    data={growthQuery.data.data.days}
+                    field="users"
+                    title="Daily user registrations"
+                    description="New active accounts each day over the past 30 days."
+                    color="var(--chart-1)"
+                    type="line"
+                  />
+                  <GrowthChart
+                    data={growthQuery.data.data.days}
+                    field="organizations"
+                    title="Daily organization creation"
+                    description="Organizations created each day over the past 30 days."
+                    color="var(--chart-2)"
+                    type="bar"
+                  />
+                </>
+              )}
             </div>
           )}
         </>

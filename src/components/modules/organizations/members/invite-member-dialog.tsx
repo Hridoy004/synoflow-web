@@ -139,7 +139,7 @@ export function InviteMemberDialog({
                 className={cn(
                   "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                   mode === id
-                    ? "bg-white text-[#3A43D6] shadow-xs ring-1 ring-slate-200"
+                    ? "bg-white text-brand-800 shadow-xs ring-1 ring-slate-200"
                     : "text-slate-500 hover:text-slate-900",
                 )}
               >
@@ -208,7 +208,7 @@ export function InviteMemberDialog({
             Cancel
           </Button>
           <Button
-            className="bg-[#4852F5] text-white hover:bg-[#3A43D6]"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
             onClick={handleSubmit}
             disabled={isPending}
           >

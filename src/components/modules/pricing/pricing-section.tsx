@@ -107,7 +107,7 @@ export default function PricingSection() {
                   {plan.description}
                 </p>
                 <div className="mt-6 flex items-end gap-1">
-                  <span className="text-4xl font-bold text-[#10156F]">
+                  <span className="text-4xl font-bold text-brand-800">
                     {plan.price}
                   </span>
                   <span className="pb-1 text-sm text-slate-500">{plan.period}</span>

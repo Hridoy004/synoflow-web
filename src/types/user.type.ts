@@ -19,3 +19,12 @@ export interface User {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface UpdateMyProfileInput {
+  name: string;
+}
+
+export interface ChangePasswordInput {
+  currentPassword: string;
+  newPassword: string;
+}

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePayment, usePaymentHistory, useSubscription } from "@/hooks";
 import type { SubscriptionPlan } from "@/types";
@@ -64,7 +64,9 @@ export function BillingReturn({ paymentId }: { paymentId: string }) {
     return (
       <Card className="mx-auto w-full max-w-xl">
         <CardHeader>
-          <CardTitle>Verifying payment</CardTitle>
+          <h1 className="font-heading text-xl leading-snug font-medium">
+            Verifying payment
+          </h1>
         </CardHeader>
         <CardContent className="space-y-3">
           <Skeleton className="h-5 w-3/4" />
@@ -240,7 +242,9 @@ function ResultCard({
         <div className="mb-2 flex size-14 items-center justify-center rounded-full bg-muted">
           {icon}
         </div>
-        <CardTitle className="text-xl">{title}</CardTitle>
+        <h1 className="font-heading text-xl leading-snug font-medium">
+          {title}
+        </h1>
       </CardHeader>
       <CardContent className="space-y-5 text-center">
         <p className="text-sm leading-6 text-muted-foreground">{message}</p>

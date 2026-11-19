@@ -1,52 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Synoflow
 
-## Getting Started
+Synoflow is a project-management platform for organizing work across
+organizations, teams, projects, sprints, and tasks. This repository contains
+the Next.js web application. The Express and Prisma API is maintained
+separately.
 
-First, run the development server:
+## Product capabilities
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Email/password and Google sign-in with protected role-aware dashboards.
+- Organization, team, project, sprint, task, comment, and activity workflows.
+- Organization search, membership filtering, sorting, and pagination.
+- Profile editing, profile-image upload, and password changes.
+- Admin user management, platform statistics, audit logs, and live daily growth
+  charts.
+- Contact requests stored through the API.
+- Responsive light and dark themes.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technology
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Frontend: Next.js 16, React 19, TypeScript, Tailwind CSS, TanStack Query.
+- Backend: Express 5, TypeScript, Prisma, PostgreSQL, Redis.
+- Authentication: bcrypt password hashing, JWT sessions in HttpOnly cookies,
+  role checks, and Google OAuth.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Local development
 
-## Learn More
+1. Configure and start the API and its PostgreSQL and Redis dependencies using
+   the API repository's environment setup.
+2. Set `NEXT_PUBLIC_API_BASE_URL` in the frontend `.env.local` to the API URL
+   ending in `/api/v1`. Browser API requests are sent directly to that API
+   origin, so configure the API to allow the frontend origin and credentials.
+3. Install dependencies and start the frontend:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   bun install
+   bun run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Verify a production build and code checks:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   bun run build
+   bun run lint
+   ```
 
-## Deploy on Vercel
+The API schema lives in the API repository's `prisma/schema` directory. Generate
+Prisma Client and apply migrations using the API repository's database workflow.
+Do not apply migrations to a production database without review and backup.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy the frontend as a Node.js-capable Next.js application; this project uses
+a standard Next.js server build rather than a static export. Deploy the API
+separately with PostgreSQL, Redis, and the required authentication, mail, and
+image-storage configuration. Set `NEXT_PUBLIC_API_BASE_URL` to the deployed
+API URL ending in `/api/v1` for each frontend environment. Use HTTPS in
+production so session cookies remain secure.
 
-### Authentication deployment configuration
+This project has not been deployed from this workspace; no live URL is claimed.
+The source repository is [Hridoy004/synoflow-web](https://github.com/Hridoy004/synoflow-web).
 
-Set `NEXT_PUBLIC_API_BASE_URL` in Vercel for every environment you deploy, using the backend URL and the `/api/v1` path, for example:
+## Demo account
 
-```text
-NEXT_PUBLIC_API_BASE_URL=https://api.example.com/api/v1
-```
-
-The frontend sends API requests to its own `/api/v1` path, and Next.js proxies them to this backend URL. This keeps authentication cookies first-party on the frontend domain. `NEXT_PUBLIC_API_BASE_URL` is read when Next.js starts/builds, so set it before deploying and redeploy after changing it. Do not use `localhost` for a Vercel deployment. Local development can continue to use the backend's localhost URL in `.env.local`.
-
-The browser now talks only to the frontend origin, so browser CORS is not required for these API calls. The backend can keep its existing CORS configuration for other clients.
-
-- The login response must set an `HttpOnly; Secure` session cookie without a `Domain` attribute, so the browser stores it for the frontend host. `/auth/me` must accept that cookie.
-
-If login succeeds but `/auth/me` returns `401`, verify in the browser's Network panel that the same-origin `/api/v1/auth/login` response's `Set-Cookie` was accepted and that the subsequent `/api/v1/auth/me` request includes that cookie.
+The login page displays demo autofill only when both
+`NEXT_PUBLIC_DEMO_EMAIL` and `NEXT_PUBLIC_DEMO_PASSWORD` are configured. These
+values are public in the browser bundle. Use a dedicated, least-privilege
+account with non-sensitive data; never expose production credentials.

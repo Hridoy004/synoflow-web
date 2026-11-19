@@ -75,6 +75,10 @@ export interface UpdateOrganizationMemberInput {
 export interface GetOrganizationsParams {
   page?: number;
   limit?: number;
+  search?: string;
+  role?: OrganizationRole;
+  sortBy?: "createdAt" | "updatedAt" | "name" | "slug";
+  sortOrder?: "asc" | "desc";
 }
 
 export interface GetOrganizationMembersParams {

@@ -9,22 +9,23 @@ function Aurora() {
   return (
     <div
       aria-hidden
-      className="absolute inset-0 -z-10 overflow-hidden bg-gradient-to-b from-[#F4F5FF] via-white to-white"
+      className="absolute inset-0 -z-10 overflow-hidden bg-gradient-to-b from-primary/5 via-background to-background"
     >
-      <div className="absolute -left-24 -top-24 size-[34rem] rounded-full bg-[#4852F5]/25 blur-[110px]" />
-      <div className="absolute -right-24 top-0 size-[30rem] rounded-full bg-violet-400/25 blur-[110px]" />
-      <div className="absolute left-1/3 top-48 size-[26rem] rounded-full bg-sky-300/30 blur-[110px]" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(72,82,245,0.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(72,82,245,0.07)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(65%_55%_at_50%_0%,black,transparent)]" />
+      <div className="absolute -left-24 -top-24 size-[34rem] rounded-full bg-primary/20 blur-[110px]" />
+      <div className="absolute -right-24 top-0 size-[30rem] rounded-full bg-primary/15 blur-[110px]" />
+      <div className="absolute left-1/3 top-48 size-[26rem] rounded-full bg-primary/10 blur-[110px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,color-mix(in_srgb,var(--brand)_7%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_srgb,var(--brand)_7%,transparent)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(65%_55%_at_50%_0%,black,transparent)]" />
     </div>
   );
 }
 
 export function Hero() {
   return (
-    <section className="relative isolate -mt-16 pt-16">
+    <>
+    <section className="relative isolate -mt-16 flex min-h-[65svh] items-center pt-16">
       <Aurora />
 
-      <Container className="pb-16 pt-10 sm:pt-16 lg:pb-24">
+      <Container className="py-10 sm:py-14 lg:py-16">
         <div className="mx-auto max-w-4xl text-center">
           <span className="inline-flex rounded-full border border-indigo-200 bg-white/80 px-3 py-1 text-xs font-semibold text-indigo-700 shadow-sm backdrop-blur">
             Built for modern, focused teams
@@ -56,11 +57,13 @@ export function Hero() {
             ))}
           </ul>
         </div>
-
-        <div className="mt-10 sm:mt-14">
-          <ProductPreview />
-        </div>
       </Container>
     </section>
+    <section aria-label="Synoflow project workspace preview" className="relative z-10 pb-16 sm:pb-20">
+      <Container>
+        <ProductPreview />
+      </Container>
+    </section>
+    </>
   );
 }
