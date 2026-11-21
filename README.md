@@ -160,12 +160,12 @@ bun run start
 bun run lint
 bun run format
 ```
-
+<!--
 ## Screenshots
 
 > To add screenshots of the updated UI, place the images in a `docs/screenshots/` folder and display them in this section.
 
-<!--
+
 <img src="./docs/screenshots/homepage.png" alt="Synoflow homepage" width="800">
 <img src="./docs/screenshots/dashboard.png" alt="Synoflow dashboard" width="800">
 -->
